@@ -272,7 +272,7 @@ class ZYNQPeer extends EventEmitter {
 class ZYNQ_Core {
   constructor() {
     this.config = {
-      src: "https://un-zynq.github.io/games2.json",
+      src: "https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.0/games.json",
       cdn: "https://cdn.jsdelivr.net/gh/un-zynq/thumbnails",
     };
     this.all = [];
