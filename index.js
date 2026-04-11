@@ -158,7 +158,6 @@ class ZYNQPeer extends EventEmitter {
         c.on('error', e => this.emit('error', {type: 'media', error: e}));
       }
     };
-
     this.activeSess = sess;
     this.send = sess.send;
     this.close = sess.close;
@@ -304,7 +303,6 @@ class ZYNQ_Core {
     const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
     const debugInfo = gl?.getExtension("WEBGL_debug_renderer_info");
     const renderer = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "";
-
     let scores = { desktop: 0, mobile: 0 };
     if (/Win|Mac|Linux/i.test(ua)) scores.desktop += 15;
     if (ua.includes("x64") || ua.includes("wow64")) scores.desktop += 10;
@@ -312,7 +310,6 @@ class ZYNQ_Core {
     if (/Intel|Nvidia|AMD|Direct3D|GeForce/i.test(renderer)) scores.desktop += 25;
     if (/Android|iPhone|iPad|iPod/i.test(ua)) scores.mobile += 20;
     if (/Adreno|Mali|PowerVR|Apple GPU/i.test(renderer)) scores.mobile += 25;
-
     if (scores.desktop > scores.mobile) {
       this.deviceType = touchPoints > 0 ? 1 : 2;
     } else if (/Macintosh/i.test(ua) && touchPoints > 1) {
@@ -467,7 +464,8 @@ class ZYNQ_Core {
 const ZYNQ = {
   games: new ZYNQ_Core(),
   deviceType: null,
-  Peer: ZYNQPeer,
+  Peer: ZYNQPeer,    
+  peer: ZYNQPeer,      
   EventEmitter: EventEmitter
 };
 
@@ -477,4 +475,6 @@ export default ZYNQ;
 export { ZYNQPeer as Peer };
 export { EventEmitter };
 export const games = ZYNQ.games;
-export const peer = ZYNQ.Peer;
+export const peer = ZYNQ.Peer; 
+
+export { ZYNQPeer as defaultPeer };
