@@ -1,15 +1,18 @@
 class EventEmitter {
   constructor() {
     this._events = {};
+    this._recentEmits = new Set();
   }
   on(name, fn) {
     (this._events[name] = this._events[name] || []).push(fn);
     return this;
   }
   emit(name, data) {
-    if (this._events[name]) {
-      this._events[name].forEach(fn => fn(data));
-    }
+    const fingerprint = `${name}:${(data && data.id) ? data.id : JSON.stringify(data)}`;
+    if (this._recentEmits.has(fingerprint)) return;
+    this._recentEmits.add(fingerprint);
+    setTimeout(() => this._recentEmits.delete(fingerprint), 500);
+    if (this._events[name]) this._events[name].forEach(fn => fn(data));
   }
 }
 
@@ -45,31 +48,35 @@ class ZYNQPeer extends EventEmitter {
   constructor(config = {}) {
     super();
     this.config = {
-      txt: true,
       video: true,
       audio: true,
+      txt: true,
       debug: false,
       rateLimit: 30,
       maxMsgSize: 65536,
       autoReconnect: true,
       maxReconnectAttempts: 5,
+      rafBatching: false,
       id: null,
       ...config
     };
     this.peer = null;
-    this.id = null;
-    this._remoteId = null;
-    this._dataConn = null;
-    this._mediaCall = null;
+    this.activeSess = null;
     this.localStream = null;
+    this.id = null;
+    this._messageTimestamps = [];
+    this._maxMsgSize = this.config.maxMsgSize;
+    this._rateLimit = this.config.rateLimit;
     this.state = 'DISCONNECTED';
     this.active = false;
+    this._remoteId = null;
     this._reconnectAttempts = 0;
     this._reconnectTimeout = null;
     this._manualClose = false;
-    this._messageTimestamps = [];
     this._dataQueue = [];
     this._flushScheduled = false;
+    this._dataConn = null;
+    this._mediaCall = null;
     ZYNQPeer._ensurePeerJS().then(() => {
       this.peer = this.config.id ? new Peer(this.config.id) : new Peer();
       this.peer.on('open', id => {
@@ -79,9 +86,9 @@ class ZYNQPeer extends EventEmitter {
       });
       this.peer.on('connection', c => this._handleIncomingConnection(c));
       this.peer.on('call', call => this._handleIncomingCall(call));
-      this.peer.on('error', err => this.emit('error', { type: 'peer', error: err }));
+      this.peer.on('error', err => this.emit('error', {type: 'peer', error: err}));
       this.peer.on('disconnected', () => {});
-    }).catch(err => this.emit('error', { type: 'peer', error: err }));
+    }).catch(err => this.emit('error', {type: 'peer', error: err}));
   }
   async getStream() {
     if (this.localStream) return this.localStream;
@@ -104,13 +111,14 @@ class ZYNQPeer extends EventEmitter {
     }
     this._dataConn = conn;
     this._remoteId = conn.peer;
-    conn.on('data', data => {
-      if (typeof data !== "string" || data.length > this.config.maxMsgSize) return;
+    conn.on('data', d => {
+      if (typeof d !== "string") return;
+      if (d.length > this._maxMsgSize) return;
       const now = Date.now();
       this._messageTimestamps = this._messageTimestamps.filter(ts => now - ts < 1000);
-      if (this._messageTimestamps.length >= this.config.rateLimit) return;
+      if (this._messageTimestamps.length >= this._rateLimit) return;
       this._messageTimestamps.push(now);
-      this._dataQueue.push(data);
+      this._dataQueue.push(d);
       this._scheduleFlush();
     });
     conn.on('open', () => {
@@ -121,7 +129,7 @@ class ZYNQPeer extends EventEmitter {
       this.emit('open', this._remoteId);
     });
     conn.on('close', () => this._handleClose());
-    conn.on('error', e => this.emit('error', { type: 'data', error: e }));
+    conn.on('error', e => this.emit('error', {type: 'data', error: e}));
     if (conn.open) {
       this.active = true;
       this.state = 'CONNECTED';
@@ -131,14 +139,19 @@ class ZYNQPeer extends EventEmitter {
   _scheduleFlush() {
     if (this._flushScheduled) return;
     this._flushScheduled = true;
-    Promise.resolve().then(() => this._flushData());
+    const flushFn = () => this._flushData();
+    if (this.config.rafBatching && typeof requestAnimationFrame !== 'undefined') {
+      requestAnimationFrame(flushFn);
+    } else {
+      Promise.resolve().then(flushFn);
+    }
   }
   _flushData() {
     this._flushScheduled = false;
-    if (!this._dataQueue.length) return;
-    const msgs = [...this._dataQueue];
+    if (this._dataQueue.length === 0) return;
+    const messages = [...this._dataQueue];
     this._dataQueue = [];
-    msgs.forEach(msg => this.emit('data', msg));
+    messages.forEach(msg => this.emit('data', msg));
   }
   _handleIncomingConnection(c) {
     this._setupDataConnection(c);
@@ -148,23 +161,23 @@ class ZYNQPeer extends EventEmitter {
       call.close();
       return;
     }
-    this.getStream().then(stream => {
-      if (!stream) {
+    this.getStream().then(s => {
+      if (!s) {
         call.close();
         return;
       }
-      call.answer(stream);
+      call.answer(s);
       this._mediaCall = call;
       call.on('stream', s => this.emit('stream', s));
       call.on('close', () => this._handleClose());
-      call.on('error', e => this.emit('error', { type: 'media', error: e }));
+      call.on('error', e => this.emit('error', {type: 'media', error: e}));
     });
   }
   _handleClose() {
     this.active = false;
-    this.state = 'DISCONNECTED';
     this.emit('close', this._remoteId);
     this._dataConn = null;
+    this.activeSess = null;
     if (this._manualClose) {
       this._manualClose = false;
       return;
@@ -177,30 +190,32 @@ class ZYNQPeer extends EventEmitter {
   _attemptReconnect() {
     if (this._reconnectAttempts >= this.config.maxReconnectAttempts) {
       this.state = 'FAILED';
-      this.emit('error', { type: 'reconnect_failed', code: 'max_attempts_reached' });
+      this.emit('error', {type: 'reconnect_failed', code: 'max_attempts_reached'});
       return;
     }
     this._reconnectAttempts++;
-    const delay = Math.min(1000 * Math.pow(2, this._reconnectAttempts - 1), 30000) + Math.random() * 1000;
-    this.emit('reconnecting', { attempt: this._reconnectAttempts, delay: Math.round(delay) });
+    const baseDelay = 1000 * Math.pow(2, this._reconnectAttempts - 1);
+    const delay = Math.min(baseDelay, 30000) + Math.random() * 1000;
+    this.emit('reconnecting', {attempt: this._reconnectAttempts, delay: Math.round(delay)});
     this._reconnectTimeout = setTimeout(() => {
       if (this.state !== 'RECONNECTING') return;
+      this.state = 'CONNECTING';
       this.connect(this._remoteId);
     }, delay);
   }
-  connect(remoteId) {
-    if (remoteId) this._remoteId = remoteId;
+  connect(id) {
+    if (id) this._remoteId = id;
     if (!this._remoteId) return this;
     if (this._remoteId === this.id) return this;
+    this.state = 'CONNECTING';
     if (this._reconnectTimeout) {
       clearTimeout(this._reconnectTimeout);
       this._reconnectTimeout = null;
     }
-    this.state = 'CONNECTING';
     if (this.config.txt) {
       const conn = this.peer.connect(this._remoteId, { reliable: true });
       conn.on('open', () => this._setupDataConnection(conn));
-      conn.on('error', e => this.emit('error', { type: 'data', error: e }));
+      conn.on('error', e => this.emit('error', {type: 'data', error: e}));
     }
     if (this.config.video || this.config.audio) {
       this.getStream().then(stream => {
@@ -209,7 +224,7 @@ class ZYNQPeer extends EventEmitter {
           this._mediaCall = call;
           call.on('stream', s => this.emit('stream', s));
           call.on('close', () => this._handleClose());
-          call.on('error', e => this.emit('error', { type: 'media', error: e }));
+          call.on('error', e => this.emit('error', {type: 'media', error: e}));
         }
       });
     }
