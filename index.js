@@ -18,7 +18,7 @@ class ZYNQPeer extends EventEmitter {
         if (ZYNQPeer._loadingPromise) return ZYNQPeer._loadingPromise;
         ZYNQPeer._loadingPromise = new Promise((resolve, reject) => {
             const script = document.createElement("script");
-            script.src = "https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js";
+            script.src = "https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.1/peerjs.min.js";
             script.async = true;
             script.onload = () => resolve();
             script.onerror = () => reject(new Error("Failed to load PeerJS"));
@@ -316,33 +316,26 @@ class ZYNQPeer extends EventEmitter {
         return this;
     }
     disconnect(id) {
-    if (!id || !this.peer) return this;
-
-    this._manualCloses.add(id);
-
-    const conn = this._conns.get(id);
-    if (conn) {
-        conn.close();
-        this._conns.delete(id);
+        if (!id || !this.peer) return this;
+        this._manualCloses.add(id);
+        const conn = this._conns.get(id);
+        if (conn) {
+            conn.close();
+            this._conns.delete(id);
+        }
+        const call = this._calls.get(id);
+        if (call) {
+            call.close();
+            this._calls.delete(id);
+        }
+        this._connecting.delete(id);
+        this._reconnectAttempts.delete(id);
+        const timeout = this._reconnectTimeouts.get(id);
+        if (timeout) clearTimeout(timeout);
+        this._reconnectTimeouts.delete(id);
+        this.emit('disconnect', { id });
+        return this;
     }
-
-    const call = this._calls.get(id);
-    if (call) {
-        call.close();
-        this._calls.delete(id);
-    }
-
-    this._connecting.delete(id);
-    this._reconnectAttempts.delete(id);
-
-    const timeout = this._reconnectTimeouts.get(id);
-    if (timeout) clearTimeout(timeout);
-    this._reconnectTimeouts.delete(id);
-
-    this.emit('disconnect', { id });
-
-    return this;
-}
     connect(id) {
         if (id) this._connectTo(id);
         return this;
@@ -391,7 +384,7 @@ class ZYNQPeer extends EventEmitter {
 class ZYNQGames {
     constructor() {
         this.config = {
-            src: "https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.0.9/games.json",
+            src: "https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.1/games.json",
             cdn: "https://cdn.jsdelivr.net/gh/un-zynq/thumbnails",
         };
         this.all = [];
@@ -579,15 +572,3 @@ const ZYNQ = {
     EventEmitter: EventEmitter
 };
 window.ZYNQ = ZYNQ;
-export default ZYNQ;
-export {
-    ZYNQPeer as Peer
-};
-export {
-    EventEmitter
-};
-export const games = ZYNQ.games;
-export const peer = ZYNQ.Peer;
-export {
-    ZYNQPeer as defaultPeer
-};
