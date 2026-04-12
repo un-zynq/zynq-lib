@@ -3,12 +3,10 @@ class EventEmitter {
     this._events = {};
     this._recentEmits = new Set();
   }
-
   on(name, fn) {
     (this._events[name] = this._events[name] || []).push(fn);
     return this;
   }
-
   emit(name, data) {
     const fingerprint = `${name}:${(data && data.id) ? data.id : JSON.stringify(data)}`;
     if (this._recentEmits.has(fingerprint)) return;
@@ -17,8 +15,21 @@ class EventEmitter {
     if (this._events[name]) this._events[name].forEach(fn => fn(data));
   }
 }
-
 class ZYNQPeer extends EventEmitter {
+  static _loadingPromise = null;
+  static _ensurePeerJS() {
+    if (typeof Peer !== "undefined") return Promise.resolve();
+    if (ZYNQPeer._loadingPromise) return ZYNQPeer._loadingPromise;
+    ZYNQPeer._loadingPromise = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js";
+      script.async = true;
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error("Failed to load PeerJS"));
+      document.head.appendChild(script);
+    });
+    return ZYNQPeer._loadingPromise;
+  }
   constructor(config = { video: true, audio: true, txt: true }) {
     super();
     this.config = {
@@ -33,7 +44,7 @@ class ZYNQPeer extends EventEmitter {
       rafBatching: false,
       ...config
     };
-    this.peer = new Peer();
+    this.peer = null;
     this.activeSess = null;
     this.localStream = null;
     this.id = null;
@@ -48,20 +59,21 @@ class ZYNQPeer extends EventEmitter {
     this._manualClose = false;
     this._dataQueue = [];
     this._flushScheduled = false;
-
-    this.peer.on('open', id => {
-      this.id = id;
-      this.emit('ready', id);
-      this.state = 'DISCONNECTED';
+    ZYNQPeer._ensurePeerJS().then(() => {
+      this.peer = new Peer();
+      this.peer.on('open', id => {
+        this.id = id;
+        this.emit('ready', id);
+        this.state = 'DISCONNECTED';
+      });
+      this.peer.on('connection', c => this._handleIncomingData(c));
+      this.peer.on('call', call => this._handleIncomingCall(call));
+      this.peer.on('error', err => this.emit('error', {type: 'peer', error: err}));
+    }).catch(err => {
+      this.emit('error', {type: 'peer', error: err});
     });
-
-    this.peer.on('connection', c => this._handleIncomingData(c));
-    this.peer.on('call', call => this._handleIncomingCall(call));
-    this.peer.on('error', err => this.emit('error', {type: 'peer', error: err}));
   }
-
   static _instances = new Map();
-
   static get(remoteId, config = {}) {
     if (!remoteId) throw new Error('remoteId is required for ZYNQ.Peer.get');
     if (!ZYNQPeer._instances.has(remoteId)) {
@@ -71,14 +83,12 @@ class ZYNQPeer extends EventEmitter {
     }
     return ZYNQPeer._instances.get(remoteId);
   }
-
   static destroyAll() {
     for (const engine of ZYNQPeer._instances.values()) {
       engine.destroy();
     }
     ZYNQPeer._instances.clear();
   }
-
   destroy() {
     this.close();
     if (this.peer) this.peer.destroy();
@@ -86,7 +96,6 @@ class ZYNQPeer extends EventEmitter {
     this.localStream = null;
     if (this._remoteId) ZYNQPeer._instances.delete(this._remoteId);
   }
-
   async getStream() {
     if (this.localStream) return this.localStream;
     if (!this.config.video && !this.config.audio) return null;
@@ -102,7 +111,6 @@ class ZYNQPeer extends EventEmitter {
       return null;
     }
   }
-
   _bind(id) {
     const sess = {
       id: id,
@@ -163,7 +171,6 @@ class ZYNQPeer extends EventEmitter {
     this.close = sess.close;
     return sess;
   }
-
   _scheduleFlush() {
     if (this._flushScheduled) return;
     this._flushScheduled = true;
@@ -174,7 +181,6 @@ class ZYNQPeer extends EventEmitter {
       Promise.resolve().then(flushFn);
     }
   }
-
   _flushData() {
     this._flushScheduled = false;
     if (this._dataQueue.length === 0) return;
@@ -182,7 +188,6 @@ class ZYNQPeer extends EventEmitter {
     this._dataQueue = [];
     messages.forEach(msg => this.emit('data', msg));
   }
-
   _handleClose() {
     this.active = false;
     const remoteId = this.activeSess ? this.activeSess.id : this._remoteId;
@@ -200,13 +205,11 @@ class ZYNQPeer extends EventEmitter {
       this._attemptReconnect();
     }
   }
-
   _handleIncomingData(c) {
     const sess = this._bind(c.peer);
     sess._setData(c);
     this._remoteId = c.peer;
   }
-
   _handleIncomingCall(call) {
     if (!this.config.video && !this.config.audio) {
       call.close();
@@ -223,7 +226,6 @@ class ZYNQPeer extends EventEmitter {
       this._remoteId = call.peer;
     });
   }
-
   _attemptReconnect() {
     if (this._reconnectAttempts >= this.config.maxReconnectAttempts) {
       this.state = 'FAILED';
@@ -240,7 +242,6 @@ class ZYNQPeer extends EventEmitter {
       this.connect(this._remoteId);
     }, delay);
   }
-
   connect(id) {
     if (id) this._remoteId = id;
     if (!this._remoteId) {
@@ -262,12 +263,10 @@ class ZYNQPeer extends EventEmitter {
     }
     return this;
   }
-
   close() {
     if (this.activeSess) this.activeSess.close();
   }
 }
-
 class ZYNQ_Core {
   constructor() {
     this.config = {
@@ -280,7 +279,6 @@ class ZYNQ_Core {
     this.deviceType = 2;
     this.history = this._initHistory();
   }
-
   async init(options = {}) {
     const { mode = "all", search = "", sort = "name", src = this.config.src, cdn = this.config.cdn } = options;
     this.config.src = src;
@@ -292,7 +290,6 @@ class ZYNQ_Core {
     if (mode === "favs") this.filterFavorites();
     return this;
   }
-
   _detectDevice() {
     const n = navigator;
     const ua = n.userAgent;
@@ -320,7 +317,6 @@ class ZYNQ_Core {
     }
     window.ZYNQ.deviceType = this.deviceType;
   }
-
   async _loadData(sortKey) {
     try {
       const response = await fetch(this.config.src);
@@ -352,26 +348,22 @@ class ZYNQ_Core {
       console.error("ZYNQ Core Load Error:", err);
     }
   }
-
   search(query) {
     const q = query?.toLowerCase().trim();
-    this.filtered = q ? this.all.filter(g => 
+    this.filtered = q ? this.all.filter(g =>
       g.name.toLowerCase().includes(q) || g.alias.toLowerCase().includes(q)
     ) : [...this.all];
     return this;
   }
-
   random(limit = 1) {
     const source = this.filtered.length > 0 ? this.filtered : this.all;
     this.filtered = [...source].sort(() => Math.random() - 0.5).slice(0, limit);
     return this;
   }
-
   getRandomOne() {
     const source = this.filtered.length > 0 ? this.filtered : this.all;
     return source[Math.floor(Math.random() * source.length)];
   }
-
   shuffle() {
     const arr = this.filtered.length > 0 ? this.filtered : this.all;
     for (let i = arr.length - 1; i > 0; i--) {
@@ -381,78 +373,63 @@ class ZYNQ_Core {
     this.filtered = arr;
     return this;
   }
-
   sortBy(key = "name") {
     this.filtered.sort((a, b) => (a[key] || "").localeCompare(b[key] || ""));
     return this;
   }
-
   sortByPopularity() {
     this.filtered.sort((a, b) => (b.playCount || 0) - (a.playCount || 0));
     return this;
   }
-
   getByAlias(alias) {
     return this.all.find(game => game.alias === alias) || null;
   }
-
   getByCategory(category) {
     this.filtered = this.all.filter(game => game.category === category);
     return this;
   }
-
   filterSupported() {
     this.filtered = this.filtered.filter(g => g.isSupported);
     return this;
   }
-
   filterFavorites() {
     this.filtered = this.filtered.filter(g => g.isFavorite);
     return this;
   }
-
   addToHistory(alias) {
     this.history = [alias, ...this.history.filter(a => a !== alias)].slice(0, 50);
     localStorage.setItem("ZYNQ_history", JSON.stringify(this.history));
     return this;
   }
-
   getHistory() {
     return this.history.map(alias => this.getByAlias(alias)).filter(Boolean);
   }
-
   clearHistory() {
     this.history = [];
     localStorage.removeItem("ZYNQ_history");
     return this;
   }
-
   reset() {
     this.filtered = [...this.all];
     return this;
   }
-
   isFavorite(alias) {
     return this.favorites.has(alias);
   }
-
   toggleFavorite(alias) {
     this.favorites.has(alias) ? this.favorites.delete(alias) : this.favorites.add(alias);
     localStorage.setItem("ZYNQ_favs", JSON.stringify([...this.favorites]));
     return this;
   }
-
   get list() { return this.filtered; }
   get total() { return this.all.length; }
   get filteredCount() { return this.filtered.length; }
-
   _initStorage() {
     try {
       const data = localStorage.getItem("ZYNQ_favs");
       return new Set(data ? JSON.parse(data) : []);
     } catch { return new Set(); }
   }
-
   _initHistory() {
     try {
       const data = localStorage.getItem("ZYNQ_history");
@@ -460,21 +437,17 @@ class ZYNQ_Core {
     } catch { return []; }
   }
 }
-
 const ZYNQ = {
   games: new ZYNQ_Core(),
   deviceType: null,
-  Peer: ZYNQPeer,    
-  peer: ZYNQPeer,      
+  Peer: ZYNQPeer,
+  peer: ZYNQPeer,
   EventEmitter: EventEmitter
 };
-
 window.ZYNQ = ZYNQ;
-
 export default ZYNQ;
 export { ZYNQPeer as Peer };
 export { EventEmitter };
 export const games = ZYNQ.games;
-export const peer = ZYNQ.Peer; 
-
+export const peer = ZYNQ.Peer;
 export { ZYNQPeer as defaultPeer };
