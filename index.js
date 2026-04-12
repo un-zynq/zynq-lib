@@ -1,17 +1,12 @@
 class EventEmitter {
     constructor() {
         this._events = {};
-        this._recentEmits = new Set();
     }
     on(name, fn) {
         (this._events[name] = this._events[name] || []).push(fn);
         return this;
     }
     emit(name, data) {
-        const fingerprint = `${name}:${(data && data.id) ? data.id : JSON.stringify(data)}`;
-        if (this._recentEmits.has(fingerprint)) return;
-        this._recentEmits.add(fingerprint);
-        setTimeout(() => this._recentEmits.delete(fingerprint), 500);
         if (this._events[name]) this._events[name].forEach(fn => fn(data));
     }
 }
@@ -60,6 +55,7 @@ class ZYNQPeer extends EventEmitter {
         };
         this.peer = null;
         this.localStream = null;
+        this.localConstraints = null;
         this.id = null;
         this._messageTimestamps = [];
         this._maxMsgSize = this.config.maxMsgSize;
@@ -72,6 +68,7 @@ class ZYNQPeer extends EventEmitter {
         this._reconnectAttempts = new Map();
         this._reconnectTimeouts = new Map();
         this._manualCloses = new Set();
+        this._connecting = new Set();
         ZYNQPeer._ensurePeerJS().then(() => {
             this.peer = this.config.id ? new Peer(this.config.id) : new Peer();
             this.peer.on('open', id => {
@@ -93,20 +90,39 @@ class ZYNQPeer extends EventEmitter {
     async getStream(opts = {}) {
         const video = opts.video !== undefined ? opts.video : this.config.video;
         const audio = opts.audio !== undefined ? opts.audio : this.config.audio;
-        if (this.localStream) return this.localStream;
+        if (this.localStream && this.localConstraints && this.localConstraints.video === video && this.localConstraints.audio === audio) {
+            return this.localStream;
+        }
+        if (this.localStream && this._calls.size > 0) {
+            return this.localStream;
+        }
+        if (this.localStream) {
+            this.localStream.getTracks().forEach(track => track.stop());
+            this.localStream = null;
+            this.localConstraints = null;
+        }
         if (!video && !audio) return null;
         try {
             this.localStream = await navigator.mediaDevices.getUserMedia({
                 video: video,
                 audio: audio
             });
+            this.localConstraints = {
+                video: video,
+                audio: audio
+            };
             return this.localStream;
         } catch (e) {
+            this.localConstraints = null;
             return null;
         }
     }
     _setupDataConnection(conn) {
         const peerId = conn.peer;
+        if (this._conns.has(peerId) && this._conns.get(peerId).open) {
+            conn.close();
+            return;
+        }
         this._conns.set(peerId, conn);
         conn.on('data', d => {
             const now = Date.now();
@@ -115,7 +131,8 @@ class ZYNQPeer extends EventEmitter {
             this._messageTimestamps.push(now);
             this._dataQueue.push({
                 from: peerId,
-                msg: d
+                type: 'data',
+                data: d
             });
             this._scheduleFlush();
         });
@@ -123,16 +140,20 @@ class ZYNQPeer extends EventEmitter {
             this.emit('open', peerId);
             this._reconnectAttempts.delete(peerId);
             this._reconnectTimeouts.delete(peerId);
+            this._connecting.delete(peerId);
             const pending = this._pendingMsgs.get(peerId) || [];
             pending.forEach(m => conn.send(m));
             this._pendingMsgs.delete(peerId);
         });
-        conn.on('close', () => this._handleConnectionClose(peerId));
-        conn.on('error', e => this.emit('error', {
-            type: 'data',
-            id: peerId,
-            error: e
-        }));
+        conn.on('close', () => this._handleDataConnectionClose(peerId));
+        conn.on('error', e => {
+            this.emit('error', {
+                type: 'data',
+                id: peerId,
+                error: e
+            });
+            this._connecting.delete(peerId);
+        });
         if (conn.open) {
             this.emit('open', peerId);
         }
@@ -174,7 +195,7 @@ class ZYNQPeer extends EventEmitter {
                 from: peerId,
                 stream
             }));
-            call.on('close', () => this._handleConnectionClose(peerId));
+            call.on('close', () => this._handleMediaConnectionClose(peerId));
             call.on('error', e => this.emit('error', {
                 type: 'media',
                 id: peerId,
@@ -182,16 +203,24 @@ class ZYNQPeer extends EventEmitter {
             }));
         });
     }
-    _handleConnectionClose(peerId) {
+    _handleDataConnectionClose(peerId) {
         this._conns.delete(peerId);
+        this._connecting.delete(peerId);
+        if (this._calls.has(peerId)) return;
+        this._fullPeerDisconnect(peerId);
+    }
+    _handleMediaConnectionClose(peerId) {
         this._calls.delete(peerId);
+        if (this._conns.has(peerId)) return;
+        this._fullPeerDisconnect(peerId);
+    }
+    _fullPeerDisconnect(peerId) {
+        const wasManual = this._manualCloses.has(peerId);
+        this._manualCloses.delete(peerId);
         this.emit('close', {
             id: peerId
         });
-        if (this._manualCloses.has(peerId)) {
-            this._manualCloses.delete(peerId);
-            return;
-        }
+        if (wasManual) return;
         if (this.config.autoReconnect) {
             this._attemptReconnect(peerId);
         } else {
@@ -201,6 +230,7 @@ class ZYNQPeer extends EventEmitter {
         }
     }
     _attemptReconnect(peerId) {
+        if (this._reconnectTimeouts.has(peerId)) return;
         let attempts = this._reconnectAttempts.get(peerId) || 0;
         if (attempts >= this.config.maxReconnectAttempts) {
             this.emit('error', {
@@ -231,17 +261,13 @@ class ZYNQPeer extends EventEmitter {
     }
     _connectTo(id) {
         if (!id || id === this.id || !this.peer) return;
-        const existing = this._conns.get(id);
-        if (existing && existing.open) return;
+        if (this._conns.has(id) && this._conns.get(id).open) return;
+        if (this._connecting.has(id)) return;
         if (this.config.txt) {
+            this._connecting.add(id);
             const conn = this.peer.connect(id, {
                 reliable: true
             });
-            conn.on('error', e => this.emit('error', {
-                type: 'data',
-                id: id,
-                error: e
-            }));
             this._setupDataConnection(conn);
         }
     }
@@ -259,7 +285,9 @@ class ZYNQPeer extends EventEmitter {
             return;
         }
         if (!this._pendingMsgs.has(id)) this._pendingMsgs.set(id, []);
-        this._pendingMsgs.get(id).push(msg);
+        const queue = this._pendingMsgs.get(id);
+        queue.push(msg);
+        if (queue.length > 50) queue.shift();
         this._connectTo(id);
     }
     call(id, opts = {}) {
@@ -278,7 +306,7 @@ class ZYNQPeer extends EventEmitter {
                 from: id,
                 stream: s
             }));
-            callObj.on('close', () => this._handleConnectionClose(id));
+            callObj.on('close', () => this._handleMediaConnectionClose(id));
             callObj.on('error', e => this.emit('error', {
                 type: 'media',
                 id: id,
@@ -300,10 +328,10 @@ class ZYNQPeer extends EventEmitter {
     }
     close() {
         this._manualCloses = new Set([...this._conns.keys(), ...this._calls.keys()]);
-        for (const [id, conn] of this._conns) {
+        for (const conn of this._conns.values()) {
             if (conn) conn.close();
         }
-        for (const [id, call] of this._calls) {
+        for (const call of this._calls.values()) {
             if (call) call.close();
         }
         return this;
@@ -318,17 +346,25 @@ class ZYNQPeer extends EventEmitter {
         for (const t of this._reconnectTimeouts.values()) {
             clearTimeout(t);
         }
+        if (this.localStream) {
+            this.localStream.getTracks().forEach(track => track.stop());
+            this.localStream = null;
+            this.localConstraints = null;
+        }
         this._conns.clear();
         this._calls.clear();
         this._pendingMsgs.clear();
         this._reconnectAttempts.clear();
         this._reconnectTimeouts.clear();
         this._manualCloses.clear();
-        if (this.localStream) {
-            this.localStream.getTracks().forEach(track => track.stop());
-            this.localStream = null;
+        this._connecting.clear();
+        this._dataQueue = [];
+        this._flushScheduled = false;
+        this._messageTimestamps = [];
+        if (this.peer) {
+            this.peer.destroy();
+            this.peer = null;
         }
-        if (this.peer) this.peer.destroy();
     }
 }
 class ZYNQGames {
