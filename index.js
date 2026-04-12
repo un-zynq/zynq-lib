@@ -42,6 +42,7 @@ class ZYNQPeer extends EventEmitter {
       autoReconnect: true,
       maxReconnectAttempts: 5,
       rafBatching: false,
+      id: null,
       ...config
     };
     this.peer = null;
@@ -60,7 +61,7 @@ class ZYNQPeer extends EventEmitter {
     this._dataQueue = [];
     this._flushScheduled = false;
     ZYNQPeer._ensurePeerJS().then(() => {
-      this.peer = new Peer();
+      this.peer = this.config.id ? new Peer(this.config.id) : new Peer();
       this.peer.on('open', id => {
         this.id = id;
         this.emit('ready', id);
@@ -270,7 +271,7 @@ class ZYNQPeer extends EventEmitter {
 class ZYNQ_Core {
   constructor() {
     this.config = {
-      src: "https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.0/games.json",
+      src: "https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.0.2/games.json",
       cdn: "https://cdn.jsdelivr.net/gh/un-zynq/thumbnails",
     };
     this.all = [];
