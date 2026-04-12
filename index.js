@@ -159,6 +159,13 @@ class ZYNQPeer extends EventEmitter {
         });
         c.on('close', () => this._handleClose());
         c.on('error', e => this.emit('error', {type: 'data', error: e}));
+        if (c.open) {
+          this.active = true;
+          this.state = 'CONNECTED';
+          this._manualClose = false;
+          this._reconnectAttempts = 0;
+          this.emit('open', id);
+        }
       },
       _setCall: (c) => {
         this.activeSess.mediaCall = c;
