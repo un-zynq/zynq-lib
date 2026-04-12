@@ -315,13 +315,34 @@ class ZYNQPeer extends EventEmitter {
         });
         return this;
     }
-    hangup(id) {
-        const call = this._calls.get(id);
-        if (call) {
-            this._manualCloses.add(id);
-            call.close();
-        }
+    disconnect(id) {
+    if (!id || !this.peer) return this;
+
+    this._manualCloses.add(id);
+
+    const conn = this._conns.get(id);
+    if (conn) {
+        conn.close();
+        this._conns.delete(id);
     }
+
+    const call = this._calls.get(id);
+    if (call) {
+        call.close();
+        this._calls.delete(id);
+    }
+
+    this._connecting.delete(id);
+    this._reconnectAttempts.delete(id);
+
+    const timeout = this._reconnectTimeouts.get(id);
+    if (timeout) clearTimeout(timeout);
+    this._reconnectTimeouts.delete(id);
+
+    this.emit('disconnect', { id });
+
+    return this;
+}
     connect(id) {
         if (id) this._connectTo(id);
         return this;
