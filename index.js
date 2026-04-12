@@ -256,10 +256,14 @@ class ZYNQPeer extends EventEmitter {
       this._reconnectTimeout = null;
     }
     const s = this._bind(this._remoteId);
-    if (this.config.txt) s._setData(this.peer.connect(this._remoteId));
+    if (this.config.txt) {
+      s._setData(this.peer.connect(this._remoteId));
+    }
     if (this.config.video || this.config.audio) {
       this.getStream().then(stream => {
-        if (stream) s._setCall(this.peer.call(this._remoteId, stream));
+        if (stream) {
+          s._setCall(this.peer.call(this._remoteId, stream));
+        }
       });
     }
     return this;
@@ -271,7 +275,7 @@ class ZYNQPeer extends EventEmitter {
 class ZYNQ_Core {
   constructor() {
     this.config = {
-      src: "https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.0.2/games.json",
+      src: "https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.0/games.json",
       cdn: "https://cdn.jsdelivr.net/gh/un-zynq/thumbnails",
     };
     this.all = [];
