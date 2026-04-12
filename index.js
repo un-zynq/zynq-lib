@@ -248,10 +248,10 @@ class ZYNQPeer extends EventEmitter {
   }
 }
 
-class ZYNQ_Core {
+class ZYNQGames {
   constructor() {
     this.config = {
-      src: "https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.0/games.json",
+      src: "https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.0.7/games.json",
       cdn: "https://cdn.jsdelivr.net/gh/un-zynq/thumbnails",
     };
     this.all = [];
@@ -420,13 +420,15 @@ class ZYNQ_Core {
 }
 
 const ZYNQ = {
-  games: new ZYNQ_Core(),
+  games: new ZYNQGames(),
   deviceType: null,
   Peer: ZYNQPeer,
   peer: ZYNQPeer,
   EventEmitter: EventEmitter
 };
+
 window.ZYNQ = ZYNQ;
+
 export default ZYNQ;
 export { ZYNQPeer as Peer };
 export { EventEmitter };
