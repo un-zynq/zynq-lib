@@ -1,12 +1,13 @@
 /**
- * ZYNQ v15 - Persistent Chat & On-Demand Media
+ * ZYNQ v16 - Ultra Sync (Chat & Video)
+ * Fixes: Single-sided UI opening and stream binding delays.
  */
 window.ZYNQ = window.ZYNQ || {};
 
 ZYNQ.Peer = class {
     constructor(config = {}) {
         this.events = {};
-        this.connections = new Map(); // Store data connections
+        this.connections = new Map();
         this.localVid = document.getElementById(config.localId);
         this.remoteVid = document.getElementById(config.remoteId);
         this._init(config.id);
@@ -24,7 +25,7 @@ ZYNQ.Peer = class {
         this.peer.on('open', i => this._emit('ready', i));
         this.peer.on('error', e => this._emit('error', e));
 
-        // Handle persistent Chat connection
+        // Persistent Chat Handshake
         this.peer.on('connection', conn => {
             this._emit('request', {
                 from: conn.peer,
@@ -33,7 +34,7 @@ ZYNQ.Peer = class {
                     this.connections.set(conn.peer, conn);
                     this._setupData(conn);
                     conn.on('open', () => {
-                        conn.send({ _z: 'ACK' });
+                        conn.send({ _z: 'ACK_CHAT' });
                         this._emit('connected', { id: conn.peer, type: 'CHAT' });
                     });
                 },
@@ -46,7 +47,7 @@ ZYNQ.Peer = class {
             });
         });
 
-        // Handle on-demand Call request
+        // On-Demand Call Handshake
         this.peer.on('call', call => {
             this._emit('request', {
                 from: call.peer,
@@ -56,8 +57,8 @@ ZYNQ.Peer = class {
                     this._bind(this.localVid, s);
                     call.answer(s);
                     this._setupMedia(call);
+                    // Signal back that we accepted
                     this._emit('connected', { id: call.peer, type: 'CALL' });
-                    return s;
                 },
                 reject: () => call.close()
             });
@@ -67,17 +68,21 @@ ZYNQ.Peer = class {
     _bind(el, s) {
         if (el) {
             el.srcObject = s;
-            el.onloadedmetadata = () => el.play().catch(e => console.error(e));
+            el.onloadedmetadata = () => el.play().catch(e => console.error("Autoplay blocked:", e));
         }
     }
 
     _setupMedia(call) {
-        call.on('stream', s => this._bind(this.remoteVid, s));
+        call.on('stream', s => {
+            this._bind(this.remoteVid, s);
+            // Trigger connected for the initiator when stream arrives
+            this._emit('connected', { id: call.peer, type: 'CALL' });
+        });
     }
 
     _setupData(conn) {
         conn.on('data', d => {
-            if (d._z === 'ACK') this._emit('connected', { id: conn.peer, type: 'CHAT' });
+            if (d._z === 'ACK_CHAT') this._emit('connected', { id: conn.peer, type: 'CHAT' });
             else if (d._z === 'NAK') this._emit('rejected', conn.peer);
             else this._emit('message', { from: conn.peer, data: d });
         });
@@ -90,23 +95,20 @@ ZYNQ.Peer = class {
     on(e, b) { this.events[e] = b; }
     _emit(e, d) { if (this.events[e]) this.events[e](d); }
 
-    // Persistent connection for Chat
     connect(id) {
         const conn = this.peer.connect(id);
         this.connections.set(id, conn);
         this._setupData(conn);
     }
 
-    // On-demand connection for Video
     async call(id) {
         const s = await navigator.mediaDevices.getUserMedia({video:true, audio:true});
         this._bind(this.localVid, s);
         const call = this.peer.call(id, s);
         this._setupMedia(call);
-        return s;
+        // Initiator UI will open via _setupMedia 'stream' event to ensure sync
     }
 
-    // Send data to an existing connection
     send(id, data) {
         const conn = this.connections.get(id);
         if (conn && conn.open) {
