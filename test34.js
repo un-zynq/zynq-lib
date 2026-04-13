@@ -6,14 +6,10 @@ ZYNQ.Peer = class {
         this.connections = new Map();
         this.localVideo = document.getElementById(config.localId);
         this.remoteVideo = document.getElementById(config.remoteId);
-        
-        // Genereer hch-hch ID als er geen ID is meegegeven
-        const myId = config.id || this._generateFriendlyId();
-        this._init(myId);
+        this._init(config.id || this._generateFriendlyId());
     }
 
     _generateFriendlyId() {
-        // Vermijd verwarrende of lastige letters
         const chars = "ABCDEFGHJKLMNPRSTUVW"; 
         const nums = "23456789";
         const r = (set) => set[Math.floor(Math.random() * set.length)];
@@ -33,12 +29,11 @@ ZYNQ.Peer = class {
         }
         this.peer = new Peer(id);
         this.peer.on('open', id => {
-            this.log(`Systeem Online. Mijn ID: ${id}`);
+            this.log(`Systeem Online. ID: ${id}`);
             this._emit('ready', id);
         });
 
         this.peer.on('connection', conn => {
-            this.log(`Inkomend verzoek van [${conn.peer}]`);
             this._setupDataHandlers(conn);
             this._emit('request', {
                 from: conn.peer,
@@ -46,15 +41,18 @@ ZYNQ.Peer = class {
                 accept: () => {
                     this.log(`Chat geaccepteerd met [${conn.peer}]`);
                     const ok = () => { 
-                        conn.send({ _zynq: 'ACCEPTED', meta: { time: Date.now() } }); 
+                        conn.send({ _zynq: 'ACCEPTED' }); 
                         this._emit('open', { id: conn.peer, type: 'CHAT' }); 
                     };
                     if (conn.open) ok(); else conn.on('open', ok);
                 },
                 reject: () => {
-                    this.log(`Chat geweigerd voor [${conn.peer}]`);
-                    if (conn.open) conn.send({ _zynq: 'REJECTED' });
-                    setTimeout(() => conn.close(), 500);
+                    this.log(`[REJECT] Je hebt het verzoek van ${conn.peer} geweigerd.`);
+                    const deny = () => {
+                        conn.send({ _zynq: 'REJECTED' });
+                        // We sluiten de verbinding NIET direct, om de 'disconnected' loop te voorkomen
+                    };
+                    if (conn.open) deny(); else conn.on('open', deny);
                 }
             });
         });
@@ -71,16 +69,11 @@ ZYNQ.Peer = class {
                         this._setupMediaHandlers(call);
                     } catch (e) { this.log("Camera Fout: " + e.message); }
                 },
-                reject: () => call.close()
+                reject: () => {
+                    this.log(`Video oproep van ${call.peer} geweigerd.`);
+                    call.close();
+                }
             });
-        });
-
-        this.peer.on('error', err => {
-            if (err.type === 'unavailable-id') {
-                this.log("FOUT: ID is al bezet! Kies een ander of herlaad.");
-            } else {
-                this.log("PeerJS FOUT: " + err.type);
-            }
         });
     }
 
@@ -88,17 +81,19 @@ ZYNQ.Peer = class {
         this.connections.set(conn.peer, conn);
         conn.on('data', d => {
             if (d?._zynq === 'ACCEPTED') {
-                this.log(`[ACCEPTED] Verbinding bevestigd door ${conn.peer}`);
+                this.log(`[ACCEPTED] ${conn.peer} heeft geaccepteerd.`);
                 this._emit('open', { id: conn.peer, type: 'CHAT' });
             } else if (d?._zynq === 'REJECTED') {
-                this.log(`[REJECTED] Verzoek geweigerd door ${conn.peer}`);
+                this.log(`[REJECTED] ${conn.peer} heeft je verzoek afgewezen.`);
                 this._emit('status', `Geweigerd door ${conn.peer}`);
+                // Geen geforceerde close hier
             } else {
                 this._emit('message', { from: conn.peer, data: d });
             }
         });
+        
         conn.on('close', () => {
-            this.log(`[DISCONNECTED] Partner ${conn.peer} is weg.`);
+            this.log(`[DISCONNECTED] Partner ${conn.peer} is de verbinding verloren.`);
             this.connections.delete(conn.peer);
             this._emit('status', "Verbinding verbroken");
         });
@@ -106,7 +101,6 @@ ZYNQ.Peer = class {
 
     _setupMediaHandlers(call) {
         call.on('stream', s => {
-            this.log(`Video stream ontvangen van [${call.peer}]`);
             this._bind(this.remoteVideo, s);
             this._emit('open', { id: call.peer, type: 'VIDEO' });
         });
@@ -122,7 +116,7 @@ ZYNQ.Peer = class {
     _emit(ev, data) { if (this.events[ev]) this.events[ev](data); }
 
     connect(id) {
-        if (!id) return this.log("Vul eerst een ID in.");
+        if (!id) return;
         this.log(`Verzoek sturen naar [${id}]...`);
         const conn = this.peer.connect(id);
         this._setupDataHandlers(conn);
@@ -130,12 +124,10 @@ ZYNQ.Peer = class {
 
     async call(id) {
         if (!id) return;
-        try {
-            const s = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-            this._bind(this.localVideo, s);
-            const call = this.peer.call(id, s);
-            this._setupMediaHandlers(call);
-        } catch (e) { this.log("Camera FOUT: " + e.message); }
+        const s = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        this._bind(this.localVideo, s);
+        const call = this.peer.call(id, s);
+        this._setupMediaHandlers(call);
     }
 
     send(id, data) {
