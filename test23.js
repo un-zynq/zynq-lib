@@ -20,19 +20,18 @@ ZYNQ.Peer = class {
         }
         
         this.peer = new Peer(id);
-        
         this.peer.on('open', id => this._emit('ready', id));
 
-        // Inkomende Chat/Data
+        // CHAT HANDLER (Zelfde flow als video)
         this.peer.on('connection', conn => {
             this._emit('request', {
                 from: conn.peer,
                 type: 'CHAT',
                 accept: () => {
                     this.connections.set(conn.peer, conn);
-                    this._setupDataEvents(conn);
+                    this._setupData(conn);
                     conn.on('open', () => {
-                        conn.send({ _zynq: 'ACCEPTED' });
+                        conn.send({ _zynq: 'ACCEPTED' }); // Signaal naar beller
                         this._emit('open', { id: conn.peer, type: 'CHAT' });
                     });
                 },
@@ -45,45 +44,39 @@ ZYNQ.Peer = class {
             });
         });
 
-        // Inkomende Video
+        // VIDEO HANDLER
         this.peer.on('call', call => {
             this._emit('request', {
                 from: call.peer,
-                type: 'CALL',
+                type: 'VIDEO',
                 accept: async () => {
-                    const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-                    this._bindStream(this.localVideo, stream);
-                    call.answer(stream);
+                    const s = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                    this._bind(this.localVideo, s);
+                    call.answer(s);
                     this._setupMedia(call);
-                    this._emit('open', { id: call.peer, type: 'CALL' });
                 },
                 reject: () => call.close()
             });
         });
     }
 
-    _bindStream(el, stream) {
-        if (el) {
-            el.srcObject = stream;
-            el.onloadedmetadata = () => el.play().catch(console.error);
-        }
-    }
+    _bind(el, s) { if (el) { el.srcObject = s; el.play().catch(console.error); } }
 
     _setupMedia(call) {
-        call.on('stream', remoteStream => {
-            this._bindStream(this.remoteVideo, remoteStream);
-            this._emit('open', { id: call.peer, type: 'CALL' });
+        call.on('stream', s => {
+            this._bind(this.remoteVideo, s);
+            this._emit('open', { id: call.peer, type: 'VIDEO' });
         });
     }
 
-    _setupDataEvents(conn) {
-        conn.on('data', data => {
-            if (data._zynq === 'ACCEPTED') {
+    _setupData(conn) {
+        conn.on('data', d => {
+            if (d._zynq === 'ACCEPTED') {
                 this._emit('open', { id: conn.peer, type: 'CHAT' });
-            } else if (data._zynq === 'REJECTED') {
-                this._emit('status', "Geweigerd");
+            } else if (d._zynq === 'REJECTED') {
+                this._emit('status', "Chat geweigerd");
             } else {
-                this._emit('message', { from: conn.peer, data: data });
+                this._emit('message', { from: conn.peer, data: d });
             }
         });
         conn.on('close', () => {
@@ -95,30 +88,25 @@ ZYNQ.Peer = class {
     on(ev, cb) { this.events[ev] = cb; }
     _emit(ev, data) { if (this.events[ev]) this.events[ev](data); }
 
-    // Chat starten
     connect(id) {
+        this._emit('status', "Chat aanvragen...");
         const conn = this.peer.connect(id);
         this.connections.set(id, conn);
-        this._setupDataEvents(conn);
+        this._setupData(conn);
     }
 
-    // Video starten
     async call(id) {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        this._bindStream(this.localVideo, stream);
-        const call = this.peer.call(id, stream);
+        this._emit('status', "Video aanvragen...");
+        const s = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        this._bind(this.localVideo, s);
+        const call = this.peer.call(id, s);
         this._setupMedia(call);
-        
-        // Optioneel: Automatisch ook datakanaal openen voor chat tijdens call
-        if (!this.connections.has(id)) {
-            this.connect(id);
-        }
     }
 
     send(id, data) {
-        const conn = this.connections.get(id);
-        if (conn && conn.open) {
-            conn.send(data);
+        const c = this.connections.get(id);
+        if (c && c.open) {
+            c.send(data);
             return true;
         }
         return false;
