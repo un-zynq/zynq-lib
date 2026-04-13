@@ -18,10 +18,34 @@ ZYNQ.Peer = class {
                 document.head.appendChild(s);
             });
         }
-        this.peer = new Peer(id);
-        this.peer.on('open', id => this._emit('ready', id));
-        this.peer.on('connection', conn => this._handleIncomingData(conn));
         
+        this.peer = new Peer(id);
+        
+        this.peer.on('open', id => this._emit('ready', id));
+
+        // Inkomende Chat/Data
+        this.peer.on('connection', conn => {
+            this._emit('request', {
+                from: conn.peer,
+                type: 'CHAT',
+                accept: () => {
+                    this.connections.set(conn.peer, conn);
+                    this._setupDataEvents(conn);
+                    conn.on('open', () => {
+                        conn.send({ _zynq: 'ACCEPTED' });
+                        this._emit('open', { id: conn.peer, type: 'CHAT' });
+                    });
+                },
+                reject: () => {
+                    conn.on('open', () => {
+                        conn.send({ _zynq: 'REJECTED' });
+                        setTimeout(() => conn.close(), 500);
+                    });
+                }
+            });
+        });
+
+        // Inkomende Video
         this.peer.on('call', call => {
             this._emit('request', {
                 from: call.peer,
@@ -52,58 +76,51 @@ ZYNQ.Peer = class {
         });
     }
 
-    _handleIncomingData(conn) {
-        this._emit('request', {
-            from: conn.peer,
-            type: 'CONNECT',
-            accept: () => {
-                this.connections.set(conn.peer, conn);
-                this._setupDataEvents(conn);
-                conn.on('open', () => {
-                    conn.send({ _zynq: 'ACCEPTED' });
-                    this._emit('open', { id: conn.peer, type: 'CHAT' });
-                });
-            },
-            reject: () => {
-                conn.on('open', () => {
-                    conn.send({ _zynq: 'REJECTED' });
-                    setTimeout(() => conn.close(), 500);
-                });
-            }
-        });
-    }
-
     _setupDataEvents(conn) {
         conn.on('data', data => {
-            if (data._zynq === 'ACCEPTED') this._emit('open', { id: conn.peer, type: 'CHAT' });
-            else if (data._zynq === 'REJECTED') this._emit('rejected', conn.peer);
-            else this._emit('message', { from: conn.peer, data });
+            if (data._zynq === 'ACCEPTED') {
+                this._emit('open', { id: conn.peer, type: 'CHAT' });
+            } else if (data._zynq === 'REJECTED') {
+                this._emit('status', "Geweigerd");
+            } else {
+                this._emit('message', { from: conn.peer, data: data });
+            }
         });
         conn.on('close', () => {
             this.connections.delete(conn.peer);
-            this._emit('close', conn.peer);
+            this._emit('status', "Verbinding verbroken");
         });
     }
 
     on(ev, cb) { this.events[ev] = cb; }
     _emit(ev, data) { if (this.events[ev]) this.events[ev](data); }
 
-    async call(id) {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        this._bindStream(this.localVideo, stream);
-        const call = this.peer.call(id, stream);
-        this._setupMedia(call);
-        return stream;
-    }
-
+    // Chat starten
     connect(id) {
         const conn = this.peer.connect(id);
         this.connections.set(id, conn);
         this._setupDataEvents(conn);
     }
 
+    // Video starten
+    async call(id) {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        this._bindStream(this.localVideo, stream);
+        const call = this.peer.call(id, stream);
+        this._setupMedia(call);
+        
+        // Optioneel: Automatisch ook datakanaal openen voor chat tijdens call
+        if (!this.connections.has(id)) {
+            this.connect(id);
+        }
+    }
+
     send(id, data) {
         const conn = this.connections.get(id);
-        if (conn && conn.open) conn.send(data);
+        if (conn && conn.open) {
+            conn.send(data);
+            return true;
+        }
+        return false;
     }
 };
