@@ -20,7 +20,10 @@ ZYNQ.Peer = class {
         }
         this.peer = new Peer(id);
         this.peer.on('open', id => this._emit('ready', id));
-        this.peer.on('connection', conn => { this._isInitiator = false; this._setupData(conn); });
+        this.peer.on('connection', conn => { 
+            this._isInitiator = false; 
+            this._handleIncomingData(conn); 
+        });
         this.peer.on('call', call => {
             this._emit('request', {
                 from: call.peer,
@@ -36,16 +39,34 @@ ZYNQ.Peer = class {
         });
     }
 
-    _setupData(conn) {
-        conn.on('open', () => {
-            this.connections.set(conn.peer, conn);
-            if (!this._isInitiator) {
-                // AUTO-ACCEPT VOOR CHAT (Geen popup nodig)
+    _handleIncomingData(conn) {
+        // Ontvanger krijgt een verzoek voor de data-connectie
+        this._emit('request', {
+            from: conn.peer,
+            type: 'CONNECT',
+            accept: () => {
+                this.connections.set(conn.peer, conn);
+                conn.send({ _zynq: 'ACCEPTED' });
+                this._setupDataEvents(conn);
                 this._emit('open', conn.peer);
+            },
+            reject: () => {
+                conn.send({ _zynq: 'REJECTED' });
+                setTimeout(() => conn.close(), 500);
             }
         });
-        conn.on('data', data => this._emit('message', { from: conn.peer, data }));
-        conn.on('close', () => { this.connections.delete(conn.peer); this._emit('close', conn.peer); });
+    }
+
+    _setupDataEvents(conn) {
+        conn.on('data', data => {
+            if (data._zynq === 'ACCEPTED') this._emit('open', conn.peer);
+            else if (data._zynq === 'REJECTED') this._emit('rejected', conn.peer);
+            else this._emit('message', { from: conn.peer, data });
+        });
+        conn.on('close', () => {
+            this.connections.delete(conn.peer);
+            this._emit('close', conn.peer);
+        });
     }
 
     _setupMedia(call) {
@@ -58,8 +79,8 @@ ZYNQ.Peer = class {
     connect(id) {
         this._isInitiator = true;
         const conn = this.peer.connect(id);
-        this._setupData(conn);
-        this._emit('open', id); // Direct naar chat-view
+        this.connections.set(id, conn);
+        this._setupDataEvents(conn);
     }
 
     async call(id) {
