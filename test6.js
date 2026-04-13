@@ -6,6 +6,7 @@ ZYNQ.Peer = class {
         this.peer = null;
         this.connections = new Map();
         this.events = {};
+        this._isInitiator = false; // Cruciaal: houdt bij of JIJ de beller bent
         this._loadPeerJS().then(() => this._init());
     }
 
@@ -22,9 +23,14 @@ ZYNQ.Peer = class {
     _init() {
         this.peer = new Peer(this.config.id);
         this.peer.on('open', id => this._emit('ready', id));
-        this.peer.on('connection', conn => this._handleIncoming(conn));
+        
+        // Inkomende verbinding (Ontvanger zijde)
+        this.peer.on('connection', conn => {
+            this._isInitiator = false; // Jij bent de ontvanger
+            this._handleIncoming(conn);
+        });
+
         this.peer.on('call', call => {
-            // Media request trigger
             this._emit('request', { 
                 from: call.peer, 
                 type: 'media', 
@@ -37,13 +43,15 @@ ZYNQ.Peer = class {
     _handleIncoming(conn) {
         conn.on('open', () => {
             this.connections.set(conn.peer, conn);
-            // Alleen de ontvanger krijgt de 'request' event
-            this._emit('request', { from: conn.peer, type: 'data' });
+            // TRIGGER REQUEST ALLEEN ALS JIJ NIET DE INITIALISATOR BENT
+            if (!this._isInitiator) {
+                this._emit('request', { from: conn.peer, type: 'data' });
+            }
         });
 
         conn.on('data', data => {
             if (data._zynq === 'ACCEPT') {
-                this._emit('open', conn.peer); // Nu pas mag de zender de UI zien
+                this._emit('open', conn.peer); // Zender krijgt nu pas de 'open'
             } else if (data._zynq === 'REJECT') {
                 this._emit('rejected', conn.peer);
                 conn.close();
@@ -57,6 +65,7 @@ ZYNQ.Peer = class {
     _emit(ev, data) { if (this.events[ev]) this.events[ev](data); }
 
     connect(id) {
+        this._isInitiator = true; // JIJ start de actie
         const conn = this.peer.connect(id);
         this._handleIncoming(conn);
     }
@@ -65,13 +74,16 @@ ZYNQ.Peer = class {
         const conn = this.connections.get(id);
         if (conn) {
             conn.send({ _zynq: 'ACCEPT' });
-            this._emit('open', id); // Open direct bij ontvanger
+            this._emit('open', id); 
         }
     }
 
     reject(id) {
         const conn = this.connections.get(id);
-        if (conn) { conn.send({ _zynq: 'REJECT' }); conn.close(); }
+        if (conn) { 
+            conn.send({ _zynq: 'REJECT' }); 
+            setTimeout(() => conn.close(), 500);
+        }
     }
 
     send(id, data) {
