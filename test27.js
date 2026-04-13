@@ -21,37 +21,29 @@ ZYNQ.Peer = class {
         this.peer = new Peer(id);
         this.peer.on('open', id => this._emit('ready', id));
 
-        // ONTVANGER KANT
+        // Luisteren naar inkomende CHAT
         this.peer.on('connection', conn => {
             this._emit('request', {
                 from: conn.peer,
                 type: 'CHAT',
                 accept: () => {
                     this.connections.set(conn.peer, conn);
-                    this._setupData(conn); // Zet handler klaar
-                    
-                    // Wacht tot kanaal echt open is, stuur dan pas de bevestiging
-                    if (conn.open) {
+                    this._setupData(conn);
+                    conn.on('open', () => {
                         conn.send({ _zynq: 'ACCEPTED' });
                         this._emit('open', { id: conn.peer, type: 'CHAT' });
-                    } else {
-                        conn.on('open', () => {
-                            conn.send({ _zynq: 'ACCEPTED' });
-                            this._emit('open', { id: conn.peer, type: 'CHAT' });
-                        });
-                    }
+                    });
                 },
                 reject: () => {
-                    const closeIt = () => {
+                    conn.on('open', () => {
                         conn.send({ _zynq: 'REJECTED' });
                         setTimeout(() => conn.close(), 500);
-                    };
-                    if (conn.open) closeIt(); else conn.on('open', closeIt);
+                    });
                 }
             });
         });
 
-        // VIDEO HANDLER
+        // Luisteren naar inkomende VIDEO
         this.peer.on('call', call => {
             this._emit('request', {
                 from: call.peer,
@@ -79,37 +71,43 @@ ZYNQ.Peer = class {
     _setupData(conn) {
         conn.on('data', d => {
             if (d && d._zynq === 'ACCEPTED') {
-                // BELLER ontvangt dit nadat de ontvanger op ACCEPT klikt
                 this._emit('open', { id: conn.peer, type: 'CHAT' });
             } else if (d && d._zynq === 'REJECTED') {
-                this._emit('status', "Verzoek geweigerd");
+                this._emit('status', "Geweigerd");
             } else {
                 this._emit('message', { from: conn.peer, data: d });
             }
         });
         conn.on('close', () => {
             this.connections.delete(conn.peer);
-            this._emit('status', "Verbinding verbroken");
+            this._emit('status', "Verbroken");
         });
     }
 
     on(ev, cb) { this.events[ev] = cb; }
     _emit(ev, data) { if (this.events[ev]) this.events[ev](data); }
 
-    // BELLER KANT
+    // Start een chat verbinding
     connect(id) {
-        this._emit('status', "Wachten op acceptatie...");
+        if (!id) return;
+        this._emit('status', "Chat aanvragen...");
         const conn = this.peer.connect(id);
         this.connections.set(id, conn);
-        this._setupData(conn); // Handler MOET hier al aanstaan
+        this._setupData(conn);
     }
 
+    // Start een video verbinding (kan ook door de ontvanger van de chat gedaan worden)
     async call(id) {
-        this._emit('status', "Bellen...");
-        const s = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        this._bind(this.localVideo, s);
-        const call = this.peer.call(id, s);
-        this._setupMedia(call);
+        if (!id) return;
+        this._emit('status', "Video starten...");
+        try {
+            const s = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            this._bind(this.localVideo, s);
+            const call = this.peer.call(id, s);
+            this._setupMedia(call);
+        } catch (e) {
+            this._emit('status', "Camera error");
+        }
     }
 
     send(id, data) {
