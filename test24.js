@@ -18,20 +18,19 @@ ZYNQ.Peer = class {
                 document.head.appendChild(s);
             });
         }
-        
         this.peer = new Peer(id);
         this.peer.on('open', id => this._emit('ready', id));
 
-        // CHAT HANDLER (Zelfde flow als video)
+        // Ontvanger kant
         this.peer.on('connection', conn => {
             this._emit('request', {
                 from: conn.peer,
                 type: 'CHAT',
                 accept: () => {
                     this.connections.set(conn.peer, conn);
-                    this._setupData(conn);
                     conn.on('open', () => {
-                        conn.send({ _zynq: 'ACCEPTED' }); // Signaal naar beller
+                        this._setupData(conn);
+                        conn.send({ _zynq: 'ACCEPTED' }); 
                         this._emit('open', { id: conn.peer, type: 'CHAT' });
                     });
                 },
@@ -44,7 +43,6 @@ ZYNQ.Peer = class {
             });
         });
 
-        // VIDEO HANDLER
         this.peer.on('call', call => {
             this._emit('request', {
                 from: call.peer,
@@ -74,14 +72,10 @@ ZYNQ.Peer = class {
             if (d._zynq === 'ACCEPTED') {
                 this._emit('open', { id: conn.peer, type: 'CHAT' });
             } else if (d._zynq === 'REJECTED') {
-                this._emit('status', "Chat geweigerd");
+                this._emit('status', "Geweigerd");
             } else {
                 this._emit('message', { from: conn.peer, data: d });
             }
-        });
-        conn.on('close', () => {
-            this.connections.delete(conn.peer);
-            this._emit('status', "Verbinding verbroken");
         });
     }
 
@@ -89,14 +83,22 @@ ZYNQ.Peer = class {
     _emit(ev, data) { if (this.events[ev]) this.events[ev](data); }
 
     connect(id) {
-        this._emit('status', "Chat aanvragen...");
+        this._emit('status', "Aanvragen...");
         const conn = this.peer.connect(id);
         this.connections.set(id, conn);
         this._setupData(conn);
+        
+        // Forceer check als de browser het 'open' event mist
+        let checkOpen = setInterval(() => {
+            if (conn.open) {
+                this._emit('status', "Verbinding open (forced)");
+                clearInterval(checkOpen);
+            }
+        }, 1000);
     }
 
     async call(id) {
-        this._emit('status', "Video aanvragen...");
+        this._emit('status', "Bellen...");
         const s = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
         this._bind(this.localVideo, s);
         const call = this.peer.call(id, s);
