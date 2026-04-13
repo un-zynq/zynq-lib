@@ -24,6 +24,7 @@ ZYNQ.Peer = class {
         this.peer.on('open', id => this._emit('ready', id));
         this.peer.on('connection', conn => this._handleIncoming(conn));
         this.peer.on('call', call => {
+            // Media request trigger
             this._emit('request', { 
                 from: call.peer, 
                 type: 'media', 
@@ -34,20 +35,24 @@ ZYNQ.Peer = class {
     }
 
     _handleIncoming(conn) {
-        // Stap 1: Houd verbinding vast maar zeg nog niets tegen de UI
         conn.on('open', () => {
             this.connections.set(conn.peer, conn);
+            // Alleen de ontvanger krijgt de 'request' event
             this._emit('request', { from: conn.peer, type: 'data' });
         });
 
         conn.on('data', data => {
-            if (data._zynq === 'ACCEPT') this._emit('open', conn.peer);
-            else if (data._zynq === 'REJECT') { this._emit('rejected', {from: conn.peer}); conn.close(); }
-            else this._emit('message', { from: conn.peer, data });
+            if (data._zynq === 'ACCEPT') {
+                this._emit('open', conn.peer); // Nu pas mag de zender de UI zien
+            } else if (data._zynq === 'REJECT') {
+                this._emit('rejected', conn.peer);
+                conn.close();
+            } else {
+                this._emit('message', { from: conn.peer, data });
+            }
         });
     }
 
-    // --- Public API ---
     on(ev, cb) { this.events[ev] = cb; }
     _emit(ev, data) { if (this.events[ev]) this.events[ev](data); }
 
@@ -60,7 +65,7 @@ ZYNQ.Peer = class {
         const conn = this.connections.get(id);
         if (conn) {
             conn.send({ _zynq: 'ACCEPT' });
-            this._emit('open', id); // Open de box bij de ontvanger
+            this._emit('open', id); // Open direct bij ontvanger
         }
     }
 
