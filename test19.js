@@ -1,9 +1,4 @@
-/**
- * ZYNQ v18 - Independent UI Sync
- * Beheert Chat en Video als aparte stromen.
- */
 window.ZYNQ = window.ZYNQ || {};
-
 ZYNQ.Peer = class {
     constructor(config = {}) {
         this.events = {};
@@ -23,6 +18,7 @@ ZYNQ.Peer = class {
         }
         this.peer = new Peer(id);
         this.peer.on('open', i => this._emit('ready', i));
+        this.peer.on('error', e => this._emit('status', "Error: " + e.type));
 
         // Ontvanger: Chat verzoek
         this.peer.on('connection', conn => {
@@ -33,10 +29,16 @@ ZYNQ.Peer = class {
                     this._setupData(conn);
                     conn.on('open', () => {
                         conn.send({ _z: 'ACK_CHAT' }); 
+                        this._emit('status', "Connected to " + conn.peer);
                         this._emit('ui_update', { type: 'CHAT', id: conn.peer });
                     });
                 },
-                reject: () => { conn.on('open', () => { conn.send({ _z: 'NAK' }); setTimeout(()=>conn.close(), 500); }); }
+                reject: () => {
+                    conn.on('open', () => {
+                        conn.send({ _z: 'REJECTED' });
+                        setTimeout(() => conn.close(), 500);
+                    });
+                }
             });
         });
 
@@ -49,6 +51,7 @@ ZYNQ.Peer = class {
                     this._bind(this.localVid, s);
                     call.answer(s);
                     this._setupMedia(call);
+                    this._emit('status', "Video Accepted");
                     this._emit('ui_update', { type: 'VIDEO', id: call.peer });
                 },
                 reject: () => call.close()
@@ -56,7 +59,7 @@ ZYNQ.Peer = class {
         });
     }
 
-    _bind(el, s) { if (el) { el.srcObject = s; el.play().catch(e => console.error(e)); } }
+    _bind(el, s) { if (el) el.srcObject = s; }
 
     _setupMedia(call) {
         call.on('stream', s => {
@@ -67,23 +70,30 @@ ZYNQ.Peer = class {
 
     _setupData(conn) {
         conn.on('data', d => {
-            if (d._z === 'ACK_CHAT') this._emit('ui_update', { type: 'CHAT', id: conn.peer });
-            else if (d._z === 'NAK') this._emit('rejected', conn.peer);
-            else this._emit('message', { from: conn.peer, data: d });
+            if (d._z === 'ACK_CHAT') {
+                this._emit('status', "Accepted by partner");
+                this._emit('ui_update', { type: 'CHAT', id: conn.peer });
+            } else if (d._z === 'REJECTED') {
+                this._emit('status', "Rejected by partner");
+            } else {
+                this._emit('message', { from: conn.peer, data: d });
+            }
         });
-        conn.on('close', () => { this.connections.delete(conn.peer); this._emit('disconnected', conn.peer); });
+        conn.on('close', () => this._emit('status', "Disconnected"));
     }
 
     on(e, b) { this.events[e] = b; }
     _emit(e, d) { if (this.events[e]) this.events[e](d); }
 
     connect(id) {
+        this._emit('status', "Connecting chat...");
         const conn = this.peer.connect(id);
         this.connections.set(id, conn);
         this._setupData(conn);
     }
 
     async call(id) {
+        this._emit('status', "Calling video...");
         const s = await navigator.mediaDevices.getUserMedia({video:true, audio:true});
         this._bind(this.localVid, s);
         const call = this.peer.call(id, s);
