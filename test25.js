@@ -28,8 +28,9 @@ ZYNQ.Peer = class {
                 type: 'CHAT',
                 accept: () => {
                     this.connections.set(conn.peer, conn);
+                    // Belangrijk: Eerst events setten, dan pas openen
+                    this._setupData(conn);
                     conn.on('open', () => {
-                        this._setupData(conn);
                         conn.send({ _zynq: 'ACCEPTED' }); 
                         this._emit('open', { id: conn.peer, type: 'CHAT' });
                     });
@@ -77,6 +78,12 @@ ZYNQ.Peer = class {
                 this._emit('message', { from: conn.peer, data: d });
             }
         });
+        
+        // EXTRA BEVEILIGING: Als de verbinding sluit
+        conn.on('close', () => {
+            this.connections.delete(conn.peer);
+            this._emit('status', "Verbinding verbroken");
+        });
     }
 
     on(ev, cb) { this.events[ev] = cb; }
@@ -88,13 +95,12 @@ ZYNQ.Peer = class {
         this.connections.set(id, conn);
         this._setupData(conn);
         
-        // Forceer check als de browser het 'open' event mist
-        let checkOpen = setInterval(() => {
-            if (conn.open) {
-                this._emit('status', "Verbinding open (forced)");
-                clearInterval(checkOpen);
-            }
-        }, 1000);
+        // DE FIX: Zodra de beller ziet dat de verbinding 'open' is, 
+        // moet hij NIET wachten op de 'ACCEPTED' data.
+        conn.on('open', () => {
+            this._emit('open', { id: id, type: 'CHAT' });
+            this._emit('status', "Chat Verbonden");
+        });
     }
 
     async call(id) {
