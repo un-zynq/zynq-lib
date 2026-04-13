@@ -40,19 +40,22 @@ ZYNQ.Peer = class {
     }
 
     _handleIncomingData(conn) {
-        // Ontvanger krijgt een verzoek voor de data-connectie
         this._emit('request', {
             from: conn.peer,
             type: 'CONNECT',
             accept: () => {
                 this.connections.set(conn.peer, conn);
-                conn.send({ _zynq: 'ACCEPTED' });
                 this._setupDataEvents(conn);
-                this._emit('open', conn.peer);
+                conn.on('open', () => {
+                    conn.send({ _zynq: 'ACCEPTED' });
+                    this._emit('open', conn.peer);
+                });
             },
             reject: () => {
-                conn.send({ _zynq: 'REJECTED' });
-                setTimeout(() => conn.close(), 500);
+                conn.on('open', () => {
+                    conn.send({ _zynq: 'REJECTED' });
+                    setTimeout(() => conn.close(), 500);
+                });
             }
         });
     }
