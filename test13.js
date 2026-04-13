@@ -2,14 +2,18 @@ window.ZYNQ = window.ZYNQ || {};
 
 ZYNQ.Peer = class {
     constructor(config = {}) {
-        this.peer = null;
-        this.connections = new Map();
         this.events = {};
-        this._isInitiator = false;
+        this.connections = new Map();
+        
+        // Sla DOM elementen op op basis van de meegegeven ID's
+        this.localVideo = document.getElementById(config.localId);
+        this.remoteVideo = document.getElementById(config.remoteId);
+        
         this._loadAndInit(config.id);
     }
 
     async _loadAndInit(id) {
+        // PeerJS inladen als het er nog niet is
         if (!window.Peer) {
             await new Promise(r => {
                 const s = document.createElement('script');
@@ -18,24 +22,48 @@ ZYNQ.Peer = class {
                 document.head.appendChild(s);
             });
         }
+        
         this.peer = new Peer(id);
+        
         this.peer.on('open', id => this._emit('ready', id));
-        this.peer.on('connection', conn => { 
-            this._isInitiator = false; 
-            this._handleIncomingData(conn); 
-        });
+        
+        // Chat verbindingen
+        this.peer.on('connection', conn => this._handleIncomingData(conn));
+        
+        // Video/Audio oproepen
         this.peer.on('call', call => {
             this._emit('request', {
                 from: call.peer,
                 type: 'CALL',
                 accept: async () => {
-                    const s = await navigator.mediaDevices.getUserMedia({video:true, audio:true});
-                    call.answer(s);
-                    this._setupMedia(call);
-                    return s;
+                    try {
+                        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                        this._bindStream(this.localVideo, stream);
+                        call.answer(stream);
+                        this._setupMedia(call);
+                        this._emit('open', call.peer);
+                        return stream;
+                    } catch (err) {
+                        console.error("Geweigerd of geen camera:", err);
+                    }
                 },
                 reject: () => call.close()
             });
+        });
+    }
+
+    // Helper om een stream aan een video-element te plakken
+    _bindStream(el, stream) {
+        if (el) {
+            el.srcObject = stream;
+            el.onloadedmetadata = () => el.play().catch(console.error);
+        }
+    }
+
+    _setupMedia(call) {
+        call.on('stream', remoteStream => {
+            this._bindStream(this.remoteVideo, remoteStream);
+            this._emit('stream', { from: call.peer, stream: remoteStream });
         });
     }
 
@@ -72,25 +100,23 @@ ZYNQ.Peer = class {
         });
     }
 
-    _setupMedia(call) {
-        call.on('stream', s => this._emit('stream', { from: call.peer, stream: s }));
-    }
-
+    // Publieke methodes
     on(ev, cb) { this.events[ev] = cb; }
     _emit(ev, data) { if (this.events[ev]) this.events[ev](data); }
 
+    async call(id) {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        this._bindStream(this.localVideo, stream);
+        const call = this.peer.call(id, stream);
+        this._setupMedia(call);
+        this._emit('open', id);
+        return stream;
+    }
+
     connect(id) {
-        this._isInitiator = true;
         const conn = this.peer.connect(id);
         this.connections.set(id, conn);
         this._setupDataEvents(conn);
-    }
-
-    async call(id) {
-        const s = await navigator.mediaDevices.getUserMedia({video:true, audio:true});
-        const call = this.peer.call(id, s);
-        this._setupMedia(call);
-        return s;
     }
 
     send(id, data) {
