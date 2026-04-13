@@ -21,29 +21,37 @@ ZYNQ.Peer = class {
         this.peer = new Peer(id);
         this.peer.on('open', id => this._emit('ready', id));
 
-        // Ontvanger kant
+        // ONTVANGER KANT
         this.peer.on('connection', conn => {
             this._emit('request', {
                 from: conn.peer,
                 type: 'CHAT',
                 accept: () => {
                     this.connections.set(conn.peer, conn);
-                    // Belangrijk: Eerst events setten, dan pas openen
-                    this._setupData(conn);
-                    conn.on('open', () => {
-                        conn.send({ _zynq: 'ACCEPTED' }); 
+                    this._setupData(conn); // Zet handler klaar
+                    
+                    // Wacht tot kanaal echt open is, stuur dan pas de bevestiging
+                    if (conn.open) {
+                        conn.send({ _zynq: 'ACCEPTED' });
                         this._emit('open', { id: conn.peer, type: 'CHAT' });
-                    });
+                    } else {
+                        conn.on('open', () => {
+                            conn.send({ _zynq: 'ACCEPTED' });
+                            this._emit('open', { id: conn.peer, type: 'CHAT' });
+                        });
+                    }
                 },
                 reject: () => {
-                    conn.on('open', () => {
+                    const closeIt = () => {
                         conn.send({ _zynq: 'REJECTED' });
                         setTimeout(() => conn.close(), 500);
-                    });
+                    };
+                    if (conn.open) closeIt(); else conn.on('open', closeIt);
                 }
             });
         });
 
+        // VIDEO HANDLER
         this.peer.on('call', call => {
             this._emit('request', {
                 from: call.peer,
@@ -70,16 +78,15 @@ ZYNQ.Peer = class {
 
     _setupData(conn) {
         conn.on('data', d => {
-            if (d._zynq === 'ACCEPTED') {
+            if (d && d._zynq === 'ACCEPTED') {
+                // BELLER ontvangt dit nadat de ontvanger op ACCEPT klikt
                 this._emit('open', { id: conn.peer, type: 'CHAT' });
-            } else if (d._zynq === 'REJECTED') {
-                this._emit('status', "Geweigerd");
+            } else if (d && d._zynq === 'REJECTED') {
+                this._emit('status', "Verzoek geweigerd");
             } else {
                 this._emit('message', { from: conn.peer, data: d });
             }
         });
-        
-        // EXTRA BEVEILIGING: Als de verbinding sluit
         conn.on('close', () => {
             this.connections.delete(conn.peer);
             this._emit('status', "Verbinding verbroken");
@@ -89,18 +96,12 @@ ZYNQ.Peer = class {
     on(ev, cb) { this.events[ev] = cb; }
     _emit(ev, data) { if (this.events[ev]) this.events[ev](data); }
 
+    // BELLER KANT
     connect(id) {
-        this._emit('status', "Aanvragen...");
+        this._emit('status', "Wachten op acceptatie...");
         const conn = this.peer.connect(id);
         this.connections.set(id, conn);
-        this._setupData(conn);
-        
-        // DE FIX: Zodra de beller ziet dat de verbinding 'open' is, 
-        // moet hij NIET wachten op de 'ACCEPTED' data.
-        conn.on('open', () => {
-            this._emit('open', { id: id, type: 'CHAT' });
-            this._emit('status', "Chat Verbonden");
-        });
+        this._setupData(conn); // Handler MOET hier al aanstaan
     }
 
     async call(id) {
