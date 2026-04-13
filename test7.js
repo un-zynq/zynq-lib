@@ -6,7 +6,7 @@ ZYNQ.Peer = class {
         this.peer = null;
         this.connections = new Map();
         this.events = {};
-        this._isInitiator = false; // Cruciaal: houdt bij of JIJ de beller bent
+        this._isInitiator = false; 
         this._loadPeerJS().then(() => this._init());
     }
 
@@ -24,9 +24,8 @@ ZYNQ.Peer = class {
         this.peer = new Peer(this.config.id);
         this.peer.on('open', id => this._emit('ready', id));
         
-        // Inkomende verbinding (Ontvanger zijde)
         this.peer.on('connection', conn => {
-            this._isInitiator = false; // Jij bent de ontvanger
+            this._isInitiator = false; 
             this._handleIncoming(conn);
         });
 
@@ -35,15 +34,16 @@ ZYNQ.Peer = class {
                 from: call.peer, 
                 type: 'media', 
                 accept: (stream) => { call.answer(stream); this._setupCall(call); },
-                reject: () => call.close()
+                reject: () => { call.close(); }
             });
         });
+
+        this.peer.on('error', err => this._emit('error', err));
     }
 
     _handleIncoming(conn) {
         conn.on('open', () => {
             this.connections.set(conn.peer, conn);
-            // TRIGGER REQUEST ALLEEN ALS JIJ NIET DE INITIALISATOR BENT
             if (!this._isInitiator) {
                 this._emit('request', { from: conn.peer, type: 'data' });
             }
@@ -51,21 +51,23 @@ ZYNQ.Peer = class {
 
         conn.on('data', data => {
             if (data._zynq === 'ACCEPT') {
-                this._emit('open', conn.peer); // Zender krijgt nu pas de 'open'
+                this._emit('open', conn.peer);
             } else if (data._zynq === 'REJECT') {
-                this._emit('rejected', conn.peer);
+                this._emit('rejected', { from: conn.peer });
                 conn.close();
             } else {
                 this._emit('message', { from: conn.peer, data });
             }
         });
+
+        conn.on('close', () => this._emit('close', { id: conn.peer }));
     }
 
     on(ev, cb) { this.events[ev] = cb; }
     _emit(ev, data) { if (this.events[ev]) this.events[ev](data); }
 
     connect(id) {
-        this._isInitiator = true; // JIJ start de actie
+        this._isInitiator = true; 
         const conn = this.peer.connect(id);
         this._handleIncoming(conn);
     }
@@ -82,7 +84,7 @@ ZYNQ.Peer = class {
         const conn = this.connections.get(id);
         if (conn) { 
             conn.send({ _zynq: 'REJECT' }); 
-            setTimeout(() => conn.close(), 500);
+            setTimeout(() => { conn.close(); this.connections.delete(id); }, 100);
         }
     }
 
