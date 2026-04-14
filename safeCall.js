@@ -1,7 +1,3 @@
-/**
- * ZYNQ Ultra-Secure & Performance Engine (t59.js)
- * FIX: Betrouwbare Handshake & Verbindings-wachtrij
- */
 (function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         define([], factory);
@@ -13,7 +9,7 @@
 }(typeof self !== 'undefined' ? self : this, function() {
 
     if (typeof ZYNQ === 'undefined' || !ZYNQ.Peer) {
-        console.error("ZYNQ Engine Error: index.js niet geladen!");
+        console.error("ZYNQ Engine Error: Base library not found");
         return;
     }
 
@@ -21,10 +17,12 @@
 
     ZYNQ.Peer = function(config) {
         const peer = new OriginalPeer(config);
+        
         const _internal = {
             confirmedPeers: new Set(),
             activeStreams: new Map(),
-            handshakeRetries: new Map()
+            handshakeRetries: new Map(),
+            performanceMode: 'high'
         };
 
         const _original = {
@@ -33,44 +31,71 @@
             emit: peer.emit.bind(peer)
         };
 
-        // Performance Engine (Houdt FPS stabiel)
+        const adaptiveThrottle = () => {
+            const count = _internal.activeStreams.size;
+            if (count > 6) return 'low';
+            if (count > 3) return 'medium';
+            return 'high';
+        };
+
         const optimizeStream = (vEle) => {
             if (!vEle) return;
+            
+            let lastCheck = Date.now();
+            
             const syncInterval = setInterval(() => {
                 if (!vEle || !vEle.srcObject) return clearInterval(syncInterval);
                 if (vEle.paused || vEle.readyState < 3) return;
+
+                const mode = adaptiveThrottle();
+                const now = Date.now();
+                
+                if (mode === 'low' && now - lastCheck < 1500) return;
+                if (mode === 'medium' && now - lastCheck < 1000) return;
+                
+                lastCheck = now;
+
                 const buffered = vEle.buffered;
                 if (buffered.length > 0) {
-                    const delay = buffered.end(buffered.length - 1) - vEle.currentTime;
-                    if (delay > 0.7) vEle.currentTime = buffered.end(buffered.length - 1) - 0.05;
-                    vEle.playbackRate = (delay > 0.25) ? 1.06 : (delay < 0.15 ? 1.0 : vEle.playbackRate);
+                    const latest = buffered.end(buffered.length - 1);
+                    const delay = latest - vEle.currentTime;
+
+                    if (delay > 0.8) {
+                        vEle.currentTime = latest - 0.02;
+                    } else if (delay > 0.2) {
+                        vEle.playbackRate = mode === 'high' ? 1.06 : 1.03;
+                    } else {
+                        vEle.playbackRate = 1.0;
+                    }
                 }
             }, 800);
         };
 
-        // FIX: Handshake verzenden met garantie
         const safeHandshake = (id) => {
             if (_internal.confirmedPeers.has(id)) return;
             
-            console.log(`[ZYNQ] Poging handshake naar ${id}...`);
             _original.send(id, { _sys: true, type: "REQ", ts: Date.now() });
 
-            // Als we na 2 seconden geen ACC of REJ hebben, probeer het nog 1x
             const retryCount = _internal.handshakeRetries.get(id) || 0;
-            if (retryCount < 2) {
+            if (retryCount < 3) {
                 setTimeout(() => {
                     if (!_internal.confirmedPeers.has(id)) {
                         _internal.handshakeRetries.set(id, retryCount + 1);
                         safeHandshake(id);
                     }
-                }, 2000);
+                }, 1500);
             }
         };
 
         peer.call = function(id, options) {
             if (!id) return;
             if (_internal.confirmedPeers.has(id)) {
-                return _original.call(id, options || { video: true, audio: true });
+                const mode = adaptiveThrottle();
+                const constraints = options || { 
+                    video: mode === 'high' ? true : { frameRate: mode === 'medium' ? 15 : 10 },
+                    audio: true 
+                };
+                return _original.call(id, constraints);
             } else {
                 safeHandshake(id);
                 _original.emit('call:sent', { to: id });
@@ -79,10 +104,8 @@
         };
 
         peer.send = function(id, data) {
-            if (typeof data === 'string') {
-                return _original.send(id, { _sys: false, body: data, ts: Date.now() });
-            }
-            return _original.send(id, data);
+            const payload = typeof data === 'string' ? { _sys: false, body: data, ts: Date.now() } : data;
+            return _original.send(id, payload);
         };
 
         peer.on('message', ({ from, data }) => {
@@ -100,8 +123,7 @@
                         _internal.confirmedPeers.add(from);
                         _internal.handshakeRetries.delete(from);
                         _original.emit('call:accepted', { from, ts: data.ts });
-                        // Vertraging toevoegen zodat datakanaal tijd heeft om de status te verwerken
-                        setTimeout(() => _original.call(from, { video: true, audio: true }), 100);
+                        setTimeout(() => peer.call(from), 100);
                         break;
                     case "REJ":
                         _internal.handshakeRetries.delete(from);
@@ -135,7 +157,7 @@
         peer.acceptCall = (id) => {
             _internal.confirmedPeers.add(id);
             _original.send(id, { _sys: true, type: "ACC", ts: Date.now() });
-            setTimeout(() => _original.call(id, { video: true, audio: true }), 100);
+            setTimeout(() => peer.call(id), 100);
         };
 
         peer.rejectCall = (id) => {
