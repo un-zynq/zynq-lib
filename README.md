@@ -1,111 +1,83 @@
-# ZYNQ Ultra-Secure & Performance Patch (secureCall.js)
+# ZYNQ Ultra-Secure & Performance Engine (`safeCall.js`)
 
-The `secureCall.js` patch is a high-level wrapper for the `ZYNQ.Peer` library. It introduces a **Session-Based Handshake Protocol** to prevent unauthorized calls and a **Performance Engine** to eliminate video latency.
-
-## Key Features
-- **Strict Handshaking**: No media streams are exchanged until a call is explicitly accepted.
-- **Session-Based Security**: Authorizations expire automatically when a connection closes.
-- **Catch-up Engine**: Automatically synchronizes video streams if they lag more than 0.5s.
-- **UMD Support**: Compatible with ES Modules (`import`), CommonJS (`require`), and standard `<script>` tags.
+A high-performance wrapper for the ZYNQ WebRTC library that implements a mandatory security handshake, adaptive resource management, and automated stream synchronization.
 
 ---
 
-## Installation
+## Core Features
 
-### Standard Script Tag
-Include the patch after the main ZYNQ library.
+* **Mandatory Security Handshake**: Prevents unauthorized stream access. Connections are only established after a verified `REQ` (Request) and `ACC` (Accept) exchange.
+* **Adaptive Performance Scaling**: Automatically detects system load. It adjusts frame rates and synchronization frequency based on the number of active peers (High, Medium, and Low-Power modes).
+* **Intelligent Catch-up Engine**: Eliminates video lag by monitoring buffer depths and dynamically adjusting `playbackRate` to keep streams in near real-time.
+* **Auto-Retry Logic**: Implements a robust 3-attempt handshake protocol to ensure connection reliability even on unstable networks.
+* **Resource Protection**: Automatically terminates orphan tracks and stops media hardware when a peer disconnects to save CPU and battery.
+
+---
+
+## Implementation
+
+### 1. Load Order
+`safeCall.js` patches the global `ZYNQ` object. It **must** be loaded after the base library.
+
 ```html
 <script src="https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.1.2/index.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.1.2/secureCall.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.1.2/safeCall.min.js"></script>
 ```
 
-### Module Import
+### 2. Initialization
+Initialize the peer as usual. The security layers are injected automatically.
+
 ```javascript
-import 'https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.1.2/index.min.js'
-import 'https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.1.2/secureCall.min.js'
-```
-
----
-
-## API Reference
-
-### `.call(id, options)`
-Modified behavior. Instead of starting a media stream immediately, it sends a `REQ` (Request) handshake to the target peer.
-- **Returns**: `null` if a handshake is required, or the `Call` object if the peer was already authorized in this session.
-
-### `.acceptCall(id)`
-Accepts an incoming handshake request. 
-- Authorizes the peer for the current session.
-- Sends an `ACC` (Accept) signal back.
-- Automatically initiates the media call.
-
-### `.rejectCall(id)`
-Rejects an incoming handshake request.
-- Sends a `REJ` (Reject) signal.
-- Ensures the peer is removed from the authorized session list.
-
-### `.send(id, data)`
-Wraps string messages into a secure system object.
-- If `data` is a string, it is sent as `{ _sys: false, body: data, ts: Date.now() }`.
-
----
-
-## Events
-The patch uses standard `window` CustomEvents for easy UI integration.
-
-| Event Name | `event.detail` | Description |
-|:---|:---|:---|
-| `handshake:sent` | `{ to }` | Fired when you initiate a call to a new peer. |
-| `handshake:request`| `{ from, ts }` | Fired when a peer is requesting to call you. |
-| `handshake:accepted`| `{ from, ts }` | Fired when your call request is accepted. |
-| `handshake:rejected`| `{ from, ts }` | Fired when your call request is rejected. |
-| `secure:stream` | `{ from, stream, optimize }` | Fired when an authorized stream arrives. |
-| `secure:message` | `{ from, text }` | Fired when a secure text message is received. |
-| `secure:violation` | `{ from }` | Fired when an unauthorized peer tries to force a stream. |
-| `secure:closed` | `{ id }` | Fired when a connection closes (Session Auth is wiped). |
-
----
-
-## Implementation Example
-
-### 1. Handling Incoming Handshakes
-```javascript
-window.addEventListener('handshake:request', (e) => {
-    const callerId = e.detail.from;
-    // Show your custom UI UI
-    if (confirm(`Accept call from ${callerId}?`)) {
-        peer.acceptCall(callerId);
-    } else {
-        peer.rejectCall(callerId);
-    }
+const peer = new ZYNQ.Peer({
+    video: true,
+    audio: true
 });
 ```
 
-### 2. Rendering Authorized Streams
-The `secure:stream` event provides an `optimize` function to handle the Catch-up Engine.
+### 3. Handling Events
+Use the `secure:` prefixed events to ensure you are interacting with verified encrypted streams.
+
 ```javascript
-window.addEventListener('secure:stream', (e) => {
-    const { stream, optimize } = e.detail;
-    const video = document.getElementById('remoteVideo');
+// Triggered when someone wants to connect
+peer.on('call', (event) => {
+    console.log("Call from:", event.from);
+    // Use event.accept() or event.reject()
+});
+
+// Triggered when the secure stream is ready
+peer.on('secure:stream', ({ from, stream, optimize }) => {
+    const videoElement = document.getElementById('remote-video');
+    videoElement.srcObject = stream;
     
-    video.srcObject = stream;
-    
-    // Initialize the performance engine for this element
-    optimize(video);
+    // Apply the performance engine to this specific element
+    optimize(videoElement);
 });
-```
 
-### 3. Security Violation Handling
-If a user without the patch tries to call you, the patch detects the lack of a handshake, kills the stream tracks immediately, and fires this event:
-```javascript
-window.addEventListener('secure:violation', (e) => {
-    console.error(`Unauthorized stream blocked from: ${e.detail.from}`);
+// Triggered when a peer disconnects
+peer.on('secure:closed', ({ id }) => {
+    console.log("Peer disconnected:", id);
 });
 ```
 
 ---
 
-## Performance Engine Logic
-The `optimize` function runs every 2 seconds on the video element:
-1. **Hard Catch-up**: If `currentTime` lags `buffer.end` by > 0.5s, it forces the video to the end.
-2. **Soft Sync**: If the delay is > 0.3s, it sets `playbackRate` to `1.05` to catch up smoothly.
+## Technical Specifications
+
+### Adaptive Modes
+The engine monitors `activeStreams.size` and toggles between:
+| Mode | Threshold | Optimization Behavior |
+| :--- | :--- | :--- |
+| **High** | 1-3 Peers | 60 FPS Sync, 800ms check interval, 1.06x speed-up. |
+| **Medium** | 4-6 Peers | 15 FPS Sync, 1000ms check interval, 1.03x speed-up. |
+| **Low** | 7+ Peers | 10 FPS Sync, 1500ms check interval, hardware-level throttling. |
+
+### Security Protocol
+1.  **REQ**: Sender initiates a system-level request.
+2.  **ACC/REJ**: Receiver validates and sends back a signed response.
+3.  **Stream**: WebRTC media tracks are only attached *after* the `ACC` event is registered in the internal `confirmedPeers` map.
+4.  **Violation**: Any incoming stream attempt without a prior handshake triggers a `secure:violation` event and the tracks are immediately killed.
+
+---
+
+## License
+Proprietary ZYNQ Ultra-Secure Engine. Distributed for use with the ZYNQ-lib ecosystem.
