@@ -17,18 +17,44 @@
 
     ZYNQ.Peer = function(config) {
         const peer = new OriginalPeer(config);
-        
+
         const _internal = {
             confirmedPeers: new Set(),
             activeStreams: new Map(),
             handshakeRetries: new Map(),
-            performanceMode: 'high'
+            performanceMode: 'high',
+
+            // 🧠 EVENT DEDUPE CORE
+            eventCache: new Map() // key -> timestamp
         };
 
         const _original = {
             call: peer.call.bind(peer),
             send: peer.send.bind(peer),
             emit: peer.emit.bind(peer)
+        };
+
+        // 🧠 SIMPLE HASH (stable enough for events)
+        const hash = (obj) => {
+            try {
+                return JSON.stringify(obj);
+            } catch {
+                return String(obj);
+            }
+        };
+
+        // 🔒 GLOBAL DEDUPE EMITTER
+        const safeEmit = (eventName, payload) => {
+            const now = Date.now();
+            const key = eventName + "::" + hash(payload || {});
+
+            const last = _internal.eventCache.get(key);
+
+            // ⛔ block duplicates within 500ms OR identical payload repeat
+            if (last && (now - last < 500)) return;
+
+            _internal.eventCache.set(key, now);
+            _original.emit(eventName, payload);
         };
 
         const adaptiveThrottle = () => {
@@ -40,19 +66,19 @@
 
         const optimizeStream = (vEle) => {
             if (!vEle) return;
-            
+
             let lastCheck = Date.now();
-            
+
             const syncInterval = setInterval(() => {
                 if (!vEle || !vEle.srcObject) return clearInterval(syncInterval);
                 if (vEle.paused || vEle.readyState < 3) return;
 
                 const mode = adaptiveThrottle();
                 const now = Date.now();
-                
+
                 if (mode === 'low' && now - lastCheck < 1500) return;
                 if (mode === 'medium' && now - lastCheck < 1000) return;
-                
+
                 lastCheck = now;
 
                 const buffered = vEle.buffered;
@@ -73,7 +99,7 @@
 
         const safeHandshake = (id) => {
             if (_internal.confirmedPeers.has(id)) return;
-            
+
             _original.send(id, { _sys: true, type: "REQ", ts: Date.now() });
 
             const retryCount = _internal.handshakeRetries.get(id) || 0;
@@ -89,79 +115,114 @@
 
         peer.call = function(id, options) {
             if (!id) return;
+
             if (_internal.confirmedPeers.has(id)) {
                 const mode = adaptiveThrottle();
-                const constraints = options || { 
+                const constraints = options || {
                     video: mode === 'high' ? true : { frameRate: mode === 'medium' ? 15 : 10 },
-                    audio: true 
+                    audio: true
                 };
+
                 return _original.call(id, constraints);
             } else {
                 safeHandshake(id);
-                _original.emit('call:sent', { to: id });
+                safeEmit('call:sent', { to: id });
                 return null;
             }
         };
 
         peer.send = function(id, data) {
-            const payload = typeof data === 'string' ? { _sys: false, body: data, ts: Date.now() } : data;
+            const payload = typeof data === 'string'
+                ? { _sys: false, body: data, ts: Date.now() }
+                : data;
+
             return _original.send(id, payload);
         };
 
         peer.on('message', ({ from, data }) => {
             if (!data) return;
+
             if (data._sys) {
                 switch (data.type) {
                     case "REQ":
-                        _original.emit('call', {
-                            from, ts: data.ts,
+                        safeEmit('call', {
+                            from,
+                            ts: data.ts,
                             accept: () => peer.acceptCall(from),
                             reject: () => peer.rejectCall(from)
                         });
                         break;
+
                     case "ACC":
                         _internal.confirmedPeers.add(from);
                         _internal.handshakeRetries.delete(from);
-                        _original.emit('call:accepted', { from, ts: data.ts });
+
+                        safeEmit('call:accepted', { from, ts: data.ts });
+
                         setTimeout(() => peer.call(from), 100);
                         break;
+
                     case "REJ":
                         _internal.handshakeRetries.delete(from);
-                        _original.emit('call:rejected', { from, ts: data.ts });
+
+                        safeEmit('call:rejected', { from, ts: data.ts });
                         break;
                 }
             } else if (data.body) {
-                _original.emit('secure:message', { from, text: data.body, ts: data.ts });
+                safeEmit('secure:message', {
+                    from,
+                    text: data.body,
+                    ts: data.ts
+                });
             }
         });
 
         peer.on('stream', ({ from, stream }) => {
             if (!_internal.confirmedPeers.has(from)) {
                 stream.getTracks().forEach(t => t.stop());
-                _original.emit('secure:violation', { from });
+                safeEmit('secure:violation', { from });
                 return;
             }
+
             _internal.activeStreams.set(from, stream);
-            _original.emit('secure:stream', { from, stream, optimize: optimizeStream });
+
+            safeEmit('secure:stream', {
+                from,
+                stream,
+                optimize: optimizeStream
+            });
         });
 
         peer.on('close', ({ id }) => {
             _internal.confirmedPeers.delete(id);
             _internal.handshakeRetries.delete(id);
+
             const s = _internal.activeStreams.get(id);
             if (s) s.getTracks().forEach(t => t.stop());
             _internal.activeStreams.delete(id);
-            _original.emit('secure:closed', { id });
+
+            safeEmit('secure:closed', { id });
         });
 
         peer.acceptCall = (id) => {
             _internal.confirmedPeers.add(id);
-            _original.send(id, { _sys: true, type: "ACC", ts: Date.now() });
+
+            _original.send(id, {
+                _sys: true,
+                type: "ACC",
+                ts: Date.now()
+            });
+
             setTimeout(() => peer.call(id), 100);
         };
 
         peer.rejectCall = (id) => {
-            _original.send(id, { _sys: true, type: "REJ", ts: Date.now() });
+            _original.send(id, {
+                _sys: true,
+                type: "REJ",
+                ts: Date.now()
+            });
+
             _internal.confirmedPeers.delete(id);
         };
 
