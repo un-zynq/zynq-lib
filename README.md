@@ -1,6 +1,6 @@
 # ZYNQ Ultra-Secure & Performance Patch (secureCall.js)
 
-The `t55.js` patch is a high-level wrapper for the `ZYNQ.Peer` library. It introduces a **Session-Based Handshake Protocol** to prevent unauthorized calls and a **Performance Engine** to eliminate video latency.
+The `secureCall.js` patch is a high-level wrapper for the `ZYNQ.Peer` library. It introduces a **Session-Based Handshake Protocol** to prevent unauthorized calls and a **Performance Engine** to eliminate video latency.
 
 ## Key Features
 - **Strict Handshaking**: No media streams are exchanged until a call is explicitly accepted.
@@ -15,14 +15,14 @@ The `t55.js` patch is a high-level wrapper for the `ZYNQ.Peer` library. It intro
 ### Standard Script Tag
 Include the patch after the main ZYNQ library.
 ```html
-<script src="path/to/zynq.js"></script>
-<script src="path/to/t55.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.1.2/index.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.1.2/secureCall.min.js"></script>
 ```
 
 ### Module Import
 ```javascript
-import './path/to/t55.js';
-const peer = new ZYNQ.Peer({ video: true, audio: true });
+import 'https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.1.2/index.min.js'
+import 'https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.1.2/secureCall.min.js';
 ```
 
 ---
