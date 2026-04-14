@@ -76,8 +76,3 @@ The engine monitors `activeStreams.size` and toggles between:
 2.  **ACC/REJ**: Receiver validates and sends back a signed response.
 3.  **Stream**: WebRTC media tracks are only attached *after* the `ACC` event is registered in the internal `confirmedPeers` map.
 4.  **Violation**: Any incoming stream attempt without a prior handshake triggers a `secure:violation` event and the tracks are immediately killed.
-
----
-
-## License
-Proprietary ZYNQ Ultra-Secure Engine. Distributed for use with the ZYNQ-lib ecosystem.
