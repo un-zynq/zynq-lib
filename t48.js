@@ -1,6 +1,5 @@
 /**
  * ZYNQ Core Library - Version: 1.4.0 (T47)
- * Fixed: Double message emission & Improved Silent Handshake
  */
 window.ZYNQ = window.ZYNQ || {};
 
@@ -29,26 +28,25 @@ ZYNQ.Peer = class {
             });
         }
         this.peer = new Peer(id);
-        this.peer.on('open', assignedId => {
+        this.peer.on('open', (assignedId) => {
             this.myId = assignedId;
             this._emit('ready', assignedId);
         });
 
-        // Incoming Connection Handler
-        this.peer.on('connection', conn => {
-            conn.on('data', data => {
-                // Silent Check afhandeling
+        this.peer.on('connection', (conn) => {
+            // Voorkom dubbele listeners
+            conn.off('data'); 
+            
+            conn.on('data', (data) => {
                 if (data?._zynq === 'CHECK_ONLINE') {
                     conn.send({ _zynq: 'PONG_ONLINE' });
                     setTimeout(() => conn.close(), 100);
                     return;
                 }
-                // Als het geen check is, verwerk data
                 this._handleData(conn, data);
             });
 
-            // Delay om te zien of het een silent check is
-            const handshakeTimeout = setTimeout(() => {
+            const checkTimeout = setTimeout(() => {
                 if (!conn.isSilent) {
                     this._setupDataHandlers(conn);
                     this._emit('incoming', { 
@@ -64,12 +62,12 @@ ZYNQ.Peer = class {
                         }
                     });
                 }
-            }, 200);
+            }, 250);
 
-            conn.on('data', d => { if(d?._zynq === 'CHECK_ONLINE') conn.isSilent = true; });
+            conn.on('data', (d) => { if(d?._zynq === 'CHECK_ONLINE') conn.isSilent = true; });
         });
 
-        this.peer.on('call', call => {
+        this.peer.on('call', (call) => {
             this._emit('incoming', {
                 from: call.peer, type: 'VIDEO',
                 accept: async (lId, rId) => {
@@ -86,10 +84,10 @@ ZYNQ.Peer = class {
     }
 
     isOnline(id) {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             const conn = this.peer.connect(id, { reliable: true });
             let done = false;
-            const t = setTimeout(() => { if(!done){ conn.close(); resolve(false); } }, 3500);
+            const t = setTimeout(() => { if(!done){ conn.close(); resolve(false); } }, 4000);
             conn.on('open', () => conn.send({ _zynq: 'CHECK_ONLINE' }));
             conn.on('data', d => {
                 if(d?._zynq === 'PONG_ONLINE'){ done=true; clearTimeout(t); conn.close(); resolve(true); }
@@ -104,14 +102,12 @@ ZYNQ.Peer = class {
             this._emit('accepted', { id: conn.peer, type: 'CHAT' });
         } else if (data?._zynq === 'REJECTED') {
             this._emit('rejected', { id: conn.peer });
-        } else if (data && typeof data !== 'object' || !data._zynq) {
-            // ALLEEN emitten als het geen intern systeembericht is
+        } else if (data && (!data._zynq)) {
             this._emit('message', { from: conn.peer, data: data });
         }
     }
 
     _setupDataHandlers(conn) {
-        if (this.connections.has(conn.peer)) return;
         this.connections.set(conn.peer, conn);
         conn.on('close', () => {
             this.connections.delete(conn.peer);
