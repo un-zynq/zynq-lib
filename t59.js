@@ -1,6 +1,6 @@
 /**
- * ZYNQ Ultra-Secure & Performance Engine (t58.js)
- * Focus: Stabiliteit, CPU-efficiëntie en jitter-reductie
+ * ZYNQ Ultra-Secure & Performance Engine (t59.js)
+ * FIX: Betrouwbare Handshake & Verbindings-wachtrij
  */
 (function(root, factory) {
     if (typeof define === 'function' && define.amd) {
@@ -13,7 +13,7 @@
 }(typeof self !== 'undefined' ? self : this, function() {
 
     if (typeof ZYNQ === 'undefined' || !ZYNQ.Peer) {
-        console.error("ZYNQ Engine Error: Base library not found!");
+        console.error("ZYNQ Engine Error: index.js niet geladen!");
         return;
     }
 
@@ -21,10 +21,10 @@
 
     ZYNQ.Peer = function(config) {
         const peer = new OriginalPeer(config);
-
         const _internal = {
             confirmedPeers: new Set(),
-            activeStreams: new Map()
+            activeStreams: new Map(),
+            handshakeRetries: new Map()
         };
 
         const _original = {
@@ -33,44 +33,38 @@
             emit: peer.emit.bind(peer)
         };
 
-        /**
-         * GEOPTIMALISEERDE PERFORMANCE ENGINE
-         * Minimaliseert CPU gebruik door slimme drempelwaarden
-         */
+        // Performance Engine (Houdt FPS stabiel)
         const optimizeStream = (vEle) => {
             if (!vEle) return;
-            
-            // Browser hints voor lage latentie
-            vEle.autoplay = true;
-            vEle.playsInline = true;
-            
             const syncInterval = setInterval(() => {
                 if (!vEle || !vEle.srcObject) return clearInterval(syncInterval);
                 if (vEle.paused || vEle.readyState < 3) return;
-
                 const buffered = vEle.buffered;
                 if (buffered.length > 0) {
-                    const latestTime = buffered.end(buffered.length - 1);
-                    const delay = latestTime - vEle.currentTime;
-
-                    // 1. Harde Sync (Bij grote spikes > 0.7s)
-                    if (delay > 0.7) {
-                        vEle.currentTime = latestTime - 0.05;
-                        vEle.playbackRate = 1.0; // Reset naar normaal na sprong
-                        return;
-                    }
-
-                    // 2. Soft Sync (Subtiele versnelling om buildup te voorkomen)
-                    // We gebruiken een drempel van 0.2s om jitter te negeren
-                    if (delay > 0.25) {
-                        // Versnel naar 1.06 (vloeiend genoeg voor 60fps behoud)
-                        if (vEle.playbackRate !== 1.06) vEle.playbackRate = 1.06;
-                    } else if (delay < 0.15) {
-                        // Terug naar normaal als we dicht genoeg bij de live-edge zijn
-                        if (vEle.playbackRate !== 1.0) vEle.playbackRate = 1.0;
-                    }
+                    const delay = buffered.end(buffered.length - 1) - vEle.currentTime;
+                    if (delay > 0.7) vEle.currentTime = buffered.end(buffered.length - 1) - 0.05;
+                    vEle.playbackRate = (delay > 0.25) ? 1.06 : (delay < 0.15 ? 1.0 : vEle.playbackRate);
                 }
-            }, 800); // Check elke 800ms is de sweet spot voor CPU/Sync balans
+            }, 800);
+        };
+
+        // FIX: Handshake verzenden met garantie
+        const safeHandshake = (id) => {
+            if (_internal.confirmedPeers.has(id)) return;
+            
+            console.log(`[ZYNQ] Poging handshake naar ${id}...`);
+            _original.send(id, { _sys: true, type: "REQ", ts: Date.now() });
+
+            // Als we na 2 seconden geen ACC of REJ hebben, probeer het nog 1x
+            const retryCount = _internal.handshakeRetries.get(id) || 0;
+            if (retryCount < 2) {
+                setTimeout(() => {
+                    if (!_internal.confirmedPeers.has(id)) {
+                        _internal.handshakeRetries.set(id, retryCount + 1);
+                        safeHandshake(id);
+                    }
+                }, 2000);
+            }
         };
 
         peer.call = function(id, options) {
@@ -78,7 +72,7 @@
             if (_internal.confirmedPeers.has(id)) {
                 return _original.call(id, options || { video: true, audio: true });
             } else {
-                _original.send(id, { _sys: true, type: "REQ", ts: Date.now() });
+                safeHandshake(id);
                 _original.emit('call:sent', { to: id });
                 return null;
             }
@@ -92,28 +86,29 @@
         };
 
         peer.on('message', ({ from, data }) => {
-            if (data && data._sys) {
+            if (!data) return;
+            if (data._sys) {
                 switch (data.type) {
                     case "REQ":
                         _original.emit('call', {
-                            from,
-                            ts: data.ts,
+                            from, ts: data.ts,
                             accept: () => peer.acceptCall(from),
                             reject: () => peer.rejectCall(from)
                         });
                         break;
                     case "ACC":
                         _internal.confirmedPeers.add(from);
+                        _internal.handshakeRetries.delete(from);
                         _original.emit('call:accepted', { from, ts: data.ts });
-                        _original.call(from, { video: true, audio: true });
+                        // Vertraging toevoegen zodat datakanaal tijd heeft om de status te verwerken
+                        setTimeout(() => _original.call(from, { video: true, audio: true }), 100);
                         break;
                     case "REJ":
+                        _internal.handshakeRetries.delete(from);
                         _original.emit('call:rejected', { from, ts: data.ts });
                         break;
                 }
-                return;
-            }
-            if (data && data.body) {
+            } else if (data.body) {
                 _original.emit('secure:message', { from, text: data.body, ts: data.ts });
             }
         });
@@ -130,6 +125,7 @@
 
         peer.on('close', ({ id }) => {
             _internal.confirmedPeers.delete(id);
+            _internal.handshakeRetries.delete(id);
             const s = _internal.activeStreams.get(id);
             if (s) s.getTracks().forEach(t => t.stop());
             _internal.activeStreams.delete(id);
@@ -139,7 +135,7 @@
         peer.acceptCall = (id) => {
             _internal.confirmedPeers.add(id);
             _original.send(id, { _sys: true, type: "ACC", ts: Date.now() });
-            _original.call(id, { video: true, audio: true });
+            setTimeout(() => _original.call(id, { video: true, audio: true }), 100);
         };
 
         peer.rejectCall = (id) => {
