@@ -14,15 +14,28 @@
     const OriginalPeer = ZYNQ.Peer;
     ZYNQ.Peer = function(config) {
         const peer = new OriginalPeer(config);
+        const debug = !!(config && typeof config === 'object' && config.debug);
+        const log = (...args) => { if (debug) console.log('[ZYNQ Secure Peer]', ...args); };
         const _internal = {
-            confirmedPeers: new Set(),
-            activeStreams: new Map(),
-            performanceMode: 'high'
+            peerStates: new Map(),
+            activeStreams: new Map()
         };
         const _original = {
             call: peer.call.bind(peer),
             send: peer.send.bind(peer),
             emit: peer.emit.bind(peer)
+        };
+        const getOrCreatePeerState = (id) => {
+            if (!_internal.peerStates.has(id)) {
+                _internal.peerStates.set(id, {
+                    status: 'idle',
+                    retryCount: 0,
+                    retryTimer: null,
+                    lastReqTime: 0,
+                    activeStreamId: null
+                });
+            }
+            return _internal.peerStates.get(id);
         };
         const adaptiveThrottle = () => {
             const count = _internal.activeStreams.size;
@@ -55,21 +68,41 @@
                 }
             }, 800);
         };
-        const safeHandshake = (id) => {
-            if (_internal.confirmedPeers.has(id)) return;
+        const initiateHandshake = (id) => {
+            const state = getOrCreatePeerState(id);
+            if (['confirmed', 'streaming'].includes(state.status)) return;
+            const now = Date.now();
+            if (now - state.lastReqTime < 1500) return;
+            state.status = 'calling';
+            state.lastReqTime = now;
             _original.send(id, { _sys: true, type: "REQ", ts: Date.now() });
+            if (state.retryTimer) {
+                clearTimeout(state.retryTimer);
+                state.retryTimer = null;
+            }
+            const backoff = Math.min(1200 * Math.pow(1.8, state.retryCount), 8000);
+            state.retryTimer = setTimeout(() => {
+                state.retryTimer = null;
+                if (state.status === 'calling' && state.retryCount < 5) {
+                    state.retryCount++;
+                    initiateHandshake(id);
+                }
+            }, backoff);
         };
         peer.call = function(id, options) {
             if (!id) return;
-            if (_internal.confirmedPeers.has(id)) {
+            const state = getOrCreatePeerState(id);
+            if (['confirmed', 'streaming'].includes(state.status)) {
                 const mode = adaptiveThrottle();
                 const constraints = options || {
                     video: mode === 'high' ? true : { frameRate: mode === 'medium' ? 15 : 10 },
                     audio: true
                 };
+                log('Performing actual call to confirmed peer:', id);
                 return _original.call(id, constraints);
             } else {
-                safeHandshake(id);
+                log('Initiating handshake for peer:', id);
+                initiateHandshake(id);
                 _original.emit('call:sent', { to: id });
                 return null;
             }
@@ -81,21 +114,40 @@
         peer.on('message', ({ from, data }) => {
             if (!data) return;
             if (data._sys) {
+                const state = getOrCreatePeerState(from);
                 switch (data.type) {
                     case "REQ":
-                        _original.emit('call', {
-                            from, ts: data.ts,
-                            accept: () => peer.acceptCall(from),
-                            reject: () => peer.rejectCall(from)
-                        });
+                        if (state.status !== 'ringing') {
+                            state.status = 'ringing';
+                            _original.emit('call', {
+                                from, ts: data.ts,
+                                accept: () => peer.acceptCall(from),
+                                reject: () => peer.rejectCall(from)
+                            });
+                        }
                         break;
                     case "ACC":
-                        _internal.confirmedPeers.add(from);
-                        _original.emit('call:accepted', { from, ts: data.ts });
-                        setTimeout(() => peer.call(from), 100);
+                        if (state.status === 'calling') {
+                            if (state.retryTimer) {
+                                clearTimeout(state.retryTimer);
+                                state.retryTimer = null;
+                            }
+                            state.retryCount = 0;
+                            state.status = 'confirmed';
+                            _original.emit('call:accepted', { from, ts: data.ts });
+                            setTimeout(() => peer.call(from), 100);
+                        }
                         break;
                     case "REJ":
-                        _original.emit('call:rejected', { from, ts: data.ts });
+                        if (state.retryTimer) {
+                            clearTimeout(state.retryTimer);
+                            state.retryTimer = null;
+                        }
+                        if (['calling', 'ringing'].includes(state.status)) {
+                            state.status = 'idle';
+                            state.retryCount = 0;
+                            _original.emit('call:rejected', { from, ts: data.ts });
+                        }
                         break;
                 }
             } else if (data.body) {
@@ -103,29 +155,59 @@
             }
         });
         peer.on('stream', ({ from, stream }) => {
-            if (!_internal.confirmedPeers.has(from)) {
+            const state = _internal.peerStates.get(from);
+            if (!state || !['confirmed', 'streaming'].includes(state.status)) {
                 stream.getTracks().forEach(t => t.stop());
                 _original.emit('secure:violation', { from });
                 return;
             }
+            const streamId = stream ? stream.id : null;
+            if (!streamId || state.activeStreamId === streamId) {
+                log('Duplicate stream ignored for peer:', from);
+                return;
+            }
+            const oldStream = _internal.activeStreams.get(from);
+            if (oldStream && oldStream !== stream) {
+                oldStream.getTracks().forEach(t => t.stop());
+            }
             _internal.activeStreams.set(from, stream);
+            state.activeStreamId = streamId;
+            state.status = 'streaming';
+            log('New secure stream for peer:', from, 'streamId:', streamId);
             _original.emit('secure:stream', { from, stream, optimize: optimizeStream });
         });
         peer.on('close', ({ id }) => {
-            _internal.confirmedPeers.delete(id);
+            const state = _internal.peerStates.get(id);
+            if (state) {
+                if (state.retryTimer) clearTimeout(state.retryTimer);
+                _internal.peerStates.delete(id);
+            }
             const s = _internal.activeStreams.get(id);
-            if (s) s.getTracks().forEach(t => t.stop());
-            _internal.activeStreams.delete(id);
+            if (s) {
+                s.getTracks().forEach(t => t.stop());
+                _internal.activeStreams.delete(id);
+            }
             _original.emit('secure:closed', { id });
         });
         peer.acceptCall = (id) => {
-            _internal.confirmedPeers.add(id);
-            _original.send(id, { _sys: true, type: "ACC", ts: Date.now() });
-            setTimeout(() => peer.call(id), 100);
+            const state = getOrCreatePeerState(id);
+            if (state.status === 'ringing') {
+                state.status = 'confirmed';
+                _original.send(id, { _sys: true, type: "ACC", ts: Date.now() });
+                setTimeout(() => peer.call(id), 100);
+            }
         };
         peer.rejectCall = (id) => {
-            _original.send(id, { _sys: true, type: "REJ", ts: Date.now() });
-            _internal.confirmedPeers.delete(id);
+            const state = getOrCreatePeerState(id);
+            if (['ringing', 'calling'].includes(state.status)) {
+                state.status = 'idle';
+                if (state.retryTimer) {
+                    clearTimeout(state.retryTimer);
+                    state.retryTimer = null;
+                }
+                state.retryCount = 0;
+                _original.send(id, { _sys: true, type: "REJ", ts: Date.now() });
+            }
         };
         return peer;
     };
