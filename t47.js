@@ -1,5 +1,6 @@
 /**
- * ZYNQ Core Library - Version: 1.3.0
+ * ZYNQ Core Library - Version: 1.4.0 (T47)
+ * Fixed: Double message emission & Improved Silent Handshake
  */
 window.ZYNQ = window.ZYNQ || {};
 
@@ -28,102 +29,105 @@ ZYNQ.Peer = class {
             });
         }
         this.peer = new Peer(id);
-        this.peer.on('open', (assignedId) => {
+        this.peer.on('open', assignedId => {
             this.myId = assignedId;
             this._emit('ready', assignedId);
         });
 
-        this.peer.on('connection', (conn) => {
-            conn.on('data', (data) => {
+        // Incoming Connection Handler
+        this.peer.on('connection', conn => {
+            conn.on('data', data => {
+                // Silent Check afhandeling
                 if (data?._zynq === 'CHECK_ONLINE') {
                     conn.send({ _zynq: 'PONG_ONLINE' });
-                    setTimeout(() => conn.close(), 50);
+                    setTimeout(() => conn.close(), 100);
                     return;
                 }
+                // Als het geen check is, verwerk data
                 this._handleData(conn, data);
             });
 
-            const checkTimeout = setTimeout(() => {
-                if (!conn.isSilentCheck) {
+            // Delay om te zien of het een silent check is
+            const handshakeTimeout = setTimeout(() => {
+                if (!conn.isSilent) {
                     this._setupDataHandlers(conn);
                     this._emit('incoming', { 
                         from: conn.peer, type: 'CHAT',
                         accept: () => {
                             conn.send({ _zynq: 'ACCEPTED' });
                             this._registerSession(conn.peer, 'CHAT');
-                            this._emit('accepted', { id: conn.peer, type: 'CHAT', by: this.myId });
+                            this._emit('accepted', { id: conn.peer, type: 'CHAT' });
                         },
                         reject: () => {
                             conn.send({ _zynq: 'REJECTED' });
-                            this._emit('rejected', { id: conn.peer, type: 'CHAT', by: this.myId });
                             setTimeout(() => conn.close(), 100);
                         }
                     });
                 }
-            }, 150);
+            }, 200);
 
-            conn.on('data', (data) => {
-                if (data?._zynq === 'CHECK_ONLINE') {
-                    conn.isSilentCheck = true;
-                    clearTimeout(checkTimeout);
-                }
-            });
+            conn.on('data', d => { if(d?._zynq === 'CHECK_ONLINE') conn.isSilent = true; });
         });
 
-        this.peer.on('call', (call) => {
+        this.peer.on('call', call => {
             this._emit('incoming', {
                 from: call.peer, type: 'VIDEO',
-                accept: async (lId = null, rId = null) => {
+                accept: async (lId, rId) => {
                     const s = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                     if (lId && document.getElementById(lId)) document.getElementById(lId).srcObject = s;
                     this._emit('stream', { id: 'local', type: 'LOCAL', stream: s });
                     call.answer(s);
                     this._setupMediaHandlers(call, rId);
-                    this._emit('accepted', { id: call.peer, type: 'VIDEO', by: this.myId });
+                    this._emit('accepted', { id: call.peer, type: 'VIDEO' });
                 },
-                reject: () => { call.close(); this._emit('rejected', { id: call.peer, type: 'VIDEO', by: this.myId }); }
+                reject: () => call.close()
             });
         });
     }
 
     isOnline(id) {
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
             const conn = this.peer.connect(id, { reliable: true });
-            let resolved = false;
-            const timeout = setTimeout(() => { if (!resolved) { conn.close(); resolve(false); } }, 3000);
+            let done = false;
+            const t = setTimeout(() => { if(!done){ conn.close(); resolve(false); } }, 3500);
             conn.on('open', () => conn.send({ _zynq: 'CHECK_ONLINE' }));
-            conn.on('data', (data) => {
-                if (data?._zynq === 'PONG_ONLINE') {
-                    resolved = true; clearTimeout(timeout); conn.close(); resolve(true);
-                }
+            conn.on('data', d => {
+                if(d?._zynq === 'PONG_ONLINE'){ done=true; clearTimeout(t); conn.close(); resolve(true); }
             });
-            conn.on('error', () => { resolved = true; clearTimeout(timeout); resolve(false); });
+            conn.on('error', () => { done=true; clearTimeout(t); resolve(false); });
         });
     }
 
     _handleData(conn, data) {
-        // FIX: Check of data een intern ZYNQ-object is
-        const isInternal = data && typeof data === 'object' && data._zynq;
-        
         if (data?._zynq === 'ACCEPTED') {
             this._registerSession(conn.peer, 'CHAT');
-            this._emit('accepted', { id: conn.peer, type: 'CHAT', by: conn.peer });
+            this._emit('accepted', { id: conn.peer, type: 'CHAT' });
         } else if (data?._zynq === 'REJECTED') {
-            this._emit('rejected', { id: conn.peer, type: 'CHAT', by: conn.peer });
-        } else if (!isInternal) {
-            // Alleen emitten als het GEEN ZYNQ systeem-bericht is
+            this._emit('rejected', { id: conn.peer });
+        } else if (data && typeof data !== 'object' || !data._zynq) {
+            // ALLEEN emitten als het geen intern systeembericht is
             this._emit('message', { from: conn.peer, data: data });
         }
     }
 
     _setupDataHandlers(conn) {
-        if (this.connections.has(conn.peer)) return; // Voorkom dubbele handlers
+        if (this.connections.has(conn.peer)) return;
         this.connections.set(conn.peer, conn);
-        conn.on('data', (data) => this._handleData(conn, data));
         conn.on('close', () => {
             this.connections.delete(conn.peer);
-            this.activeSessions.delete(`${conn.peer}-CHAT`);
-            this._emit('disconnected', { id: conn.peer, type: 'CHAT' });
+            this._emit('disconnected', { id: conn.peer });
+        });
+    }
+
+    _setupMediaHandlers(call, rId) {
+        this.calls.set(call.peer, call);
+        call.on('stream', s => {
+            if (rId && document.getElementById(rId)) document.getElementById(rId).srcObject = s;
+            this._emit('stream', { id: call.peer, type: 'REMOTE', stream: s });
+        });
+        call.on('close', () => {
+            this.calls.delete(call.peer);
+            this._emit('disconnected', { id: call.peer });
         });
     }
 
@@ -134,12 +138,22 @@ ZYNQ.Peer = class {
     connect(id) { 
         const conn = this.peer.connect(id);
         this._setupDataHandlers(conn); 
+        conn.on('data', d => this._handleData(conn, d));
     }
 
     send(id, msg) {
         const c = this.connections.get(id);
         if (c?.open) { c.send(msg); return true; }
         return false;
+    }
+
+    call(id, lId, rId) {
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(s => {
+            if (lId && document.getElementById(lId)) document.getElementById(lId).srcObject = s;
+            this._emit('stream', { id: 'local', type: 'LOCAL', stream: s });
+            const call = this.peer.call(id, s);
+            this._setupMediaHandlers(call, rId);
+        });
     }
 
     disconnect(id) {
