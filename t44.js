@@ -1,7 +1,7 @@
 /**
  * ZYNQ Core Library
- * Version: 1.2.2
- * Universal disconnect logic & automated cleanup.
+ * Version: 1.2.3
+ * Flexible Stream Handling & Optional UI Binding.
  */
 window.ZYNQ = window.ZYNQ || {};
 
@@ -9,7 +9,7 @@ ZYNQ.Peer = class {
     constructor() {
         this.events = {};
         this.connections = new Map(); 
-        this.calls = new Map();       
+        this.calls = new Map();        
         this.activeSessions = new Set();
         this.myId = null;
         this._init(this._generateId());
@@ -56,13 +56,18 @@ ZYNQ.Peer = class {
         });
 
         this.peer.on('call', (call) => {
-            this._setupMediaHandlers(call, null); // remoteId later determined by UI
             this._emit('incoming', {
                 from: call.peer, type: 'VIDEO',
-                accept: async (lId, rId) => {
+                accept: async (lId = null, rId = null) => {
                     const s = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-                    const localEl = document.getElementById(lId);
-                    if (localEl) localEl.srcObject = s;
+                    
+                    // Handle local stream display
+                    if (lId) {
+                        const localEl = document.getElementById(lId);
+                        if (localEl) localEl.srcObject = s;
+                    }
+                    this._emit('stream', { id: 'local', type: 'LOCAL', stream: s });
+
                     call.answer(s);
                     this._setupMediaHandlers(call, rId);
                     this._emit('accepted', { id: call.peer, type: 'VIDEO', by: this.myId });
@@ -98,7 +103,6 @@ ZYNQ.Peer = class {
             }
         });
 
-        // UNIVERSAL DISCONNECT: Fired when peer closes or cancels
         conn.on('close', () => {
             this.connections.delete(conn.peer);
             this.activeSessions.delete(`${conn.peer}-CHAT`);
@@ -106,15 +110,17 @@ ZYNQ.Peer = class {
         });
     }
 
-    _setupMediaHandlers(call, rId) {
+    _setupMediaHandlers(call, rId = null) {
         this.calls.set(call.peer, call);
         call.on('stream', (s) => {
-            const el = document.getElementById(rId);
-            if (el) el.srcObject = s;
+            if (rId) {
+                const el = document.getElementById(rId);
+                if (el) el.srcObject = s;
+            }
+            this._emit('stream', { id: call.peer, type: 'REMOTE', stream: s });
             this._registerSession(call.peer, 'VIDEO');
         });
 
-        // UNIVERSAL DISCONNECT: Also for video
         call.on('close', () => {
             this.calls.delete(call.peer);
             this.activeSessions.delete(`${call.peer}-VIDEO`);
@@ -125,13 +131,22 @@ ZYNQ.Peer = class {
     on(e, cb) { this.events[e] = cb; }
     _emit(e, d) { if (this.events[e]) this.events[e](d); }
 
-    connect(id) { this._setupDataHandlers(this.peer.connect(id)); }
+    connect(id) { 
+        const conn = this.peer.connect(id);
+        this._setupDataHandlers(conn); 
+    }
     
-    async call(id, lId, rId) {
+    async call(id, lId = null, rId = null) {
         const s = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        const localEl = document.getElementById(lId);
-        if (localEl) localEl.srcObject = s;
-        this._setupMediaHandlers(this.peer.call(id, s), rId);
+        
+        if (lId) {
+            const localEl = document.getElementById(lId);
+            if (localEl) localEl.srcObject = s;
+        }
+        this._emit('stream', { id: 'local', type: 'LOCAL', stream: s });
+
+        const call = this.peer.call(id, s);
+        this._setupMediaHandlers(call, rId);
     }
 
     send(id, msg) {
@@ -140,7 +155,6 @@ ZYNQ.Peer = class {
         return false;
     }
 
-    // Manual hang up / cancel
     disconnect(id) {
         const c = this.connections.get(id);
         if (c) c.close();
