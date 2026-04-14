@@ -22,7 +22,7 @@ Include the patch after the main ZYNQ library.
 ### Module Import
 ```javascript
 import 'https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.1.2/index.min.js'
-import 'https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.1.2/secureCall.min.js';
+import 'https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.1.2/secureCall.min.js'
 ```
 
 ---
