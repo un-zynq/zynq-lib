@@ -1,6 +1,6 @@
 /**
- * ZYNQ Core Library - Version: 1.5.0 (T47-ULTRA-LOW-LATENCY)
- * Optimized for: Zero Latency Buildup, Perfect GC, Long-duration calls.
+ * ZYNQ Core Library - Version: 1.5.1 (T47-ULTRA-LOW-LATENCY)
+ * Optimized for: Zero Latency Buildup, Perfect GC, and Signal-based Call Reject.
  */
 window.ZYNQ = window.ZYNQ || {};
 
@@ -13,7 +13,6 @@ ZYNQ.Peer = class {
         this.localStream = null;
         this.myId = null;
         
-        // RTC Configuratie voor minimale vertraging
         this.rtcConfig = {
             iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
             sdpSemantics: 'unified-plan',
@@ -38,7 +37,6 @@ ZYNQ.Peer = class {
             });
         }
         
-        // Initialiseer Peer met RTC config
         this.peer = new Peer(id, { config: this.rtcConfig, debug: 1 });
         
         this.peer.on('open', assignedId => {
@@ -46,6 +44,7 @@ ZYNQ.Peer = class {
             this._emit('ready', assignedId);
         });
 
+        // Handler voor inkomende data-verbindingen (Chat & Signaling)
         this.peer.on('connection', conn => {
             conn.on('data', data => {
                 if (data?._zynq === 'CHECK_ONLINE') {
@@ -76,6 +75,7 @@ ZYNQ.Peer = class {
             }, 200);
         });
 
+        // Handler voor inkomende Video-oproepen
         this.peer.on('call', call => {
             this._emit('incoming', {
                 from: call.peer, type: 'VIDEO',
@@ -86,41 +86,48 @@ ZYNQ.Peer = class {
                     this._setupMediaHandlers(call, rId);
                     this._emit('accepted', { id: call.peer, type: 'VIDEO' });
                 },
-                reject: () => call.close()
+                reject: () => {
+                    // Signaling: stuur reject signaal via data kanaal
+                    this.send(call.peer, { _zynq: 'REJECTED_VIDEO' });
+                    call.close();
+                }
             });
         });
     }
 
-    // Geoptimaliseerde Media Constraints voor lage latency
     async _getMediaStream() {
         if (this.localStream) return this.localStream;
         const stream = await navigator.mediaDevices.getUserMedia({
-            audio: {
-                echoCancellation: true,
-                noiseSuppression: true,
-                autoGainControl: true,
-                latency: 0, // Forceer laagste latency
-                sampleRate: 48000
-            },
-            video: {
-                width: { ideal: 1280 },
-                height: { ideal: 720 },
-                frameRate: { ideal: 30 }
-            }
+            audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true, latency: 0, sampleRate: 48000 },
+            video: { width: { ideal: 1280 }, height: { ideal: 720 }, frameRate: { ideal: 30 } }
         });
         this.localStream = stream;
         return stream;
     }
 
     _handleData(conn, data) {
-        if (data?._zynq === 'ACCEPTED') {
-            this._registerSession(conn.peer, 'CHAT');
-            this._emit('accepted', { id: conn.peer, type: 'CHAT' });
-        } else if (data?._zynq === 'REJECTED') {
-            this._emit('rejected', { id: conn.peer });
-            this._closeConnection(conn.peer);
-        } else if (data && (typeof data !== 'object' || !data._zynq)) {
+        if (!data || typeof data !== 'object') {
             this._emit('message', { from: conn.peer, data: data });
+            return;
+        }
+
+        // Signaling Logica
+        switch (data._zynq) {
+            case 'ACCEPTED':
+                this._registerSession(conn.peer, 'CHAT');
+                this._emit('accepted', { id: conn.peer, type: 'CHAT' });
+                break;
+            case 'REJECTED':
+                this._emit('rejected', { id: conn.peer, type: 'CHAT' });
+                this._closeConnection(conn.peer);
+                break;
+            case 'REJECTED_VIDEO':
+                this._emit('rejected', { id: conn.peer, type: 'VIDEO' });
+                this._closeCall(conn.peer);
+                break;
+            default:
+                // Als het geen intern zynq signaal is, is het een chat bericht
+                if (!data._zynq) this._emit('message', { from: conn.peer, data: data });
         }
     }
 
@@ -128,25 +135,21 @@ ZYNQ.Peer = class {
         if (this.connections.has(conn.peer)) return;
         this.connections.set(conn.peer, conn);
         conn.on('close', () => this._closeConnection(conn.peer));
+        conn.on('error', () => this._closeConnection(conn.peer));
     }
 
     _setupMediaHandlers(call, rId) {
         this.calls.set(call.peer, call);
-        
-        // Low latency audio fix: schakel playout delay uit in Chrome/Edge
         call.on('stream', s => {
             const videoEl = document.getElementById(rId);
             if (rId && videoEl) {
                 videoEl.srcObject = s;
-                // Forceer geen buffering in browser
-                if (videoEl.setSinkId && 'playoutDelayHint' in videoEl) {
-                    videoEl.playoutDelayHint = 0;
-                }
+                if ('playoutDelayHint' in videoEl) videoEl.playoutDelayHint = 0;
             }
             this._emit('stream', { id: call.peer, type: 'REMOTE', stream: s });
         });
-
         call.on('close', () => this._closeCall(call.peer, rId));
+        call.on('error', () => this._closeCall(call.peer, rId));
     }
 
     _closeConnection(id) {
@@ -163,7 +166,8 @@ ZYNQ.Peer = class {
             this.localStream.getTracks().forEach(t => t.stop());
             this.localStream = null;
         }
-        if (rId && document.getElementById(rId)) document.getElementById(rId).srcObject = null;
+        const videoEl = document.getElementById(rId);
+        if (videoEl) videoEl.srcObject = null;
         this.activeSessions.delete(`${id}-VIDEO`);
         this._emit('disconnected', { id, type: 'VIDEO' });
     }
@@ -173,7 +177,7 @@ ZYNQ.Peer = class {
     _emit(e, d) { if (this.events[e]) this.events[e](d); }
 
     connect(id) { 
-        const conn = this.peer.connect(id, { reliable: false }); // Unreliable = sneller voor realtime
+        const conn = this.peer.connect(id, { reliable: false }); 
         this._setupDataHandlers(conn); 
         conn.on('data', d => this._handleData(conn, d));
     }
@@ -188,7 +192,6 @@ ZYNQ.Peer = class {
         const s = await this._getMediaStream();
         if (lId && document.getElementById(lId)) document.getElementById(lId).srcObject = s;
         this._emit('stream', { id: 'local', type: 'LOCAL', stream: s });
-        
         const call = this.peer.call(id, s);
         this._setupMediaHandlers(call, rId);
     }
