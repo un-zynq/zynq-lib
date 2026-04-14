@@ -1,15 +1,17 @@
 /**
- * ZYNQ Multi-Session WebRTC Wrapper
- * Version: 1.2.0 (English)
+ * ZYNQ Core Library
+ * Version: 1.2.1 (English)
+ * Integrated 'Action Origin' tracking for rejected/accepted events.
  */
 window.ZYNQ = window.ZYNQ || {};
 
 ZYNQ.Peer = class {
     constructor() {
         this.events = {};
-        this.connections = new Map(); // id -> DataConnection
-        this.calls = new Map();       // id -> MediaCall
+        this.connections = new Map(); 
+        this.calls = new Map();       
         this.activeSessions = new Set();
+        this.myId = null;
         this._init(this._generateId());
     }
 
@@ -20,7 +22,6 @@ ZYNQ.Peer = class {
     }
 
     async _init(id) {
-        // Auto-load PeerJS if not present
         if (!window.Peer) {
             await new Promise(r => {
                 const s = document.createElement('script');
@@ -32,6 +33,7 @@ ZYNQ.Peer = class {
         this.peer = new Peer(id);
 
         this.peer.on('open', (assignedId) => {
+            this.myId = assignedId;
             this._emit('ready', assignedId);
             this._emit('debug', `System initialized with ID: ${assignedId}`);
         });
@@ -41,11 +43,10 @@ ZYNQ.Peer = class {
             this._emit('debug', `Peer Error: ${err.type}`);
         });
 
-        // Handle incoming Data Connections
+        // Incoming Data Connections
         this.peer.on('connection', (conn) => {
             this._setupDataHandlers(conn);
             
-            // Wait for first data to check for PING vs REAL connection
             conn.on('data', (data) => {
                 if (data?._zynq === 'PING') {
                     conn.send({ _zynq: 'PONG' });
@@ -59,17 +60,17 @@ ZYNQ.Peer = class {
                 accept: () => {
                     conn.send({ _zynq: 'ACCEPTED' });
                     this._registerSession(conn.peer, 'CHAT');
-                    this._emit('accepted', { id: conn.peer, type: 'CHAT' });
+                    this._emit('accepted', { id: conn.peer, type: 'CHAT', by: this.myId });
                 },
                 reject: () => {
                     conn.send({ _zynq: 'REJECTED' });
-                    this._emit('rejected', { id: conn.peer, type: 'CHAT' });
+                    this._emit('rejected', { id: conn.peer, type: 'CHAT', by: this.myId });
                     setTimeout(() => conn.close(), 100);
                 }
             });
         });
 
-        // Handle incoming Media Calls
+        // Incoming Media Calls
         this.peer.on('call', (call) => {
             this._emit('incoming', {
                 from: call.peer,
@@ -82,14 +83,14 @@ ZYNQ.Peer = class {
                         
                         call.answer(stream);
                         this._setupMediaHandlers(call, remoteVideoId);
-                        this._emit('accepted', { id: call.peer, type: 'VIDEO' });
+                        this._emit('accepted', { id: call.peer, type: 'VIDEO', by: this.myId });
                     } catch (e) {
                         this._emit('debug', `Media Access Denied: ${e.message}`);
                     }
                 },
                 reject: () => {
                     call.close();
-                    this._emit('rejected', { id: call.peer, type: 'VIDEO' });
+                    this._emit('rejected', { id: call.peer, type: 'VIDEO', by: this.myId });
                 }
             });
         });
@@ -105,14 +106,12 @@ ZYNQ.Peer = class {
     _setupDataHandlers(conn) {
         this.connections.set(conn.peer, conn);
 
-        conn.on('open', () => this._emit('debug', `Data channel open with ${conn.peer}`));
-
         conn.on('data', (data) => {
             if (data?._zynq === 'ACCEPTED') {
                 this._registerSession(conn.peer, 'CHAT');
-                this._emit('accepted', { id: conn.peer, type: 'CHAT' });
+                this._emit('accepted', { id: conn.peer, type: 'CHAT', by: conn.peer });
             } else if (data?._zynq === 'REJECTED') {
-                this._emit('rejected', { id: conn.peer, type: 'CHAT' });
+                this._emit('rejected', { id: conn.peer, type: 'CHAT', by: conn.peer });
             } else if (data?._zynq !== 'PING' && data?._zynq !== 'PONG') {
                 this._emit('message', { from: conn.peer, data: data });
             }
@@ -141,17 +140,8 @@ ZYNQ.Peer = class {
         });
     }
 
-    /**
-     * Public Methods
-     */
-
-    on(event, callback) {
-        this.events[event] = callback;
-    }
-
-    _emit(event, data) {
-        if (this.events[event]) this.events[event](data);
-    }
+    on(event, callback) { this.events[event] = callback; }
+    _emit(event, data) { if (this.events[event]) this.events[event](data); }
 
     connect(targetId) {
         if (this.connections.has(targetId)) return;
@@ -164,7 +154,6 @@ ZYNQ.Peer = class {
             const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
             const localEl = document.getElementById(localVideoId);
             if (localEl) localEl.srcObject = stream;
-
             const call = this.peer.call(targetId, stream);
             this._setupMediaHandlers(call, remoteVideoId);
         } catch (e) {
@@ -186,10 +175,7 @@ ZYNQ.Peer = class {
         return new Promise((resolve) => {
             const conn = this.peer.connect(targetId);
             let timeout = setTimeout(() => { conn.close(); resolve(false); }, 3000);
-            
-            conn.on('open', () => {
-                conn.send({ _zynq: 'PING' });
-            });
+            conn.on('open', () => conn.send({ _zynq: 'PING' }));
             conn.on('data', (data) => {
                 if (data?._zynq === 'PONG') {
                     clearTimeout(timeout);
@@ -197,10 +183,7 @@ ZYNQ.Peer = class {
                     resolve(true);
                 }
             });
-            conn.on('error', () => {
-                clearTimeout(timeout);
-                resolve(false);
-            });
+            conn.on('error', () => { clearTimeout(timeout); resolve(false); });
         });
     }
 };
