@@ -1,7 +1,7 @@
 class ZYNQGames {
   constructor() {
     this.config = {
-      src: "https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.1.3/games.json",
+      src: "https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.1.4/games.json",
       cdn: "https://cdn.jsdelivr.net/gh/un-zynq/thumbnails",
     };
     this.all = [];
