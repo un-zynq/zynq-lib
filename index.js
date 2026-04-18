@@ -18,7 +18,7 @@ class ZYNQPeer extends EventEmitter {
     if (ZYNQPeer._loadingPromise) return ZYNQPeer._loadingPromise;
     ZYNQPeer._loadingPromise = new Promise((resolve, reject) => {
       const script = document.createElement("script");
-      script.src = "https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.1.2/peerjs.min.js";
+      script.src = "https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.1.3/peerjs.min.js";
       script.async = true;
       script.onload = () => resolve();
       script.onerror = () => reject(new Error("Failed to load PeerJS"));
@@ -329,7 +329,7 @@ class ZYNQPeer extends EventEmitter {
 class ZYNQGames {
   constructor() {
     this.config = {
-      src: "https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.1.2/games.json",
+      src: "https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.1.3/games.json",
       cdn: "https://cdn.jsdelivr.net/gh/un-zynq/thumbnails",
     };
     this.all = [];
