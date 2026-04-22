@@ -1,7 +1,7 @@
 class ZYNQGames {
   constructor() {
     this.config = {
-      src: "https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.1.4/games.json",
+      src: "https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@1.1.5/games.json",
       cdn: "https://cdn.jsdelivr.net/gh/un-zynq/thumbnails",
     };
     this.all = [];
@@ -16,12 +16,11 @@ class ZYNQGames {
       mode = "all", 
       search = "", 
       sort = "name", 
-      version = null, // De nieuwe parameter voor de commit hash
+      version = null,
       src = this.config.src, 
       cdn = this.config.cdn 
     } = options;
 
-    // Als er een versie/hash is meegegeven, passen we de bronaanvraag aan
     if (version) {
       this.config.src = `https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@${version}/games.json`;
     } else {
