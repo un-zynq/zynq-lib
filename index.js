@@ -12,14 +12,31 @@ class ZYNQGames {
   }
 
   async init(options = {}) {
-    const { mode = "all", search = "", sort = "name", src = this.config.src, cdn = this.config.cdn } = options;
-    this.config.src = src;
+    const { 
+      mode = "all", 
+      search = "", 
+      sort = "name", 
+      version = null, // De nieuwe parameter voor de commit hash
+      src = this.config.src, 
+      cdn = this.config.cdn 
+    } = options;
+
+    // Als er een versie/hash is meegegeven, passen we de bronaanvraag aan
+    if (version) {
+      this.config.src = `https://cdn.jsdelivr.net/gh/un-zynq/zynq-lib@${version}/games.json`;
+    } else {
+      this.config.src = src;
+    }
+    
     this.config.cdn = cdn;
+
     this._detectDevice();
     await this._loadData(sort);
+
     if (search) this.search(search);
     if (mode === "supported") this.filterSupported();
     if (mode === "favs") this.filterFavorites();
+
     return this;
   }
 
@@ -33,6 +50,7 @@ class ZYNQGames {
     const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
     const debugInfo = gl?.getExtension("WEBGL_debug_renderer_info");
     const renderer = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "";
+    
     let scores = { desktop: 0, mobile: 0 };
     if (/Win|Mac|Linux/i.test(ua)) scores.desktop += 15;
     if (ua.includes("x64") || ua.includes("wow64")) scores.desktop += 10;
@@ -40,6 +58,7 @@ class ZYNQGames {
     if (/Intel|Nvidia|AMD|Direct3D|GeForce/i.test(renderer)) scores.desktop += 25;
     if (/Android|iPhone|iPad|iPod/i.test(ua)) scores.mobile += 20;
     if (/Adreno|Mali|PowerVR|Apple GPU/i.test(renderer)) scores.mobile += 25;
+
     if (scores.desktop > scores.mobile) {
       this.deviceType = touchPoints > 0 ? 1 : 2;
     } else if (/Macintosh/i.test(ua) && touchPoints > 1) {
@@ -56,6 +75,7 @@ class ZYNQGames {
       const response = await fetch(this.config.src);
       const data = await response.json();
       const library = [];
+
       data.forEach((category) => {
         Object.entries(category).forEach(([base, games]) => {
           Object.entries(games).forEach(([alias, meta]) => {
@@ -76,6 +96,7 @@ class ZYNQGames {
           });
         });
       });
+
       this.all = library.sort((a, b) => (a[sortKey] || "").localeCompare(b[sortKey] || ""));
       this.filtered = [...this.all];
     } catch (err) {
