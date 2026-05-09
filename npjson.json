@@ -3,2785 +3,3323 @@
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "1",
-    "slug": "1"
+    "slug": "1",
+    "description": "A minimalist puzzle game where you merge numbers to eventually reach the number one."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "2048",
-    "slug": "2048"
+    "slug": "2048",
+    "description": "Combine numbered tiles on a grid to create a tile with the number 2048."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "1010 Deluxe",
-    "slug": "1010-deluxe"
+    "slug": "1010-deluxe",
+    "description": "Fit colorful blocks of various shapes onto a 10x10 grid to clear lines and score points."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "2048 Multitask",
-    "slug": "2048-multitask"
+    "slug": "2048-multitask",
+    "description": "Play multiple 2048 games simultaneously, switching between boards to merge tiles."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "3 Pandas in Japan",
-    "slug": "3-pandas-in-japan"
+    "slug": "3-pandas-in-japan",
+    "description": "Help three pandas escape Japan by solving puzzles and using their unique abilities."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "9007199254740992",
-    "slug": "9007199254740992"
+    "slug": "9007199254740992",
+    "description": "A 2048-inspired puzzle where you merge tiles to reach the colossal number 9007199254740992."
   },
   {
     "category": "platformer",
     "devices": "1,2",
     "name": "Achievement Unlocked",
-    "slug": "achievement-unlocked"
+    "slug": "achievement-unlocked",
+    "description": "A platformer where the only goal is to unlock a huge list of humorous achievements."
   },
   {
     "category": "casual",
     "devices": "1,2,3,4",
     "name": "Adventures with Anxiety",
-    "slug": "adventures-with-anxiety"
+    "slug": "adventures-with-anxiety",
+    "description": "A narrative game where you play as a person's anxiety, trying to keep them safe in an interactive story."
   },
   {
     "category": "puzzle",
     "devices": "1,2",
     "name": "Bad Ice-Cream 2",
-    "slug": "bad-ice-cream-2"
+    "slug": "bad-ice-cream-2",
+    "description": "Collect fruit and avoid enemies in a maze while playing as a block of ice cream."
   },
   {
     "category": "puzzle",
     "devices": "1,2",
     "name": "Bad Ice-Cream 3",
-    "slug": "bad-ice-cream-3"
+    "slug": "bad-ice-cream-3",
+    "description": "More frozen maze action with new levels, enemies, and multiplayer modes."
   },
   {
     "category": "puzzle",
     "devices": "1,2",
     "name": "Bad Ice-Cream",
-    "slug": "bad-ice-cream"
+    "slug": "bad-ice-cream",
+    "description": "Guide an ice cream character through tricky mazes to gather fruit while dodging enemies."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Ball Sort Halloween",
-    "slug": "ball-sort-halloween"
+    "slug": "ball-sort-halloween",
+    "description": "A Halloween-themed ball sorting puzzle where you arrange colored balls into matching tubes."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Ball Sort Puzzle",
-    "slug": "ball-sort-puzzle"
+    "slug": "ball-sort-puzzle",
+    "description": "Sort colorful balls into separate tubes until each tube contains the same color."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Ball Sort Soccer",
-    "slug": "ball-sort-soccer"
+    "slug": "ball-sort-soccer",
+    "description": "A soccer-themed ball sorting game where you organize football-patterned balls by color."
   },
   {
     "category": "shooter",
     "devices": "1,2,3,4",
     "name": "Ballistic",
-    "slug": "ballistic"
+    "slug": "ballistic",
+    "description": "A fast-paced arcade shooter where you blast bouncing balls into colorful blocks."
   },
   {
     "category": "casual",
     "devices": "1,2,3,4",
     "name": "Bally",
-    "slug": "bally"
+    "slug": "bally",
+    "description": "A simple endless runner where you control a rolling ball, dodging obstacles and collecting gems."
   },
   {
     "category": "strategy",
     "devices": "1,2",
     "name": "Battle for Gondor",
-    "slug": "battle-for-gondor"
+    "slug": "battle-for-gondor",
+    "description": "Defend the walls of Minas Tirith by strategically placing troops and using special abilities."
   },
   {
     "category": "platformer",
     "devices": "1,2",
     "name": "Big Tower Tiny Square",
-    "slug": "big-tower-tiny-square"
+    "slug": "big-tower-tiny-square",
+    "description": "Scale a massive tower filled with deadly traps and precise platforming challenges."
   },
   {
     "category": "casual",
     "devices": "1,2,3,4",
     "name": "BitLife",
-    "slug": "bitlife"
+    "slug": "bitlife",
+    "description": "A text-based life simulator where you make choices that shape your character's entire life."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Black Hole Square",
-    "slug": "black-hole-square"
+    "slug": "black-hole-square",
+    "description": "Guide a white square into a black hole by removing obstacles and planning the perfect path."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Block The Pig",
-    "slug": "block-the-pig"
+    "slug": "block-the-pig",
+    "description": "Place blocks strategically on a grid to trap the pig before it escapes."
   },
   {
     "category": "strategy",
     "devices": "1,2,3,4",
     "name": "Bloons Tower Defense 2",
-    "slug": "bloons-tower-defense-2"
+    "slug": "bloons-tower-defense-2",
+    "description": "Pop waves of bloons by placing dart monkeys and other towers along a track."
   },
   {
     "category": "strategy",
     "devices": "1,2,3,4",
     "name": "Bloons Tower Defense 4",
-    "slug": "bloons-tower-defense-4"
+    "slug": "bloons-tower-defense-4",
+    "description": "The popular tower defense series returns with new towers, tracks, and bloon types."
   },
   {
     "category": "strategy",
     "devices": "1,2,3,4",
     "name": "Bloons Tower Defense",
-    "slug": "bloons-tower-defense"
+    "slug": "bloons-tower-defense",
+    "description": "The original bloons-popping tower defense game where you build a defense to stop the bloon invasion."
   },
   {
     "category": "puzzle",
     "devices": "1,2",
     "name": "Bloxorz",
-    "slug": "bloxorz"
+    "slug": "bloxorz",
+    "description": "Roll a rectangular block across a platform to fit it into the goal hole without falling off."
   },
   {
     "category": "platformer",
     "devices": "1,2,3,4",
     "name": "Blumgi Rocket",
-    "slug": "blumgi-rocket"
+    "slug": "blumgi-rocket",
+    "description": "Launch your character through the air using rockets, bouncing and exploding your way to the finish."
   },
   {
     "category": "platformer",
     "devices": "1,2,3,4",
     "name": "Bouncy Woods",
-    "slug": "bouncy-woods"
+    "slug": "bouncy-woods",
+    "description": "Bounce a rubbery ball through a forest of wooden obstacles in this physics platformer."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Breaking the Bank",
-    "slug": "breaking-the-bank"
+    "slug": "breaking-the-bank",
+    "description": "A stickman point-and-click adventure where you attempt to break into a bank vault."
   },
   {
     "category": "shooter",
     "name": "Cruelty Squad",
-    "slug": "cruelty-squad"
+    "slug": "cruelty-squad",
+    "description": "A surreal tactical FPS with a bizarre corporate dystopia setting and experimental gameplay."
   },
   {
     "category": "casual",
     "devices": "1,2",
     "name": "Bubble Pop Adventures",
-    "slug": "bubble-pop-adventures"
+    "slug": "bubble-pop-adventures",
+    "description": "Aim and shoot colorful bubbles to match three or more and clear the board."
   },
   {
     "category": "casual",
     "devices": "1,2,3,4",
     "name": "Burrito Bison Revenge",
-    "slug": "burrito-bison-revenge"
+    "slug": "burrito-bison-revenge",
+    "description": "Launch a luchador bison across a city, bouncing off gummies to earn cash and upgrades."
   },
   {
     "category": "sports",
     "devices": "1,2,3,4",
     "name": "Cannon Basketball 4",
-    "slug": "cannon-basketball-4"
+    "slug": "cannon-basketball-4",
+    "description": "Aim a cannon to shoot basketballs through hoops in this physics-based puzzle sports game."
   },
   {
     "category": "strategy",
     "devices": "1,2,3,4",
     "name": "Canyon Defense",
-    "slug": "canyon-defense"
+    "slug": "canyon-defense",
+    "description": "Build and upgrade towers to defend your canyon base from waves of enemy attacks."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Cell Machine",
-    "slug": "cell-machine"
+    "slug": "cell-machine",
+    "description": "A puzzle game where you design simple cellular automata to solve challenges."
   },
   {
     "category": "strategy",
     "devices": "1,2,3,4",
     "name": "Checkers Legend",
-    "slug": "checkers-legend"
+    "slug": "checkers-legend",
+    "description": "Classic checkers with modern graphics and multiple difficulty levels against AI or friends."
   },
   {
     "category": "puzzle",
     "devices": "1,2",
     "name": "Circloo 2",
-    "slug": "circloo-2"
+    "slug": "circloo-2",
+    "description": "Physics puzzles where you manipulate circles and other shapes to reach the goal."
   },
   {
     "category": "puzzle",
     "devices": "1,2",
     "name": "Circloo",
-    "slug": "circloo"
+    "slug": "circloo",
+    "description": "Solve puzzles by drawing circles and using physics to move a ball to the exit."
   },
   {
     "category": "platformer",
     "devices": "1,2,3,4",
     "name": "Climb Over It",
-    "slug": "climb-over-it"
+    "slug": "climb-over-it",
+    "description": "A challenging climbing game inspired by Getting Over It, where you scale precarious objects using a hammer."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Color Match",
-    "slug": "color-match"
+    "slug": "color-match",
+    "description": "Mix and match colors to paint objects and complete each puzzle level."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Connect 3",
-    "slug": "connect-3"
+    "slug": "connect-3",
+    "description": "A classic match-3 puzzle game where you swap gems to align three or more of the same color."
   },
   {
     "category": "casual",
     "devices": "1,2",
     "name": "Crossy Road",
-    "slug": "crossy-road"
+    "slug": "crossy-road",
+    "description": "Help a chicken cross busy roads, rivers, and train tracks in this endless arcade hopper."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Cubes 2048.io",
-    "slug": "cubes-2048-io"
+    "slug": "cubes-2048-io",
+    "description": "A multiplayer 2048-inspired game where you compete against others to merge cubes the fastest."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Cut the Rope: Holiday Gift",
-    "slug": "cut-the-rope-holiday-gift"
+    "slug": "cut-the-rope-holiday-gift",
+    "description": "A festive edition of Cut the Rope with holiday-themed levels and the same candy-feeding physics."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Cut the Rope: Time Travel",
-    "slug": "cut-the-rope-time-travel"
+    "slug": "cut-the-rope-time-travel",
+    "description": "Travel through time with Om Nom, solving new rope-cutting puzzles across different eras."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Cut the Rope",
-    "slug": "cut-the-rope"
+    "slug": "cut-the-rope",
+    "description": "Cut ropes strategically to deliver candy to the adorable little monster Om Nom."
   },
   {
     "category": "casual",
     "devices": "1,2,3,4",
     "name": "Deal or No Deal",
-    "slug": "deal-or-no-deal"
+    "slug": "deal-or-no-deal",
+    "description": "Play the famous TV game show, choosing briefcases and deciding whether to accept the banker's offer."
   },
   {
     "category": "platformer",
     "devices": "1,2",
     "name": "Deepest Sword",
-    "slug": "deepest-sword"
+    "slug": "deepest-sword",
+    "description": "A physics-based platformer where you wield an absurdly long sword to solve puzzles and slay a dragon."
   },
   {
     "category": "platformer",
     "devices": "1,2,3,4",
     "name": "Dino Bros",
-    "slug": "dino-bros"
+    "slug": "dino-bros",
+    "description": "A cooperative puzzle platformer where two dinosaur brothers must work together to escape each level."
   },
   {
     "category": "platformer",
     "devices": "1,2,3,4",
     "name": "Doctor Acorn 2",
-    "slug": "doctor-acorn-2"
+    "slug": "doctor-acorn-2",
+    "description": "Bounce and jump through colorful levels as Doctor Acorn, collecting nuts and avoiding enemies."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Doge 2048",
-    "slug": "doge-2048"
+    "slug": "doge-2048",
+    "description": "A Doge-themed version of 2048 featuring the Shiba Inu meme as the tiles."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Dummy Never Fails 2",
-    "slug": "dummy-never-fails-2"
+    "slug": "dummy-never-fails-2",
+    "description": "A ragdoll physics puzzle where you cause damage to a crash test dummy using various tools."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Dummy Never Fails",
-    "slug": "dummy-never-fails"
+    "slug": "dummy-never-fails",
+    "description": "Set up traps and obstacles to hurt a ragdoll dummy in creative ways to earn points."
   },
   {
     "category": "puzzle",
     "devices": "1,2",
     "name": "Edge Not Found",
-    "slug": "edge-not-found"
+    "slug": "edge-not-found",
+    "description": "Navigate a square through a path that disappears behind you, avoiding the edges in this puzzle platformer."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Escaping the Prison",
-    "slug": "escaping-the-prison"
+    "slug": "escaping-the-prison",
+    "description": "A stickman point-and-click adventure where you plan a hilarious escape from prison."
   },
   {
     "category": "casual",
     "devices": "1,2,3,4",
     "name": "Evolution",
-    "slug": "evolution"
+    "slug": "evolution",
+    "description": "Evolve a simple organism into a complex creature by eating others and adapting traits."
   },
   {
     "category": "platformer",
     "devices": "1,2",
     "name": "Exo",
-    "slug": "exo"
+    "slug": "exo",
+    "description": "A minimalist platformer with a unique art style and precise jumping mechanics."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Factory Balls",
-    "slug": "factory-balls"
+    "slug": "factory-balls",
+    "description": "Use tools and colors to paint balls exactly like the target design in each level."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Farm Match",
-    "slug": "farm-match"
+    "slug": "farm-match",
+    "description": "A farm-themed match-3 puzzle game where you swap fruits and vegetables to clear levels."
   },
   {
     "category": "puzzle",
     "devices": "1,2",
     "name": "Flash Tetris",
-    "slug": "flash-tetris"
+    "slug": "flash-tetris",
+    "description": "The classic block-stacking puzzle game where you rotate and drop tetrominoes to clear lines."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Fleeing the Complex",
-    "slug": "fleeing-the-complex"
+    "slug": "fleeing-the-complex",
+    "description": "A stickman point-and-click adventure where you try to escape from a high-security prison complex."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Game Inside a Game Inside ...",
-    "slug": "game-inside-a-game"
+    "slug": "game-inside-a-game",
+    "description": "A recursive puzzle game where each level contains a smaller game within itself."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "George and the Printer",
-    "slug": "george-and-the-printer"
+    "slug": "george-and-the-printer",
+    "description": "A point-and-click puzzle adventure about an office worker dealing with a troublesome printer."
   },
   {
     "category": "platformer",
     "devices": "1,2,3,4",
     "name": "Getting Over It",
-    "slug": "getting-over-it"
+    "slug": "getting-over-it",
+    "description": "A brutally difficult climbing game where you use a sledgehammer to ascend a mountain of junk."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Go Ball",
-    "slug": "go-ball"
+    "slug": "go-ball",
+    "description": "Guide a ball to the exit by sliding tiles and clearing a safe path through each maze."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Go Tet",
-    "slug": "go-tet"
+    "slug": "go-tet",
+    "description": "A Tetris-inspired puzzle game with smooth controls and a clean, modern look."
   },
   {
     "category": "casual",
     "devices": "1,2,3,4",
     "name": "Google Feud",
-    "slug": "google-feud"
+    "slug": "google-feud",
+    "description": "Guess the most popular autocomplete suggestions from Google searches in this quiz game."
   },
   {
     "category": "sports",
     "devices": "1,2,3,4",
     "name": "Gravity Soccer",
-    "slug": "gravity-soccer"
+    "slug": "gravity-soccer",
+    "description": "Use gravity manipulation to direct a soccer ball into the goal in this physics-based puzzle sports game."
   },
   {
     "category": "puzzle",
     "devices": "1,2",
     "name": "Grey-Box Testing",
-    "slug": "grey-box-testing"
+    "slug": "grey-box-testing",
+    "description": "A puzzle platformer where you play as a grey box, navigating minimalist levels to reach the exit."
   },
   {
     "category": "casual",
     "devices": "1,2",
     "name": "Handshakes",
-    "slug": "handshakes"
+    "slug": "handshakes",
+    "description": "A local two-player game where you try to shake hands while avoiding obstacles and traps."
   },
   {
     "category": "platformer",
     "devices": "1,2,3,4",
     "name": "Hanger",
-    "slug": "hanger"
+    "slug": "hanger",
+    "description": "Swing through levels using a grappling hook while avoiding deadly hazards and collecting stars."
   },
   {
     "category": "strategy",
     "devices": "1,2,3,4",
     "name": "Hex Empire",
-    "slug": "hex-empire"
+    "slug": "hex-empire",
+    "description": "A turn-based strategy game where you command armies on a hex grid to conquer enemy territories."
   },
   {
     "category": "puzzle",
     "devices": "1,2",
     "name": "Hextris",
-    "slug": "hextris"
+    "slug": "hextris",
+    "description": "A fast-paced puzzle game like Tetris, but played around a hexagonal grid."
   },
   {
     "category": "platformer",
     "devices": "1,2,3,4",
     "name": "Icy Purple Head 2",
-    "slug": "icy-purple-head-2"
+    "slug": "icy-purple-head-2",
+    "description": "A physics platformer where you use an ice block head to slide, stick, and jump through levels."
   },
   {
     "category": "platformer",
     "devices": "1,2,3,4",
     "name": "Icy Purple Head 3",
-    "slug": "icy-purple-head-3"
+    "slug": "icy-purple-head-3",
+    "description": "New adventures for the icy purple head with more puzzles and platforming challenges."
   },
   {
     "category": "casual",
     "devices": "1,2,3,4",
     "name": "The Impossible Quiz",
-    "slug": "the-impossible-quiz"
+    "slug": "the-impossible-quiz",
+    "description": "A notoriously tricky quiz game filled with trick questions, puns, and unexpected answers."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Infiltrating the Airship",
-    "slug": "infiltrating-the-airship"
+    "slug": "infiltrating-the-airship",
+    "description": "A stickman point-and-click adventure where you infiltrate an airship using multiple gadgets and choices."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Jewels Blitz 5",
-    "slug": "jewels-blitz-5"
+    "slug": "jewels-blitz-5",
+    "description": "A vibrant match-3 puzzle game set in a jungle, with hundreds of levels to blast through."
   },
   {
     "category": "strategy",
     "devices": "1,2,3,4",
     "name": "Jungle TD",
-    "slug": "jungle-td"
+    "slug": "jungle-td",
+    "description": "Place towers along a jungle path to pop waves of bloons and other enemies."
   },
   {
     "category": "strategy",
     "devices": "1,2,3,4",
     "name": "Kingdom Defense: Mercenary",
-    "slug": "kingdom-defense-mercenary"
+    "slug": "kingdom-defense-mercenary",
+    "description": "Hire mercenaries and build defenses to protect the kingdom from invading forces."
   },
   {
     "category": "strategy",
     "devices": "1,2,3,4",
     "name": "Kingdom Guards: Tower Defense",
-    "slug": "kingdom-guards-tower-defense"
+    "slug": "kingdom-guards-tower-defense",
+    "description": "A medieval tower defense game where you place archers, mages, and other guards to stop enemies."
   },
   {
     "category": "strategy",
     "devices": "1,2,3,4",
     "name": "Kingdom Rush",
-    "slug": "kingdom-rush"
+    "slug": "kingdom-rush",
+    "description": "One of the most acclaimed tower defense games, featuring charming graphics and deep strategy."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Marble Dash",
-    "slug": "marble-dash"
+    "slug": "marble-dash",
+    "description": "A Zuma-like puzzle game where you shoot colored marbles to match three and clear the chain."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Marbles Sorting",
-    "slug": "marbles-sorting"
+    "slug": "marbles-sorting",
+    "description": "Sort colorful marbles into matching tubes in this relaxing yet challenging puzzle game."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Meme 2048",
-    "slug": "meme-2048"
+    "slug": "meme-2048",
+    "description": "A meme-filled version of 2048 where you combine popular internet memes as tiles."
   },
   {
     "category": "puzzle",
     "devices": "1,2,3,4",
     "name": "Minesweeper",
-    "slug": "minesweeper"
+    "slug": "minesweeper",
+    "description": "The classic logic puzzle where you clear a minefield using number clues without detonating any mines."
   },
   {
     "category": "sports",
     "devices": "1,2,3,4",
     "name": "Mini-Putt",
-    "slug": "mini-putt"
+    "slug": "mini-putt",
+    "description": "A mini golf game with creative holes, obstacles, and a competitive multiplayer mode."
   },
   {
     "category": "platformer",
     "devices": "1,2",
     "name": "Money Movers 2",
-    "slug": "money-movers-2"
+    "slug": "money-movers-2",
+    "description": "Cooperate as two brothers to escape prison by solving puzzles and avoiding guards."
   },
   {
     "category": "platformer",
     "devices": "1,2",
     "name": "Money Movers 3: Guard Duty",
-    "slug": "money-movers-3-guard-duty"
+    "slug": "money-movers-3-guard-duty",
+    "description": "The Money Movers brothers are back, this time breaking out of a high-security prison."
   },
   {
     "category": "platformer",
     "devices": "1,2",
     "name": "Money Movers",
-    "slug": "money-movers"
+    "slug": "money-movers",
+    "description": "Control two inmate brothers in a cooperative puzzle platformer to escape prison."
   },
   {
     "category": "shooter",
     "name": "Mr Bullet 3D",
-    "slug": "mr-bullet-3d"
+    "slug": "mr-bullet-3d",
+    "description": "A physics-based shooting puzzle game where you eliminate bad guys with a single bullet."
   },
   {
     "category": "puzzle",
     "name": "My Rusty Submarine",
-    "slug": "my-rusty-submarine"
+    "slug": "my-rusty-submarine",
+    "description": "Explore a hand-drawn underwater world in a rusty submarine, solving puzzles along the way."
   },
   {
     "category": "platformer",
     "name": "Ninja Cat Exploit",
-    "slug": "ninja-cat-exploit"
+    "slug": "ninja-cat-exploit",
+    "description": "A fast-paced platformer where you play as a ninja cat, exploiting glitches to defeat enemies."
   },
   {
     "category": "strategy",
     "name": "Pandemic 2",
-    "slug": "pandemic-2"
+    "slug": "pandemic-2",
+    "description": "Create and evolve a pathogen to wipe out humanity before scientists find a cure."
   },
   {
     "category": "puzzle",
     "name": "Papa Cherry Saga",
-    "slug": "papa-cherry-saga"
+    "slug": "papa-cherry-saga",
+    "description": "A match-3 puzzle game where you help Papa Cherry collect ingredients by matching sweets."
   },
   {
     "category": "puzzle",
     "name": "Park Out",
-    "slug": "park-out"
+    "slug": "park-out",
+    "description": "A parking puzzle game where you slide cars out of a jammed parking lot without crashing."
   },
   {
     "category": "sports",
     "name": "Penalty Kick Online",
-    "slug": "penalty-kick-online"
+    "slug": "penalty-kick-online",
+    "description": "Compete in an online penalty shootout, taking turns as kicker and goalkeeper."
   },
   {
     "category": "strategy",
     "name": "Plants vs Zombies",
-    "slug": "plants-vs-zombies"
+    "slug": "plants-vs-zombies",
+    "description": "Defend your home from a zombie invasion by planting an army of peashooters, walnuts, and other botanical defenders."
   },
   {
     "category": "puzzle",
     "name": "Portal: The Flash Version",
-    "slug": "portal-the-flash-version"
+    "slug": "portal-the-flash-version",
+    "description": "A 2D Flash adaptation of Portal, featuring mind-bending puzzles with portal guns."
   },
   {
     "category": "puzzle",
     "name": "Pudding Monsters",
-    "slug": "pudding-monsters"
+    "slug": "pudding-monsters",
+    "description": "Cut the Rope's developer brings a charming puzzle game where you stick pudding pieces together to cover a table."
   },
   {
     "category": "casual",
     "name": "Push Your Luck",
-    "slug": "push-your-luck"
+    "slug": "push-your-luck",
+    "description": "A game show style game where you decide whether to keep playing for bigger prizes or stop before you lose."
   },
   {
     "category": "platformer",
     "name": "Rabbit Samurai 2",
-    "slug": "rabbit-samurai-2"
+    "slug": "rabbit-samurai-2",
+    "description": "Swing a carrot sword through new levels as a ninja rabbit, collecting carrots and defeating foes."
   },
   {
     "category": "platformer",
     "name": "Rabbit Samurai",
-    "slug": "rabbit-samurai"
+    "slug": "rabbit-samurai",
+    "description": "A grappling-hook platformer where you play as a rabbit samurai swinging past traps."
   },
   {
     "category": "puzzle",
     "name": "Riddle School 2",
-    "slug": "riddle-school-2"
+    "slug": "riddle-school-2",
+    "description": "The point-and-click adventure continues as you try to escape school again through puzzling scenarios."
   },
   {
     "category": "puzzle",
     "name": "Riddle School 3",
-    "slug": "riddle-school-3"
+    "slug": "riddle-school-3",
+    "description": "More school-based point-and-click puzzles where you explore new areas and solve riddles."
   },
   {
     "category": "puzzle",
     "name": "Riddle School 4",
-    "slug": "riddle-school-4"
+    "slug": "riddle-school-4",
+    "description": "The escape adventure expands with even more absurd challenges and interactive click puzzles."
   },
   {
     "category": "puzzle",
     "name": "Riddle School 5",
-    "slug": "riddle-school-5"
+    "slug": "riddle-school-5",
+    "description": "The final chapter of the original Riddle School series, wrapping up the school escape saga."
   },
   {
     "category": "puzzle",
     "name": "Riddle School",
-    "slug": "riddle-school"
+    "slug": "riddle-school",
+    "description": "A point-and-click adventure where you try to escape a boring school by solving puzzles and interacting with objects."
   },
   {
     "category": "puzzle",
     "name": "Riddle Transfer 2",
-    "slug": "riddle-transfer-2"
+    "slug": "riddle-transfer-2",
+    "description": "The sequel to Riddle Transfer, continuing the point-and-click escape story in a new location."
   },
   {
     "category": "puzzle",
     "name": "Riddle Transfer",
-    "slug": "riddle-transfer"
+    "slug": "riddle-transfer",
+    "description": "After escaping school, you find yourself in a new facility with more challenging point-and-click puzzles."
   },
   {
     "category": "platformer",
     "name": "Roper",
-    "slug": "roper"
+    "slug": "roper",
+    "description": "A physics-based platformer where you swing from ropes and navigate dangerous industrial environments."
   },
   {
     "category": "casual",
     "name": "Save the Doge",
-    "slug": "save-the-doge"
+    "slug": "save-the-doge",
+    "description": "Draw protective shapes around Doge to shield him from danger in this physics puzzle game."
   },
   {
     "category": "strategy",
     "name": "Slime Rush TD",
-    "slug": "slime-rush-td"
+    "slug": "slime-rush-td",
+    "description": "A tower defense game where you place towers to stop adorable but dangerous slimes."
   },
   {
     "category": "platformer",
     "name": "Snail Bob 7",
-    "slug": "snail-bob-7"
+    "slug": "snail-bob-7",
+    "description": "A point-and-click puzzle platformer where you guide Snail Bob through dangerous levels."
   },
   {
     "category": "platformer",
     "name": "Snail Bob 8: Island Story",
-    "slug": "snail-bob-8-island-story"
+    "slug": "snail-bob-8-island-story",
+    "description": "Snail Bob is stranded on an island; solve puzzles and avoid hazards to help him escape."
   },
   {
     "category": "puzzle",
     "name": "Solitaire",
-    "slug": "solitaire"
+    "slug": "solitaire",
+    "description": "The classic single-player card game where you sort cards into four foundation piles."
   },
   {
     "category": "puzzle",
     "name": "Spider Solitaire",
-    "slug": "spider-solitaire"
+    "slug": "spider-solitaire",
+    "description": "A more challenging solitaire variant played with two decks and eight foundation piles."
   },
   {
     "category": "puzzle",
     "name": "Stealing the Diamond",
-    "slug": "stealing-the-diamond"
+    "slug": "stealing-the-diamond",
+    "description": "A stickman point-and-click adventure where you plan a heist to steal a priceless diamond."
   },
   {
     "category": "sports",
     "name": "Super Stickman Golf",
-    "slug": "super-stickman-golf"
+    "slug": "super-stickman-golf",
+    "description": "A 2D golf game with power-ups, crazy holes, and stickman characters."
   },
   {
     "category": "platformer",
     "name": "Stickman Hook",
-    "slug": "stickman-hook"
+    "slug": "stickman-hook",
+    "description": "Swing through levels as a stickman using a grappling hook, performing flips and stunts."
   },
   {
     "category": "strategy",
     "name": "Storm the House 2",
-    "slug": "storm-the-house-2"
+    "slug": "storm-the-house-2",
+    "description": "Defend your house against waves of stickmen by placing turrets and managing resources."
   },
   {
     "category": "puzzle",
     "name": "Super Hexbee Merger",
-    "slug": "super-hexbee-merger"
+    "slug": "super-hexbee-merger",
+    "description": "A hexagon-based merging puzzle game where you combine identical hexbees to create larger ones."
   },
   {
     "category": "puzzle",
     "name": "Swingo",
-    "slug": "swingo"
+    "slug": "swingo",
+    "description": "Swing a ball through hoops using realistic rope physics in this casual puzzle game."
   },
   {
     "category": "strategy",
     "name": "Territorial.io",
-    "slug": "territorial-io"
+    "slug": "territorial-io",
+    "description": "A multiplayer strategy game where you expand your territory by sending armies to unclaimed lands."
   },
   {
     "category": "strategy",
     "name": "The Battle",
-    "slug": "the-battle"
+    "slug": "the-battle",
+    "description": "A tactical war game where you command units on a grid to defeat the opposing army."
   },
   {
     "category": "strategy",
     "name": "The Final Earth",
-    "slug": "the-final-earth"
+    "slug": "the-final-earth",
+    "description": "Build a floating city in space, managing resources and expanding your colony."
   },
   {
     "category": "puzzle",
     "name": "The Hotel",
-    "slug": "the-hotel"
+    "slug": "the-hotel",
+    "description": "A point-and-click puzzle game set in a mysterious hotel with many secrets to uncover."
   },
   {
     "category": "puzzle",
     "name": "There Is No Game",
-    "slug": "there-is-no-game"
+    "slug": "there-is-no-game",
+    "description": "A creative puzzle adventure that insists there is no game, but unfolds into a hilarious narrative."
   },
   {
     "category": "strategy",
     "name": "Tiny Islands",
-    "slug": "tiny-islands"
+    "slug": "tiny-islands",
+    "description": "Draw small islands and arrange features like trees and houses to build a thriving miniature archipelago."
   },
   {
     "category": "casual",
     "name": "Tower Crash 3D",
-    "slug": "tower-crash-3d"
+    "slug": "tower-crash-3d",
+    "description": "Stack blocks as high as possible while avoiding obstacles that could topple your tower."
   },
   {
     "category": "puzzle",
     "name": "Traffic Mania",
-    "slug": "traffic-mania"
+    "slug": "traffic-mania",
+    "description": "Direct traffic at busy intersections to prevent accidents and keep cars moving smoothly."
   },
   {
     "category": "puzzle",
     "name": "Twitch Tetris",
-    "slug": "twitch-tetris"
+    "slug": "twitch-tetris",
+    "description": "A version of Tetris designed to be played by a Twitch chat audience voting on moves."
   },
   {
     "category": "casual",
     "name": "Wallsmash",
-    "slug": "wallsmash"
+    "slug": "wallsmash",
+    "description": "Smash through walls with a wrecking ball in this satisfying physics-based destruction game."
   },
   {
     "category": "puzzle",
     "name": "Waterworks!",
-    "slug": "waterworks"
+    "slug": "waterworks",
+    "description": "Rotate pipe pieces to create a working plumbing system and let the water flow."
   },
   {
     "category": "puzzle",
     "name": "Wheely 2",
-    "slug": "wheely-2"
+    "slug": "wheely-2",
+    "description": "A point-and-click puzzle adventure starring a cute red car named Wheely."
   },
   {
     "category": "puzzle",
     "name": "Wheely 3",
-    "slug": "wheely-3"
+    "slug": "wheely-3",
+    "description": "Wheely returns for more point-and-click adventures with new characters and puzzles."
   },
   {
     "category": "puzzle",
     "name": "Wheely 4: Time Travel",
-    "slug": "wheely-4-time-travel"
+    "slug": "wheely-4-time-travel",
+    "description": "Travel through time with Wheely, solving puzzles in different historical eras."
   },
   {
     "category": "puzzle",
     "name": "Wheely 5: Armageddon",
-    "slug": "wheely-5-armageddon"
+    "slug": "wheely-5-armageddon",
+    "description": "Wheely faces an apocalyptic scenario, using point-and-click puzzle solving to save the day."
   },
   {
     "category": "puzzle",
     "name": "Wheely 6: Fairytale",
-    "slug": "wheely-6-fairytale"
+    "slug": "wheely-6-fairytale",
+    "description": "Join Wheely in a fairy tale world filled with princesses, dragons, and click-to-solve puzzles."
   },
   {
     "category": "puzzle",
     "name": "Wheely 7: Detective",
-    "slug": "wheely-7-detective"
+    "slug": "wheely-7-detective",
+    "description": "Wheely becomes a detective in a mysterious point-and-click puzzle noir adventure."
   },
   {
     "category": "puzzle",
     "name": "Wheely 8: Aliens",
-    "slug": "wheely-8-aliens"
+    "slug": "wheely-8-aliens",
+    "description": "An extraterrestrial point-and-click puzzle adventure featuring the lovable red car."
   },
   {
     "category": "casual",
     "name": "Wizard Mike",
-    "slug": "wizard-mike"
+    "slug": "wizard-mike",
+    "description": "Help Wizard Mike brew potions and click your way through a magical idle adventure."
   },
   {
     "category": "puzzle",
     "name": "Wood Block Puzzle",
-    "slug": "wood-block-puzzle"
+    "slug": "wood-block-puzzle",
+    "description": "Place wooden blocks of various shapes on a board to fill rows and columns completely."
   },
   {
     "category": "puzzle",
     "name": "Woodventure",
-    "slug": "woodventure"
+    "slug": "woodventure",
+    "description": "A wooden-themed puzzle game where you match and collect forest items in a calming setting."
   },
   {
     "category": "puzzle",
     "name": "Word Slide",
-    "slug": "word-slide"
+    "slug": "word-slide",
+    "description": "Slide letters around the board to form words in this relaxing word puzzle game."
   },
   {
     "category": "puzzle",
     "name": "Wordle Unlimited",
-    "slug": "wordle-unlimited"
+    "slug": "wordle-unlimited",
+    "description": "Play the popular word-guessing game with no daily limit, guessing five-letter words."
   },
   {
     "category": "puzzle",
     "name": "Wordle",
-    "slug": "wordle"
+    "slug": "wordle",
+    "description": "Guess the five-letter word in six tries, with color-coded hints after each attempt."
   },
   {
     "category": "puzzle",
     "name": "XX142-B2.EXE",
-    "slug": "xx142-b2exe"
+    "slug": "xx142-b2exe",
+    "description": "An experimental puzzle game where you type commands to manipulate a strange digital world."
   },
   {
     "category": "strategy",
     "name": "Ages of Conflict",
-    "slug": "ages-of-conflict"
+    "slug": "ages-of-conflict",
+    "description": "A world domination simulator where you watch nations rise, ally, and fall in a grand simulation."
   },
   {
     "category": "casual",
     "name": "Among Us",
-    "slug": "among-us"
+    "slug": "among-us",
+    "description": "Work together with crewmates to prepare your spaceship, but watch out for the impostor among you."
   },
   {
     "category": "horror",
     "name": "Baldi's Basics",
-    "slug": "baldis-basics"
+    "slug": "baldis-basics",
+    "description": "A retro-style horror game disguised as an educational game, where you solve math problems while Baldi hunts you."
   },
   {
     "category": "casual",
     "name": "Big Red Button",
-    "slug": "big-red-button"
+    "slug": "big-red-button",
+    "description": "Press a giant red button and see what happens—dozens of silly and surprising outcomes await."
   },
   {
     "category": "casual",
     "name": "Bitcoin Clicker",
-    "slug": "bitcoin-clicker"
+    "slug": "bitcoin-clicker",
+    "description": "An idle clicker game about mining bitcoins and upgrading your virtual mining empire."
   },
   {
-    "category": "reflexes",
+    "category": "casual",
     "name": "Bottle Flip 3D",
-    "slug": "bottle-flip-3d"
+    "slug": "bottle-flip-3d",
+    "description": "A 3D physics-based game where you flip a water bottle to land it upright on various objects."
   },
   {
-    "category": "reflexes",
+    "category": "casual",
     "name": "Bottle Flip",
-    "slug": "bottle-flip"
+    "slug": "bottle-flip",
+    "description": "Flip a bottle and try to make it land perfectly upright in this simple physics game."
   },
   {
     "category": "casual",
     "name": "Capybara Clicker 2",
-    "slug": "capybara-clicker-2"
+    "slug": "capybara-clicker-2",
+    "description": "Click to generate capybaras and unlock upgrades in this charming idle game sequel."
   },
   {
     "category": "casual",
     "name": "Capybara Clicker Pro",
-    "slug": "capybara-clicker-pro"
+    "slug": "capybara-clicker-pro",
+    "description": "An idle clicker with more capybara variants and expanded upgrade paths."
   },
   {
     "category": "casual",
     "name": "Capybara Clicker",
-    "slug": "capybara-clicker"
+    "slug": "capybara-clicker",
+    "description": "Click to produce adorable capybaras and watch your capybara population grow."
   },
   {
     "category": "casual",
     "name": "Clicker Heroes",
-    "slug": "clicker-heroes"
+    "slug": "clicker-heroes",
+    "description": "An incremental clicker game where you defeat monsters and hire heroes to do the clicking for you."
   },
   {
     "category": "casual",
     "name": "Cookie Clicker",
-    "slug": "cookie-clicker"
+    "slug": "cookie-clicker",
+    "description": "The original idle game classic: click to bake cookies and buy upgrades to bake billions more."
   },
   {
-    "category": "puzzle",
+    "category": "action",
     "name": "Core Ball",
-    "slug": "core-ball"
+    "slug": "core-ball",
+    "description": "Rotate a spiked circle to guide a bouncing ball into the core, avoiding obstacles in this reflex-based puzzle action game."
   },
   {
     "category": "casual",
     "name": "CSGO Clicker",
-    "slug": "csgo-clicker"
+    "slug": "csgo-clicker",
+    "description": "An idle clicker themed around Counter-Strike: Global Offensive, opening cases and collecting skins."
   },
   {
     "category": "puzzle",
     "name": "Dino Merge",
-    "slug": "dino-merge"
+    "slug": "dino-merge",
+    "description": "Merge identical dinosaurs to evolve them into bigger and more powerful prehistoric creatures."
   },
   {
     "category": "casual",
     "name": "Dogeminer",
-    "slug": "dogeminer"
+    "slug": "dogeminer",
+    "description": "An idle clicker where you mine Dogecoins, buy upgrades, and travel to the moon with the Shiba Inu."
   },
   {
     "category": "platformer",
     "name": "Doodle Jump",
-    "slug": "doodle-jump"
+    "slug": "doodle-jump",
+    "description": "Bounce upward on endless platforms, avoiding obstacles and shooting enemies in this classic mobile platformer."
   },
   {
     "category": "platformer",
     "name": "Duck Life 2",
-    "slug": "duck-life-2"
+    "slug": "duck-life-2",
+    "description": "Train your duck in running, flying, and swimming to win races and become the champion."
   },
   {
     "category": "platformer",
     "name": "Duck Life 3: Evolution",
-    "slug": "duck-life-3-evolution"
+    "slug": "duck-life-3-evolution",
+    "description": "Evolve your duck into various forms by winning races and improving its skills."
   },
   {
     "category": "platformer",
     "name": "Duck Life 4",
-    "slug": "duck-life-4"
+    "slug": "duck-life-4",
+    "description": "The duck training and racing series continues with new mini-games and tournaments."
   },
   {
     "category": "platformer",
     "name": "Duck Life",
-    "slug": "duck-life"
+    "slug": "duck-life",
+    "description": "Raise a duck, train its abilities, and enter races to earn money and become the fastest duck."
   },
   {
     "category": "casual",
     "name": "Eel Slap",
-    "slug": "eel-slap"
+    "slug": "eel-slap",
+    "description": "Slap a man with an eel and watch the hilarious reaction in this simple stress-reliever."
   },
   {
     "category": "casual",
     "name": "Elastic Man",
-    "slug": "elastic-man"
+    "slug": "elastic-man",
+    "description": "Stretch and distort a squishy 3D face with your mouse in this oddly satisfying toy."
   },
   {
     "category": "casual",
     "name": "Fisherman Life",
-    "slug": "fisherman-life"
+    "slug": "fisherman-life",
+    "description": "Cast your line, catch fish, and upgrade your gear in this relaxing fishing game."
   },
   {
-    "category": "reflexes",
+    "category": "casual",
     "name": "Flappy Bird",
-    "slug": "flappy-bird"
+    "slug": "flappy-bird",
+    "description": "Tap to flap your bird through gaps between pipes in this notoriously difficult arcade game."
   },
   {
     "category": "casual",
     "name": "Flying Car Simulator",
-    "slug": "flying-car-simulator"
+    "slug": "flying-car-simulator",
+    "description": "Drive a flying car through a city, performing stunts and exploring the open skies."
   },
   {
     "category": "driving",
     "name": "Flying Cars Era",
-    "slug": "flying-cars-era"
+    "slug": "flying-cars-era",
+    "description": "Race futuristic flying cars through neon-lit tracks in a high-speed driving game."
   },
   {
     "category": "reflexes",
     "name": "Fruit Ninja",
-    "slug": "fruit-ninja"
+    "slug": "fruit-ninja",
+    "description": "Swipe to slice flying fruit while avoiding bombs in this fast-paced arcade classic."
   },
   {
     "category": "casual",
     "name": "Frying Nemo",
-    "slug": "frying-nemo"
+    "slug": "frying-nemo",
+    "description": "A casual cooking game where you deep-fry fish and other seafood in a humorous setting."
   },
   {
     "category": "casual",
     "name": "Grindcraft",
-    "slug": "grindcraft"
+    "slug": "grindcraft",
+    "description": "An idle crafting game where you gather resources and craft items, inspired by Minecraft."
   },
   {
     "category": "casual",
     "name": "Guess the Kitty",
-    "slug": "guess-the-kitty"
+    "slug": "guess-the-kitty",
+    "description": "Guess which kitten is being described from a set of adorable cats in this casual quiz."
   },
   {
     "category": "casual",
     "name": "Gura Tambourine",
-    "slug": "gura-tambourine"
+    "slug": "gura-tambourine",
+    "description": "A virtual tambourine featuring the VTuber Gawr Gura that you can shake and play with."
   },
   {
     "category": "casual",
     "name": "Hacker Typer",
-    "slug": "hacker-typer"
+    "slug": "hacker-typer",
+    "description": "Type randomly on your keyboard and watch fake code appear, looking like a Hollywood hacker."
   },
   {
     "category": "casual",
     "name": "Hop & Pop It",
-    "slug": "hop-and-pop-it"
+    "slug": "hop-and-pop-it",
+    "description": "A relaxing fidget toy simulator where you pop bubbles on a colorful Pop It board."
   },
   {
     "category": "casual",
     "name": "Idle Breakout",
-    "slug": "idle-breakout"
+    "slug": "idle-breakout",
+    "description": "An idle game version of Breakout where balls automatically break bricks to earn currency."
   },
   {
     "category": "casual",
     "name": "Idle Light City",
-    "slug": "idle-light-city"
+    "slug": "idle-light-city",
+    "description": "Build and manage a city that runs on light, expanding your idle empire."
   },
   {
     "category": "casual",
     "name": "Idle Mining Empire",
-    "slug": "idle-mining-empire"
+    "slug": "idle-mining-empire",
+    "description": "Manage an idle mining operation, digging deeper and earning profits even while away."
   },
   {
     "category": "casual",
     "name": "Idle Restaurants",
-    "slug": "idle-restaurants"
+    "slug": "idle-restaurants",
+    "description": "Build a chain of idle restaurants and serve customers automatically to earn money."
   },
   {
     "category": "casual",
     "name": "Idle Tree City",
-    "slug": "idle-tree-city"
+    "slug": "idle-tree-city",
+    "description": "Grow a city in a giant tree, managing resources and expanding branches in this idle game."
   },
   {
     "category": "casual",
     "name": "Kitten Cannon",
-    "slug": "kitten-cannon"
+    "slug": "kitten-cannon",
+    "description": "Launch a kitten from a cannon and bounce it off objects to achieve the greatest distance."
   },
   {
     "category": "casual",
     "name": "Learn to Fly 2",
-    "slug": "learn-to-fly-2"
+    "slug": "learn-to-fly-2",
+    "description": "Help a penguin achieve flight by launching it and upgrading gliders, rockets, and more."
   },
   {
     "category": "casual",
     "name": "Learn to Fly",
-    "slug": "learn-to-fly"
+    "slug": "learn-to-fly",
+    "description": "A determined penguin builds a flying contraption to soar through the air in this launch game."
   },
   {
     "category": "puzzle",
     "name": "Little Alchemy 2",
-    "slug": "little-alchemy-2"
+    "slug": "little-alchemy-2",
+    "description": "Combine elements to discover new ones in this expansive puzzle crafting game."
   },
   {
     "category": "puzzle",
     "name": "Merge Harvest",
-    "slug": "merge-harvest"
+    "slug": "merge-harvest",
+    "description": "Merge crops and farm items to unlock new produce and expand your farm."
   },
   {
     "category": "puzzle",
     "name": "Merge Round Racers",
-    "slug": "merge-round-racers"
+    "slug": "merge-round-racers",
+    "description": "Merge identical round characters to evolve them and race against others."
   },
   {
     "category": "casual",
     "name": "Minecraft Case Simulator",
-    "slug": "minecraft-case-simulator"
+    "slug": "minecraft-case-simulator",
+    "description": "Open virtual Minecraft-themed cases to collect rare items and skins in this luck-based simulator."
   },
   {
     "category": "sports",
     "name": "Monster Truck Race Arena",
-    "slug": "monster-truck-race-arena"
+    "slug": "monster-truck-race-arena",
+    "description": "Drive monster trucks around an arena, performing stunts and racing against rivals."
   },
   {
     "category": "casual",
     "name": "Nut Simulator",
-    "slug": "nut-simulator"
+    "slug": "nut-simulator",
+    "description": "A silly simulation game where you play as a nut, navigating absurd scenarios."
   },
   {
     "category": "casual",
     "name": "Papa's Bakeria",
-    "slug": "papas-bakeria"
+    "slug": "papas-bakeria",
+    "description": "Bake and decorate pies in Papa Louie's bakery, serving customers in a time-management challenge."
   },
   {
     "category": "casual",
     "name": "Papa's Burgeria",
-    "slug": "papas-burgeria"
+    "slug": "papas-burgeria",
+    "description": "Flip patties and build burgers to order in this fast-paced restaurant game."
   },
   {
     "category": "casual",
     "name": "Papa's Cheeseria",
-    "slug": "papas-cheeseria"
+    "slug": "papas-cheeseria",
+    "description": "Grill cheese sandwiches and serve them with a side of fries in Papa's grilled cheese shop."
   },
   {
     "category": "casual",
     "name": "Papa's Cupcakeria",
-    "slug": "papas-cupcakeria"
+    "slug": "papas-cupcakeria",
+    "description": "Bake and frost cupcakes to perfection for a parade of hungry customers."
   },
   {
     "category": "casual",
     "name": "Papa's Donuteria",
-    "slug": "papas-donuteria"
+    "slug": "papas-donuteria",
+    "description": "Fry and glaze donuts in this sweet time-management game from the Papa's series."
   },
   {
     "category": "casual",
     "name": "Papa's Freezeria",
-    "slug": "papas-freezeria"
+    "slug": "papas-freezeria",
+    "description": "Blend and serve sundaes at a tropical ice cream shop, managing orders and upgrades."
   },
   {
     "category": "casual",
     "name": "Papa's Hot Doggeria",
-    "slug": "papas-hot-doggeria"
+    "slug": "papas-hot-doggeria",
+    "description": "Grill hot dogs and add toppings at a baseball stadium concession stand."
   },
   {
     "category": "casual",
     "name": "Papa's Pancakeria",
-    "slug": "papas-pancakeria"
+    "slug": "papas-pancakeria",
+    "description": "Flip pancakes and create breakfast plates with a variety of syrups and toppings."
   },
   {
     "category": "casual",
     "name": "Papa's Pastaria",
-    "slug": "papas-pastaria"
+    "slug": "papas-pastaria",
+    "description": "Cook pasta dishes to order in this Italian-themed restaurant management game."
   },
   {
     "category": "casual",
     "name": "Papa's Pizzeria",
-    "slug": "papas-pizzeria"
+    "slug": "papas-pizzeria",
+    "description": "The first Papa's game: run a pizza shop, taking orders and baking pizzas to perfection."
   },
   {
     "category": "casual",
     "name": "Papa's Scooperia",
-    "slug": "papas-scooperia"
+    "slug": "papas-scooperia",
+    "description": "Scoop cookie dough and bake cookies to top with ice cream in this dessert game."
   },
   {
     "category": "casual",
     "name": "Papa's Sushiria",
-    "slug": "papas-sushiria"
+    "slug": "papas-sushiria",
+    "description": "Roll sushi and serve it to customers in a fast-paced Japanese restaurant setting."
   },
   {
     "category": "casual",
     "name": "Papa's Taco Mia!",
-    "slug": "papas-taco-mia"
+    "slug": "papas-taco-mia",
+    "description": "Build tacos with a variety of fillings and sauces in this Mexican cantina time-management game."
   },
   {
     "category": "casual",
     "name": "Papa's Wingeria",
-    "slug": "papas-wingeria"
+    "slug": "papas-wingeria",
+    "description": "Fry chicken wings and coat them in sauces for hungry customers in Papa's Wingeria."
   },
   {
     "category": "casual",
     "name": "Particle Clicker",
-    "slug": "particle-clicker"
+    "slug": "particle-clicker",
+    "description": "An idle clicker that teaches particle physics, from protons to the Higgs boson."
   },
   {
     "category": "casual",
     "name": "Pou",
-    "slug": "pou"
+    "slug": "pou",
+    "description": "Care for a cute alien pet by feeding, cleaning, and playing mini-games."
   },
   {
     "category": "casual",
     "name": "President Simulator",
-    "slug": "president-simulator"
+    "slug": "president-simulator",
+    "description": "Make decisions as the president of a country, balancing popularity and policy."
   },
   {
     "category": "puzzle",
     "name": "Push the Square",
-    "slug": "push-the-square"
+    "slug": "push-the-square",
+    "description": "A block-pushing puzzle game where you slide squares to designated spots using logic."
   },
   {
     "category": "reflexes",
     "name": "Rise Higher",
-    "slug": "rise-higher"
+    "slug": "rise-higher",
+    "description": "Raise a protective shield to block incoming obstacles and keep your balloon safe."
   },
   {
     "category": "casual",
     "name": "Sandboxels",
-    "slug": "sandboxels"
+    "slug": "sandboxels",
+    "description": "A free-falling sand simulation game where you experiment with different elements and reactions."
   },
   {
     "category": "casual",
     "name": "Smash Karts",
-    "slug": "smash-karts"
+    "slug": "smash-karts",
+    "description": "Drive a go-kart and collect power-ups to smash other players in this online multiplayer game."
   },
   {
     "category": "casual",
     "name": "Sort the Court",
-    "slug": "sort-the-court"
+    "slug": "sort-the-court",
+    "description": "Decide the fate of your kingdom's subjects by answering their requests with yes or no."
   },
   {
     "category": "casual",
     "name": "Spacebar Clicker",
-    "slug": "space-bar-clicker"
+    "slug": "space-bar-clicker",
+    "description": "Hit the spacebar as fast as you can to climb the leaderboard in this simple clicker game."
   },
   {
     "category": "casual",
     "name": "Space Company",
-    "slug": "space-company"
+    "slug": "space-company",
+    "description": "An idle game where you build a space exploration company from the ground up."
   },
   {
     "category": "casual",
     "name": "Stair Race 3D",
-    "slug": "stair-race-3d"
+    "slug": "stair-race-3d",
+    "description": "Race against opponents by building stairs with collected blocks to reach the finish line."
   },
   {
     "category": "platformer",
     "name": "Stickman That One Level",
-    "slug": "stickman-that-one-level"
+    "slug": "stickman-that-one-level",
+    "description": "A challenging stickman platformer with a single, incredibly difficult level to master."
   },
   {
     "category": "casual",
     "name": "Stickman vs Skibidi Toilet",
-    "slug": "stickman-vs-skibidi-toilet"
+    "slug": "stickman-vs-skibidi-toilet",
+    "description": "A meme-based casual fighting game where stickmen battle the infamous Skibidi Toilets."
   },
   {
     "category": "casual",
     "name": "Strawberella",
-    "slug": "strawberella"
+    "slug": "strawberella",
+    "description": "A casual game about a strawberry-themed princess, involving dress-up and mini-games."
   },
   {
     "category": "shooter",
     "name": "Strike Force Heroes",
-    "slug": "strike-force-heroes"
+    "slug": "strike-force-heroes",
+    "description": "A fast-paced side-scrolling shooter where you control a squad of soldiers with unique classes."
   },
   {
     "category": "casual",
     "name": "Tall.io",
-    "slug": "tall-io"
+    "slug": "tall-io",
+    "description": "Collect followers to grow taller and dominate other players in this casual online game."
   },
   {
     "category": "casual",
     "name": "Townscaper",
-    "slug": "townscaper"
+    "slug": "townscaper",
+    "description": "Instantly build charming island towns by clicking on the water, with no goal but to create."
   },
   {
     "category": "horror",
     "name": "Trollface Quest Horror 2",
-    "slug": "trollface-quest-horror-2"
+    "slug": "trollface-quest-horror-2",
+    "description": "A point-and-click puzzle game parodying horror tropes with the infamous Trollface humor."
   },
   {
     "category": "casual",
     "name": "Trump the Puppet",
-    "slug": "trump-the-puppet"
+    "slug": "trump-the-puppet",
+    "description": "A ragdoll puppet of Donald Trump that you can toss around and interact with."
   },
   {
     "category": "casual",
     "name": "Turbo Dismounting",
-    "slug": "turbo-dismounting"
+    "slug": "turbo-dismounting",
+    "description": "Crash vehicles into obstacles to cause maximum ragdoll damage in this physics sandbox."
   },
   {
     "category": "casual",
     "name": "Veloce",
-    "slug": "veloce"
+    "slug": "veloce",
+    "description": "Survive for as long as possible while spinning boxes come at you from all sides."
   },
   {
     "category": "casual",
     "name": "Silk",
-    "slug": "silk"
+    "slug": "silk",
+    "description": "A relaxing art game where you draw elegant flowing silk ribbons with your cursor."
   },
   {
     "category": "casual",
     "name": "WebGL Fluid Simulation",
-    "slug": "webgl-fluid-simulation"
+    "slug": "webgl-fluid-simulation",
+    "description": "Interact with a realistic fluid dynamics simulation, creating colorful swirling patterns."
   },
   {
     "category": "casual",
     "name": "Whack Your Boss",
-    "slug": "whack-your-boss"
+    "slug": "whack-your-boss",
+    "description": "Discover creative ways to whack your boss in this darkly humorous stress-relief game."
   },
   {
     "category": "puzzle",
     "name": "Yoshi's Fabrication Station",
-    "slug": "yoshis-fabrication-station"
+    "slug": "yoshis-fabrication-station",
+    "description": "A Yoshi-themed platformer game where you have to get as far as possible."
   },
   {
     "category": "survival",
     "name": "10 Minutes Till Dawn",
-    "slug": "10-minutes-till-dawn"
+    "slug": "10-minutes-till-dawn",
+    "description": "Survive waves of monsters for ten minutes in this roguelite shooter with a dark aesthetic."
   },
   {
     "category": "survival",
     "name": "A Dark Room",
-    "slug": "a-dark-room"
+    "slug": "a-dark-room",
+    "description": "A minimalist text-based survival game that slowly unfolds into a deep adventure."
   },
   {
     "category": "puzzle",
     "name": "Adam and Eve 2",
-    "slug": "adam-and-eve-2"
+    "slug": "adam-and-eve-2",
+    "description": "A prehistoric point-and-click puzzle adventure where Adam continues his quest to find Eve."
   },
   {
     "category": "puzzle",
     "name": "Adam and Eve",
-    "slug": "adam-and-eve"
+    "slug": "adam-and-eve",
+    "description": "Help Adam solve puzzles and overcome obstacles to find his beloved Eve in this cute click adventure."
   },
   {
     "category": "shooter",
     "name": "Alien Hominid",
-    "slug": "alien-hominid"
+    "slug": "alien-hominid",
+    "description": "A run-and-gun shooter where you play as a yellow alien blasting through waves of agents."
   },
   {
     "category": "platformer",
     "name": "Amidst the Sky",
-    "slug": "amidst-the-sky"
+    "slug": "amidst-the-sky",
+    "description": "A dreamlike platformer where you navigate floating islands and use wind mechanics to progress."
   },
   {
     "category": "casual",
     "name": "Angry Sharks",
-    "slug": "angry-sharks"
+    "slug": "angry-sharks",
+    "description": "Control a hungry shark and eat everything in your path in this oceanic eat-'em-up."
   },
   {
     "category": "casual",
     "name": "Animal.io",
-    "slug": "animal-io"
+    "slug": "animal-io",
+    "description": "An online .io game where you control an animal and try to survive and grow in a shared arena."
   },
   {
     "category": "shooter",
     "name": "Apple Shooter",
-    "slug": "apple-shooter"
+    "slug": "apple-shooter",
+    "description": "Use a bow and arrow to shoot an apple off a person's head without hitting them."
   },
   {
     "category": "casual",
     "name": "Aquapark.io",
-    "slug": "aquapark-io"
+    "slug": "aquapark-io",
+    "description": "Slide down a giant water park, racing against other players and trying to finish first."
   },
   {
     "category": "shooter",
     "name": "Arcane Archer",
-    "slug": "arcane-archer"
+    "slug": "arcane-archer",
+    "description": "A first-person archery game where you use magical arrows to hit targets in a fantasy setting."
   },
   {
     "category": "strategy",
     "name": "Archers.io",
-    "slug": "archers-io"
+    "slug": "archers-io",
+    "description": "Command a squad of archers in an online .io game, shooting down enemies and capturing territory."
   },
   {
     "category": "reflexes",
     "name": "Avalanche",
-    "slug": "avalanche"
+    "slug": "avalanche",
+    "description": "Dodge falling snowballs and survive as long as possible in this fast-paced reflex game."
   },
   {
     "category": "shooter",
     "name": "Awesome Tanks 2",
-    "slug": "awesome-tanks-2"
+    "slug": "awesome-tanks-2",
+    "description": "Drive a tank through enemy bases, blasting everything in sight with powerful upgrades."
   },
   {
     "category": "survival",
     "name": "Bacon May Die",
-    "slug": "bacon-may-die"
+    "slug": "bacon-may-die",
+    "description": "A side-scrolling beat-'em-up where you play as a pig fighting off waves of attackers."
   },
   {
     "category": "platformer",
     "name": "The Black Knight",
-    "slug": "the-black-knight"
+    "slug": "the-black-knight",
+    "description": "A platformer where you play as a dark knight, slashing through enemies and overcoming obstacles."
   },
   {
     "category": "platformer",
     "name": "Blumgi Slime",
-    "slug": "blumgi-slime"
+    "slug": "blumgi-slime",
+    "description": "Bounce and stretch a slime through levels in this colorful physics platformer."
   },
   {
     "category": "puzzle",
     "name": "Bob the Robber 2",
-    "slug": "bob-the-robber-2"
+    "slug": "bob-the-robber-2",
+    "description": "Sneak through buildings as Bob the Robber, hacking systems and avoiding guards in this stealth puzzle game."
   },
   {
     "category": "puzzle",
     "name": "Bob the Robber 4",
-    "slug": "bob-the-robber-4"
+    "slug": "bob-the-robber-4",
+    "description": "More stealth puzzle action with Bob, exploring new locations and stealing valuable items."
   },
   {
     "category": "casual",
     "name": "Bomb It 7",
-    "slug": "bomb-it-7"
+    "slug": "bomb-it-7",
+    "description": "Plant bombs to trap enemies in this classic Bomberman-style arcade party game."
   },
   {
     "category": "platformer",
     "name": "Boxel Rebound",
-    "slug": "boxel-rebound"
+    "slug": "boxel-rebound",
+    "description": "Jump and bounce through geometric levels, timing your moves perfectly to survive."
   },
   {
     "category": "shooter",
     "name": "Boxhead 2Play",
-    "slug": "boxhead-2play"
+    "slug": "boxhead-2play",
+    "description": "A top-down zombie shooter where you place blocks and blast endless waves of undead."
   },
   {
     "category": "shooter",
     "name": "Bullet Force",
-    "slug": "bullet-force"
+    "slug": "bullet-force",
+    "description": "A fast-paced first-person shooter with multiplayer modes and customizable weapons."
   },
   {
     "category": "platformer",
     "name": "Level Devil",
-    "slug": "level-devil"
+    "slug": "level-devil",
+    "description": "A challenging platformer where the level itself is your enemy, full of sudden traps and surprises."
   },
   {
     "category": "platformer",
     "name": "Level Devil 2",
-    "slug": "level-devil-2"
+    "slug": "level-devil-2",
+    "description": "The sadistic platformer returns with even more unfair traps and tricky jumps."
   },
   {
     "category": "shooter",
     "name": "Champion Archer",
-    "slug": "champion-archer"
+    "slug": "champion-archer",
+    "description": "Aim and shoot arrows at enemies and targets in this medieval archery game."
   },
   {
     "category": "casual",
     "name": "Craftmine",
-    "slug": "craftmine"
+    "slug": "craftmine",
+    "description": "A 2D mining and crafting game where you dig for resources and build structures."
   },
   {
     "category": "reflexes",
     "name": "Crazy Tunnel 3D",
-    "slug": "crazy-tunnel-3d"
+    "slug": "crazy-tunnel-3d",
+    "description": "Navigate a ball through a twisting 3D tunnel without hitting the walls in this reflex game."
   },
   {
     "category": "shooter",
     "name": "Creative Kill Chamber",
-    "slug": "creative-kill-chamber"
+    "slug": "creative-kill-chamber",
+    "description": "A darkly humorous puzzle shooter where you creatively eliminate a stickman using various weapons."
   },
   {
     "category": "reflexes",
     "name": "Cubefield",
-    "slug": "cubefield"
+    "slug": "cubefield",
+    "description": "Dodge an endless field of cubes in this minimalist 3D reflex game."
   },
   {
     "category": "platformer",
     "name": "Dante",
-    "slug": "dante"
+    "slug": "dante",
+    "description": "An action platformer with a gothic atmosphere, featuring sword combat and acrobatic moves."
   },
   {
     "category": "survival",
     "name": "Dead Again",
-    "slug": "dead-again"
+    "slug": "dead-again",
+    "description": "Survive waves of zombies in a top-down arena, using weapons and quick movement."
   },
   {
     "category": "platformer",
     "name": "Death Run 3D",
-    "slug": "death-run-3d"
+    "slug": "death-run-3d",
+    "description": "A fast-paced 3D platformer where you run through a tunnel avoiding deadly obstacles."
   },
   {
     "category": "strategy",
     "name": "Defend the Tank",
-    "slug": "defend-the-tank"
+    "slug": "defend-the-tank",
+    "description": "Place defensive units to protect your tank from waves of enemy soldiers."
   },
   {
     "category": "reflexes",
     "name": "Dodge",
-    "slug": "dodge"
+    "slug": "dodge",
+    "description": "Move your square to avoid falling blocks in this simple yet addictive reflex game."
   },
   {
     "category": "strategy",
     "name": "Endless War 3",
-    "slug": "endless-war-3"
+    "slug": "endless-war-3",
+    "description": "A tactical war game where you deploy soldiers and vehicles to defeat the enemy army."
   },
   {
     "category": "platformer",
     "name": "Evil Glitch",
-    "slug": "evil-glitch"
+    "slug": "evil-glitch",
+    "description": "A platformer filled with glitches and corrupted visuals that try to stop you from reaching the end."
   },
   {
     "category": "platformer",
     "name": "Fancy Pants 2",
-    "slug": "fancy-pants-2"
+    "slug": "fancy-pants-2",
+    "description": "Run, jump, and slide through hand-drawn levels as the stickman with fancy pants."
   },
   {
     "category": "platformer",
     "name": "Fancy Pants 3",
-    "slug": "fancy-pants-3"
+    "slug": "fancy-pants-3",
+    "description": "The third entry in the stylish platformer series, with new moves and larger worlds."
   },
   {
     "category": "platformer",
     "name": "Fancy Pants Adventures",
-    "slug": "fancy-pants-adventures"
+    "slug": "fancy-pants-adventures",
+    "description": "The original hand-drawn platformer starring a stickman in fancy pants on a quest."
   },
   {
     "category": "puzzle",
     "name": "Fireboy & Watergirl in The Forest Temple",
-    "slug": "fireboy-and-watergirl-in-the-forest-temple"
+    "slug": "fireboy-and-watergirl-in-the-forest-temple",
+    "description": "A cooperative puzzle platformer where two elemental characters must work together to escape the temple."
   },
   {
     "category": "casual",
     "name": "Fish Master",
-    "slug": "fish-master"
+    "slug": "fish-master",
+    "description": "Hook fish and reel them in while avoiding sharks and other dangers in this angling game."
   },
   {
     "category": "horror",
     "name": "FNaW: Five Nights at Winston's",
-    "slug": "fnaw"
+    "slug": "fnaw",
+    "description": "A Five Nights at Freddy's fangame set in Winston's office, with its own animatronic horrors."
   },
   {
     "category": "sports",
     "name": "Football Run",
-    "slug": "football-run"
+    "slug": "football-run",
+    "description": "Run down the field dodging defenders and scoring touchdowns in this endless football runner."
   },
   {
     "category": "strategy",
     "name": "Froggy's Battle",
-    "slug": "froggys-battle"
+    "slug": "froggys-battle",
+    "description": "A strategy game where you command a frog army against insect foes on a grid."
   },
   {
     "category": "shooter",
     "name": "Galaga",
-    "slug": "galaga"
+    "slug": "galaga",
+    "description": "The classic arcade space shooter where you fight waves of alien ships threatening Earth."
   },
   {
     "category": "casual",
     "name": "Generic Fishing Game",
-    "slug": "generic-fishing-game"
+    "slug": "generic-fishing-game",
+    "description": "A simple fishing game where you catch fish and upgrade your rod."
   },
   {
     "category": "reflexes",
     "name": "GeoDash",
-    "slug": "geodash"
+    "slug": "geodash",
+    "description": "A rhythm-based reflex game where you jump over spikes to the beat of the music."
   },
   {
     "category": "platformer",
     "name": "Geometry Dash",
-    "slug": "geometry-dash"
+    "slug": "geometry-dash",
+    "description": "Jump and fly through geometric obstacles in sync with the music in this rhythm platformer."
   },
   {
     "category": "shooter",
     "name": "Getaway Shootout",
-    "slug": "getaway-shootout"
+    "slug": "getaway-shootout",
+    "description": "A chaotic multiplayer shooter where you race to the getaway vehicle while shooting opponents."
   },
   {
     "category": "casual",
     "name": "Gimme the Airpod",
-    "slug": "gimme-the-airpod"
+    "slug": "gimme-the-airpod",
+    "description": "A humorous game about trying to grab a dropped AirPod before it's lost forever."
   },
   {
     "category": "platformer",
     "name": "Gladihoppers",
-    "slug": "gladihoppers"
+    "slug": "gladihoppers",
+    "description": "A platformer fighting game where you play as a gladiator hopping into battle."
   },
   {
     "category": "platformer",
     "name": "Glitch Dash",
-    "slug": "glitch-dash"
+    "slug": "glitch-dash",
+    "description": "A first-person platformer where you dash through a glitchy, neon world avoiding obstacles."
   },
   {
     "category": "puzzle",
     "name": "Gobdun",
-    "slug": "gobdun"
+    "slug": "gobdun",
+    "description": "A puzzle game where you control a goblin exploring a dungeon, solving challenges with clever mechanics."
   },
   {
     "category": "platformer",
     "name": "Goodnight",
-    "slug": "goodnight"
+    "slug": "goodnight",
+    "description": "A spooky platformer where you guide a boy safely to his bed while avoiding lurking monsters in the dark."
   },
   {
     "category": "reflexes",
     "name": "Groovy Ski",
-    "slug": "groovy-ski"
+    "slug": "groovy-ski",
+    "description": "A downhill skiing reflex game where you avoid trees and cliffs while grooving to music."
   },
   {
     "category": "platformer",
     "name": "G-Switch 2",
-    "slug": "g-switch-2"
+    "slug": "g-switch-2",
+    "description": "Flip gravity to run on ceilings and walls in this fast-paced multiplayer runner."
   },
   {
     "category": "platformer",
     "name": "G-Switch 3",
-    "slug": "g-switch-3"
+    "slug": "g-switch-3",
+    "description": "The gravity-flipping runner returns with new levels, characters, and multiplayer chaos."
   },
   {
     "category": "platformer",
     "name": "G-Switch",
-    "slug": "g-switch"
+    "slug": "g-switch",
+    "description": "Run and flip gravity in this endless platformer that can be played solo or with friends."
   },
   {
     "category": "shooter",
     "name": "Gun Mayhem 2",
-    "slug": "gun-mayhem-2"
+    "slug": "gun-mayhem-2",
+    "description": "A platformer shooter where you blast opponents off the stage with an arsenal of weapons."
   },
   {
     "category": "shooter",
     "name": "Gun Mayhem Redux",
-    "slug": "gun-mayhem-redux"
+    "slug": "gun-mayhem-redux",
+    "description": "A remastered version of Gun Mayhem with new maps, weapons, and explosive action."
   },
   {
     "category": "shooter",
     "name": "Gun Mayhem",
-    "slug": "gun-mayhem"
+    "slug": "gun-mayhem",
+    "description": "An explosive platform-fighter where you use guns and bombs to knock out foes."
   },
   {
     "category": "casual",
     "name": "GunSpin",
-    "slug": "gunspin"
+    "slug": "gunspin",
+    "description": "Shoot to spin your gun and see how far you can launch yourself in this one-button game."
   },
   {
     "category": "shooter",
     "name": "Gunblood",
-    "slug": "gunblood"
+    "slug": "gunblood",
+    "description": "A Wild West dueling game where quick draws and precise shots decide life or death."
   },
   {
     "category": "casual",
     "name": "Hammer Master.io",
-    "slug": "hammer-master-io"
+    "slug": "hammer-master-io",
+    "description": "Swing a hammer to knock out other players in a chaotic online arena."
   },
   {
     "category": "platformer",
     "name": "Happy Hop",
-    "slug": "happy-hop"
+    "slug": "happy-hop",
+    "description": "Bounce upward on platforms as a cute animal, collecting fruit and avoiding enemies."
   },
   {
     "category": "casual",
     "name": "Helicopter",
-    "slug": "helicopter"
+    "slug": "helicopter",
+    "description": "Navigate a helicopter through a tunnel without hitting the walls in this classic Flash game."
   },
   {
     "category": "casual",
     "name": "Hide and Smash",
-    "slug": "hide-and-smash"
+    "slug": "hide-and-smash",
+    "description": "Find hidden objects and smash them to pieces in this satisfying destruction game."
   },
   {
     "category": "casual",
     "name": "Hole.io",
-    "slug": "hole-io"
+    "slug": "hole-io",
+    "description": "Control a black hole and swallow entire cities, growing bigger as you consume more objects."
   },
   {
     "category": "platformer",
     "name": "House of Hazards",
-    "slug": "house-of-hazards"
+    "slug": "house-of-hazards",
+    "description": "A multiplayer platformer where you compete to complete household tasks while avoiding deadly traps."
   },
   {
     "category": "casual",
     "name": "Hover Bot Arena",
-    "slug": "hover-bot-arena"
+    "slug": "hover-bot-arena",
+    "description": "Battle other hover bots in an arena by ramming them and using special abilities."
   },
   {
     "category": "horror",
     "name": "Hungry Lamu",
-    "slug": "hungry-lamu"
+    "slug": "hungry-lamu",
+    "description": "A horror game where you must avoid being eaten by a hungry llama stalking you."
   },
   {
     "category": "sports",
     "name": "Infinite Soccer",
-    "slug": "infinite-soccer"
+    "slug": "infinite-soccer",
+    "description": "An endless soccer game where you dribble and score goals against an ever-present defense."
   },
   {
     "category": "survival",
     "name": "Iron Snout",
-    "slug": "iron-snout"
+    "slug": "iron-snout",
+    "description": "A pig must fight off waves of wolves using martial arts in this survival beat-'em-up."
   },
   {
     "category": "platformer",
     "name": "Jetpack Joyride",
-    "slug": "jetpack-joyride"
+    "slug": "jetpack-joyride",
+    "description": "Fly through a laboratory with a jetpack, dodging lasers and collecting coins in this endless runner."
   },
   {
     "category": "survival",
     "name": "Just One Boss",
-    "slug": "just-one-boss"
+    "slug": "just-one-boss",
+    "description": "Face a single, incredibly challenging boss in this minimalist survival battle."
   },
   {
     "category": "shooter",
     "name": "Kitchen Gun Game",
-    "slug": "kitchen-gun-game"
+    "slug": "kitchen-gun-game",
+    "description": "A first-person shooter where you use kitchen-themed weapons to fight waves of enemies."
   },
   {
     "category": "casual",
     "name": "Knife Master",
-    "slug": "knife-master"
+    "slug": "knife-master",
+    "description": "Throw knives at a spinning target without hitting other knives in this casual timing game."
   },
   {
     "category": "platformer",
     "name": "Knight Hero Adventure",
-    "slug": "knight-hero-adventure"
+    "slug": "knight-hero-adventure",
+    "description": "Run, jump, and fight as a knight through medieval levels filled with monsters."
   },
   {
     "category": "casual",
     "name": "Knives Crash",
-    "slug": "knives-crash"
+    "slug": "knives-crash",
+    "description": "Smash knives together and watch them shatter in this visually satisfying destruction toy."
   },
   {
     "category": "casual",
     "name": "Knife.io (Fanmade)",
-    "slug": "knife-io-fanmade"
+    "slug": "knife-io-fanmade",
+    "description": "A fan-made .io game where you throw knives to grow your blade and defeat others."
   },
   {
     "category": "shooter",
     "name": "Leader Strike",
-    "slug": "leader-strike"
+    "slug": "leader-strike",
+    "description": "A top-down tactical shooter where you lead a squad against enemy forces."
   },
   {
     "category": "platformer",
     "name": "Super Mario Bros. (Online)",
-    "slug": "super-mario-bros"
+    "slug": "super-mario-bros",
+    "description": "A fan-made online recreation of the classic Super Mario Bros. platformer."
   },
   {
     "category": "platformer",
     "name": "Super Mario Bros. (1985)",
-    "slug": "mario"
+    "slug": "mario",
+    "description": "The original 1985 Nintendo classic: run and jump through the Mushroom Kingdom to save the princess."
   },
   {
     "category": "shooter",
     "name": "Masked Forces",
-    "slug": "masked-forces"
+    "slug": "masked-forces",
+    "description": "A multiplayer first-person shooter with fast-paced gunplay and various game modes."
   },
   {
     "category": "shooter",
     "name": "Matrix Rampage",
-    "slug": "matrix-rampage"
+    "slug": "matrix-rampage",
+    "description": "A shooter where you use Matrix-style slow-motion and acrobatics to take down enemies."
   },
   {
     "category": "puzzle",
     "name": "Microbius",
-    "slug": "microbius"
+    "slug": "microbius",
+    "description": "A puzzle game about microscopic organisms, where you grow and evolve to solve challenges."
   },
   {
     "category": "casual",
     "name": "Mine Blocks",
-    "slug": "mine-blocks"
+    "slug": "mine-blocks",
+    "description": "A 2D Minecraft-inspired sandbox game where you mine, build, and survive."
   },
   {
     "category": "platformer",
     "name": "OvO 2",
-    "slug": "ovo-2"
+    "slug": "ovo-2",
+    "description": "A fast-paced platformer with wall jumps, slides, and precise movements through challenging levels."
   },
   {
     "category": "platformer",
     "name": "OvO Dimensions",
-    "slug": "ovo-dimensions"
+    "slug": "ovo-dimensions",
+    "description": "Explore extra-dimensional platforming worlds in this expansion of the OvO series."
   },
   {
     "category": "platformer",
     "name": "OvO",
-    "slug": "ovo"
+    "slug": "ovo",
+    "description": "A minimalist platformer where you control a white square with extremely tight controls."
   },
   {
     "category": "puzzle",
     "name": "Pac-Man",
-    "slug": "pac-man"
+    "slug": "pac-man",
+    "description": "The arcade maze classic: guide Pac-Man to eat all dots while avoiding colorful ghosts."
   },
   {
     "category": "casual",
     "name": "Paper.io 2",
-    "slug": "paper-io-2"
+    "slug": "paper-io-2",
+    "description": "Capture territory by drawing lines, but be careful not to cross another player's trail."
   },
   {
     "category": "casual",
     "name": "Paper Minecraft",
-    "slug": "paper-minecraft"
+    "slug": "paper-minecraft",
+    "description": "A 2D paper-crafted version of Minecraft where you can mine, build, and explore."
   },
   {
     "category": "casual",
     "name": "Papery Planes",
-    "slug": "papery-planes"
+    "slug": "papery-planes",
+    "description": "Fold and fly paper planes through a side-scrolling world, collecting stars and avoiding hazards."
   },
   {
     "category": "survival",
     "name": "Pixel Gun Survival",
-    "slug": "pixel-gun-survival"
+    "slug": "pixel-gun-survival",
+    "description": "A pixel-art survival game where you build defenses and shoot monsters to stay alive."
   },
   {
     "category": "platformer",
     "name": "Pizza Tower",
-    "slug": "pizza-tower"
+    "slug": "pizza-tower",
+    "description": "A fast-paced 2D platformer inspired by Wario Land, featuring a pizza chef on a wacky adventure."
   },
   {
-    "category": "strategy",
+    "category": "rpg",
     "name": "Pokemon Emerald 2",
-    "slug": "pokemon-emerald-2"
+    "slug": "pokemon-emerald-2",
+    "description": "A fan-made sequel to Pokemon Emerald, expanding the Hoenn region with new stories and Pokemon."
   },
   {
-    "category": "strategy",
+    "category": "rpg",
     "name": "Pokemon Emerald",
-    "slug": "pokemon-emerald"
+    "slug": "pokemon-emerald",
+    "description": "The classic Game Boy Advance RPG where you catch, train, and battle Pokemon in the Hoenn region."
   },
   {
-    "category": "strategy",
+    "category": "rpg",
     "name": "Pokemon FireRed",
-    "slug": "pokemon-firered"
+    "slug": "pokemon-firered",
+    "description": "A remake of the original Pokemon Red, letting you journey through Kanto with enhanced graphics."
   },
   {
     "category": "casual",
     "name": "Polybranch",
-    "slug": "polybranch"
+    "slug": "polybranch",
+    "description": "An abstract casual game where you guide a branching shape through a field of obstacles."
   },
   {
     "category": "shooter",
     "name": "Protektor",
-    "slug": "protektor"
+    "slug": "protektor",
+    "description": "A sniper mission game where you protect allies and eliminate targets from a distance."
   },
   {
     "category": "casual",
     "name": "Rolling Forests",
-    "slug": "rolling-forests"
+    "slug": "rolling-forests",
+    "description": "Roll a ball through a magical forest, collecting items and avoiding pits in this casual game."
   },
   {
     "category": "reflexes",
     "name": "Rolly Vortex",
-    "slug": "rolly-vortex"
+    "slug": "rolly-vortex",
+    "description": "Navigate a ball through a twisting vortex, dodging gaps and obstacles in this reflex game."
   },
   {
     "category": "shooter",
     "name": "Rooftop Snipers",
-    "slug": "rooftop-snipers"
+    "slug": "rooftop-snipers",
+    "description": "A two-button multiplayer sniper duel on a rooftop, where one shot decides the victor."
   },
   {
     "category": "platformer",
     "name": "Run 2",
-    "slug": "run-2"
+    "slug": "run-2",
+    "description": "Run through space tunnels, jumping and avoiding holes in this endless platformer."
   },
   {
     "category": "platformer",
     "name": "Run 3 Space",
-    "slug": "run-3-space"
+    "slug": "run-3-space",
+    "description": "The third entry in the Run series, taking the endless running action into deep space."
   },
   {
     "category": "platformer",
     "name": "Running Fred",
-    "slug": "running-fred"
+    "slug": "running-fred",
+    "description": "A 3D endless runner where you control Fred, dodging traps and using acrobatics to survive."
   },
   {
     "category": "casual",
     "name": "Rusher Crusher",
-    "slug": "rusher-crusher"
+    "slug": "rusher-crusher",
+    "description": "A casual game where you crush objects with a large machine in a satisfying loop."
   },
   {
     "category": "horror",
     "name": "Santy Is Home",
-    "slug": "santy-is-home"
+    "slug": "santy-is-home",
+    "description": "A horror game set during Christmas, where you must survive a night with a sinister Santa."
   },
   {
     "category": "casual",
     "name": "Skibidi Strike",
-    "slug": "skibidi-strike"
+    "slug": "skibidi-strike",
+    "description": "A meme game where you battle Skibidi Toilets using various weapons and upgrades."
   },
   {
     "category": "platformer",
     "name": "Skiing Fred",
-    "slug": "skiing-fred"
+    "slug": "skiing-fred",
+    "description": "Slide down a snowy mountain as Fred, avoiding yetis and obstacles in this endless runner."
   },
   {
     "category": "puzzle",
     "name": "Skywire",
-    "slug": "skywire"
+    "slug": "skywire",
+    "description": "Guide passengers safely to their destinations by controlling gondola routes in the sky."
   },
   {
     "category": "puzzle",
     "name": "Sling Tomb",
-    "slug": "sling-tomb"
+    "slug": "sling-tomb",
+    "description": "Sling a character through puzzle levels inside a tomb, using physics to reach the exit."
   },
   {
     "category": "reflexes",
     "name": "Slope 2 Players",
-    "slug": "slope-2-players"
+    "slug": "slope-2-players",
+    "description": "A two-player version of Slope where you race down a neon slope side by side."
   },
   {
     "category": "reflexes",
     "name": "Slope 3",
-    "slug": "slope-3"
+    "slug": "slope-3",
+    "description": "The third installment of the fast-paced ball rolling game with new visuals and speeds."
   },
   {
     "category": "reflexes",
     "name": "Slope Ball",
-    "slug": "slope-ball"
+    "slug": "slope-ball",
+    "description": "Roll a ball down a sloping tunnel, avoiding gaps and walls in this reflex challenge."
   },
   {
     "category": "reflexes",
     "name": "Slope City",
-    "slug": "slope-city"
+    "slug": "slope-city",
+    "description": "Roll through a futuristic city on a massive slope, dodging obstacles at increasing speeds."
   },
   {
     "category": "reflexes",
     "name": "Slope Run",
-    "slug": "slope-run"
+    "slug": "slope-run",
+    "description": "A fast-paced downhill running game where you dodge barriers and try not to fall."
   },
   {
     "category": "reflexes",
     "name": "Slope Tunnel",
-    "slug": "slope-tunnel"
+    "slug": "slope-tunnel",
+    "description": "Navigate a glowing tunnel as a rolling ball, avoiding red obstacles in this reflex game."
   },
   {
     "category": "reflexes",
     "name": "Slope",
-    "slug": "slope"
+    "slug": "slope",
+    "description": "Guide a ball down a steep neon slope, dodging obstacles and trying to survive as long as possible."
   },
   {
     "category": "shooter",
     "name": "Smokin Barrels",
-    "slug": "smokin-barrels"
+    "slug": "smokin-barrels",
+    "description": "A Wild West shooter where you duel outlaws in a dusty town."
   },
   {
     "category": "casual",
     "name": "Snake.io War",
-    "slug": "snake-io-war"
+    "slug": "snake-io-war",
+    "description": "A competitive .io game where you control a snake, eating orbs and battling other snakes."
   },
   {
     "category": "casual",
     "name": "Snow Battle.io",
-    "slug": "snow-battle-io"
+    "slug": "snow-battle-io",
+    "description": "Throw snowballs at other players in a winter-themed online brawl."
   },
   {
     "category": "shooter",
     "name": "Soldier Legend",
-    "slug": "soldier-legend"
+    "slug": "soldier-legend",
+    "description": "A side-scrolling shooter where you play as a legendary soldier mowing down enemies."
   },
   {
     "category": "casual",
     "name": "Space Garden",
-    "slug": "space-garden"
+    "slug": "space-garden",
+    "description": "Plant and grow a garden in outer space, unlocking cosmic flora in this idle casual game."
   },
   {
     "category": "casual",
     "name": "Stack",
-    "slug": "stack"
+    "slug": "stack",
+    "description": "A satisfying stacking game where you build a tower by placing moving blocks perfectly."
   },
   {
     "category": "shooter",
     "name": "Station 141",
-    "slug": "station-141"
+    "slug": "station-141",
+    "description": "A top-down sci-fi shooter set on a space station overrun by aliens."
   },
   {
     "category": "shooter",
     "name": "Tactical Assassin 2",
-    "slug": "tactical-assassin-2"
+    "slug": "tactical-assassin-2",
+    "description": "A sniper assassination game where you plan and execute silent kills."
   },
   {
     "category": "shooter",
     "name": "Tactical Weapon Pack 2",
-    "slug": "tactical-weapon-pack-2"
+    "slug": "tactical-weapon-pack-2",
+    "description": "A gun simulation sandbox where you can try out various tactical weapons."
   },
   {
     "category": "casual",
     "name": "Tag",
-    "slug": "tag"
+    "slug": "tag",
+    "description": "A simple game of tag where you chase or run from other players in an arena."
   },
   {
     "category": "shooter",
     "name": "Tank Trouble 2",
-    "slug": "tank-trouble-2"
+    "slug": "tank-trouble-2",
+    "description": "Local multiplayer tank battle where you ricochet bullets through a maze to hit opponents."
   },
   {
     "category": "casual",
     "name": "Tanuki Sunset",
-    "slug": "tanuki-sunset"
+    "slug": "tanuki-sunset",
+    "description": "A raccoon on a longboard drifts down a scenic coastal road in this relaxing arcade game."
   },
   {
     "category": "sports",
     "name": "Tap Tap Shots",
-    "slug": "tap-tap-shots"
+    "slug": "tap-tap-shots",
+    "description": "A fast-paced basketball shooting game where you tap to score as many points as possible."
   },
   {
     "category": "platformer",
     "name": "Temple Run 2",
-    "slug": "temple-run-2"
+    "slug": "temple-run-2",
+    "description": "Run, jump, and slide through ancient temples while being chased by a demon monkey."
   },
   {
     "category": "casual",
     "name": "Scratcharia",
-    "slug": "scratcharia"
+    "slug": "scratcharia",
+    "description": "A casual game where you scratch cards to reveal prizes and build your collection."
   },
   {
     "category": "puzzle",
     "name": "This Is the Only Level",
-    "slug": "this-is-the-only-level"
+    "slug": "this-is-the-only-level",
+    "description": "A meta puzzle game where you replay the same level with a new twist each time."
   },
   {
     "category": "casual",
     "name": "Tiny Fishing",
-    "slug": "tiny-fishing"
+    "slug": "tiny-fishing",
+    "description": "Cast your line and catch fish to upgrade your rod in this simple idle fishing game."
   },
   {
     "category": "casual",
     "name": "Toss the Turtle",
-    "slug": "toss-the-turtle"
+    "slug": "toss-the-turtle",
+    "description": "Launch a turtle from a cannon and use upgrades to achieve the farthest distance."
   },
   {
     "category": "puzzle",
     "name": "Traffic Control",
-    "slug": "traffic-control"
+    "slug": "traffic-control",
+    "description": "Manage traffic lights at a busy intersection to keep vehicles moving and avoid collisions."
   },
   {
     "category": "casual",
     "name": "Trains.io",
-    "slug": "trains-io"
+    "slug": "trains-io",
+    "description": "A snake-like .io game where you control a train, collecting cargo to grow longer."
   },
   {
     "category": "casual",
     "name": "Transporters.io",
-    "slug": "transporters-io"
+    "slug": "transporters-io",
+    "description": "An online casual game where you transport goods in a shared arena."
   },
   {
-    "category": "strategy",
+    "category": "casual",
     "name": "Trimps",
-    "slug": "trimps"
+    "slug": "trimps",
+    "description": "An idle incremental game where you breed Trimps to fight monsters and expand your world."
   },
   {
     "category": "casual",
     "name": "Tube Jumpers",
-    "slug": "tube-jumpers"
+    "slug": "tube-jumpers",
+    "description": "Jump between floating tubes in a pool party arena, trying to push others off."
   },
   {
     "category": "reflexes",
     "name": "Tunnel Rush 2",
-    "slug": "tunnel-rush-2"
+    "slug": "tunnel-rush-2",
+    "description": "The sequel to Tunnel Rush, with faster speeds and more mind-bending obstacles."
   },
   {
     "category": "reflexes",
     "name": "Tunnel Rush",
-    "slug": "tunnel-rush"
+    "slug": "tunnel-rush",
+    "description": "Race through a colorful 3D tunnel, dodging barriers in this intense reflex game."
   },
   {
     "category": "casual",
     "name": "Turn Turn",
-    "slug": "turn-turn"
+    "slug": "turn-turn",
+    "description": "A casual game about turning shapes to fit through gaps, testing your timing."
   },
   {
     "category": "casual",
     "name": "Two Ball 3D",
-    "slug": "two-ball-3d"
+    "slug": "two-ball-3d",
+    "description": "Control two balls at once in a 3D tunnel, keeping both on the path."
   },
   {
     "category": "reflexes",
     "name": "Two Tunnel 3D",
-    "slug": "two-tunnel-3d"
+    "slug": "two-tunnel-3d",
+    "description": "Navigate two tunnels simultaneously, dodging obstacles with split-second reflexes."
   },
   {
     "category": "platformer",
     "name": "Vex 3",
-    "slug": "vex-3"
+    "slug": "vex-3",
+    "description": "A challenging stickman platformer with wall jumps, spikes, and moving obstacles."
   },
   {
     "category": "platformer",
     "name": "Vex 4",
-    "slug": "vex-4"
+    "slug": "vex-4",
+    "description": "The fourth Vex platformer, featuring more complex levels and death-defying acts."
   },
   {
     "category": "platformer",
     "name": "Vex 5",
-    "slug": "vex-5"
+    "slug": "vex-5",
+    "description": "Survive brutal platforming gauntlets in the fifth installment of the Vex series."
   },
   {
     "category": "platformer",
     "name": "Vex 6",
-    "slug": "vex-6"
+    "slug": "vex-6",
+    "description": "New Vex challenges with additional mechanics like swimming and zip-lines."
   },
   {
     "category": "platformer",
     "name": "Vex 7",
-    "slug": "vex-7"
+    "slug": "vex-7",
+    "description": "A huge Vex adventure with secret areas, achievements, and unforgiving platforming."
   },
   {
     "category": "platformer",
     "name": "Vex 8",
-    "slug": "vex-8"
+    "slug": "vex-8",
+    "description": "The latest Vex game, pushing the limits of stickman parkour with new traps and puzzles."
   },
   {
     "category": "shooter",
     "name": "Wolfenstein 3D",
-    "slug": "wolfenstein-3d"
+    "slug": "wolfenstein-3d",
+    "description": "The grandfather of first-person shooters, where you escape a Nazi castle and fight Mecha-Hitler."
   },
   {
     "category": "puzzle",
     "name": "World's Hardest Game 2",
-    "slug": "worlds-hardest-game-2"
+    "slug": "worlds-hardest-game-2",
+    "description": "The sequel to the notoriously difficult puzzle game, with even tougher dodging and timing puzzles."
   },
   {
     "category": "puzzle",
     "name": "World's Hardest Game",
-    "slug": "worlds-hardest-game"
+    "slug": "worlds-hardest-game",
+    "description": "Guide a red square through a maze while avoiding blue circles in this brutally hard puzzle game."
   },
   {
     "category": "casual",
     "name": "WormEat.io",
-    "slug": "wormeat-io"
+    "slug": "wormeat-io",
+    "description": "A worm-eating .io game where you grow your worm by eating food and defeating other worms."
   },
   {
     "category": "shooter",
     "name": "1v1.LOL",
-    "slug": "1v1-lol"
+    "slug": "1v1-lol",
+    "description": "A competitive third-person shooter with building mechanics, inspired by Fortnite."
   },
   {
     "category": "sports",
     "name": "1 on 1 Soccer",
-    "slug": "1-on-1-soccer"
+    "slug": "1-on-1-soccer",
+    "description": "A one-on-one soccer game where you try to score past your opponent in a small arena."
   },
   {
     "category": "sports",
     "name": "3D Bowling",
-    "slug": "3d-bowling"
+    "slug": "3d-bowling",
+    "description": "A realistic 3D bowling game where you aim and throw strikes and spares."
   },
   {
     "category": "sports",
     "name": "8 Ball Pool",
-    "slug": "8-ball-pool"
+    "slug": "8-ball-pool",
+    "description": "The classic pool game online, sink all your balls and then the 8-ball to win."
   },
   {
     "category": "platformer",
     "name": "Adrenaline Challenge",
-    "slug": "adrenaline-challenge"
+    "slug": "adrenaline-challenge",
+    "description": "A high-speed platformer where you run, jump, and slide through dangerous courses."
   },
   {
     "category": "casual",
     "name": "Adventure Drivers",
-    "slug": "adventure-drivers"
+    "slug": "adventure-drivers",
+    "description": "Drive a car across tricky terrain and perform stunts to reach the finish line."
   },
   {
     "category": "casual",
     "name": "Aquapark Slides",
-    "slug": "aquapark-slides"
+    "slug": "aquapark-slides",
+    "description": "Race down giant water slides, competing against others to reach the pool first."
   },
   {
     "category": "sports",
     "name": "Axis Football League",
-    "slug": "axis-football-league"
+    "slug": "axis-football-league",
+    "description": "A football game where you control players on the field and aim for touchdowns."
   },
   {
     "category": "driving",
     "name": "Crazy Cars",
-    "slug": "crazy-cars"
+    "slug": "crazy-cars",
+    "description": "Drive through chaotic traffic, dodging cars and collecting coins for upgrades."
   },
   {
     "category": "driving",
     "name": "Death Car",
-    "slug": "death-car"
+    "slug": "death-car",
+    "description": "A post-apocalyptic driving game where you race through a wasteland, smashing enemy cars."
   },
   {
     "category": "puzzle",
     "name": "Draw the Hill",
-    "slug": "draw-the-hill"
+    "slug": "draw-the-hill",
+    "description": "Draw a path for a car to drive on, navigating over hills and gaps in this physics puzzle."
   },
   {
     "category": "driving",
     "name": "Drift Boss",
-    "slug": "drift-boss"
+    "slug": "drift-boss",
+    "description": "Drift around tight corners without falling off the edge in this one-button driving game."
   },
   {
     "category": "driving",
     "name": "Drift Dudes",
-    "slug": "drift-dudes"
+    "slug": "drift-dudes",
+    "description": "A car drifting game where you slide around corners and compete for high scores."
   },
   {
     "category": "driving",
     "name": "Drift Hunters 2",
-    "slug": "drift-hunters-2"
+    "slug": "drift-hunters-2",
+    "description": "The second version of Drift Hunters with more cars, tracks, and drifting action."
   },
   {
     "category": "driving",
     "name": "Drift Hunters Pro",
-    "slug": "drift-hunters-pro"
+    "slug": "drift-hunters-pro",
+    "description": "An enhanced drifting game with realistic physics and extensive car customization."
   },
   {
     "category": "driving",
     "name": "Drift Hunters",
-    "slug": "drift-hunters"
+    "slug": "drift-hunters",
+    "description": "A 3D drifting simulator where you customize cars and shred tires on various tracks."
   },
   {
     "category": "driving",
     "name": "Drive Mad",
-    "slug": "drive-mad"
+    "slug": "drive-mad",
+    "description": "Drive over crazy obstacle courses, trying not to crash or flip your vehicle."
   },
   {
     "category": "survival",
     "name": "Earn to Die",
-    "slug": "earn-to-die"
+    "slug": "earn-to-die",
+    "description": "Upgrade a vehicle and plow through hordes of zombies to reach the rescue helicopter."
   },
   {
     "category": "reflexes",
     "name": "Edge Surf",
-    "slug": "edge-surf"
+    "slug": "edge-surf",
+    "description": "A skiing-surfing hybrid game where you ride the edge of a mountain and avoid obstacles."
   },
   {
     "category": "casual",
     "name": "Eggy Car",
-    "slug": "eggy-car"
+    "slug": "eggy-car",
+    "description": "Drive a car carrying an egg, careful not to crack it on bumpy roads."
   },
   {
     "category": "casual",
     "name": "Endless Truck",
-    "slug": "endless-truck"
+    "slug": "endless-truck",
+    "description": "An endless driving game where you upgrade your truck and smash through obstacles."
   },
   {
     "category": "sports",
     "name": "Football Brawl",
-    "slug": "football-brawl"
+    "slug": "football-brawl",
+    "description": "A violent take on soccer where you can punch and kick opponents to get the ball."
   },
   {
     "category": "sports",
     "name": "Football Legends",
-    "slug": "football-legends"
+    "slug": "football-legends",
+    "description": "Play a soccer match with legendary players, using special moves to score goals."
   },
   {
     "category": "sports",
     "name": "Football Strike",
-    "slug": "football-strike"
+    "slug": "football-strike",
+    "description": "A multiplayer soccer game focused on free kicks and shooting accuracy."
   },
   {
     "category": "casual",
     "name": "Get On Top",
-    "slug": "get-on-top"
+    "slug": "get-on-top",
+    "description": "A two-player wrestling game where you try to pin your opponent to the ground."
   },
   {
     "category": "horror",
     "name": "Granny",
-    "slug": "granny"
+    "slug": "granny",
+    "description": "Escape from a creepy house while avoiding Granny, who hears every sound you make."
   },
   {
     "category": "casual",
     "name": "Happy Wheels",
-    "slug": "happy-wheels"
+    "slug": "happy-wheels",
+    "description": "A ragdoll physics game where you navigate dangerous obstacle courses on various vehicles."
   },
   {
     "category": "sports",
     "name": "Head Soccer",
-    "slug": "head-soccer"
+    "slug": "head-soccer",
+    "description": "A cartoonish soccer game where you use power shots and special moves to score."
   },
   {
     "category": "casual",
     "name": "Heads Arena",
-    "slug": "heads-arena"
+    "slug": "heads-arena",
+    "description": "A casual multiplayer game where giant heads battle it out in an arena."
   },
   {
     "category": "platformer",
     "name": "Icycle",
-    "slug": "icycle"
+    "slug": "icycle",
+    "description": "A surreal platformer where you cycle through a frozen, post-apocalyptic world."
   },
   {
     "category": "driving",
     "name": "Indian Truck Simulator",
-    "slug": "indian-truck-simulator"
+    "slug": "indian-truck-simulator",
+    "description": "Drive a truck through busy Indian roads, transporting cargo and managing the chaotics."
   },
   {
     "category": "puzzle",
     "name": "Infinite Craft",
-    "slug": "infinite-craft"
+    "slug": "infinite-craft",
+    "description": "Combine elements to create new ones in a seemingly endless crafting puzzle game."
   },
   {
     "category": "casual",
     "name": "Mad Truck Challenge",
-    "slug": "mad-truck-challenge"
+    "slug": "mad-truck-challenge",
+    "description": "Race monster trucks through arenas, crushing cars and performing stunts."
   },
   {
     "category": "driving",
     "name": "Madalin Stunt Cars 3",
-    "slug": "madalin-stunt-cars-3"
+    "slug": "madalin-stunt-cars-3",
+    "description": "An open-world stunt driving game with a huge selection of sports cars and ramps."
   },
   {
     "category": "driving",
     "name": "Monster Truck Destroyer",
-    "slug": "monster-truck-destroyer"
+    "slug": "monster-truck-destroyer",
+    "description": "Drive a monster truck over obstacles and crush everything in your path."
   },
   {
     "category": "driving",
     "name": "Monster Truck vs Zombie",
-    "slug": "monster-truck-vs-zombie"
+    "slug": "monster-truck-vs-zombie",
+    "description": "Run over zombies with a monster truck in this post-apocalyptic driving game."
   },
   {
     "category": "platformer",
     "name": "Moto Trial Racing 2",
-    "slug": "moto-trial-racing-2"
+    "slug": "moto-trial-racing-2",
+    "description": "Balance and jump a trial bike over difficult obstacle courses without crashing."
   },
   {
     "category": "casual",
     "name": "Moving Truck",
-    "slug": "moving-truck"
+    "slug": "moving-truck",
+    "description": "Load and transport furniture in a moving truck, carefully stacking items to maximize space."
   },
   {
     "category": "casual",
     "name": "Nitro Knights.io",
-    "slug": "nitro-knights-io"
+    "slug": "nitro-knights-io",
+    "description": "An online .io game where you joust with knights on motorcycles and boost through arenas."
   },
   {
     "category": "casual",
     "name": "Pako Highway",
-    "slug": "pako-highway"
+    "slug": "pako-highway",
+    "description": "Dodge traffic on a crowded highway in this survival driving game with a cool aesthetic."
   },
   {
     "category": "driving",
     "name": "Parking Fury 2",
-    "slug": "parking-fury-2"
+    "slug": "parking-fury-2",
+    "description": "A 3D parking game where you maneuver cars into tight spots without crashing."
   },
   {
     "category": "driving",
     "name": "Parking Fury 3",
-    "slug": "parking-fury-3"
+    "slug": "parking-fury-3",
+    "description": "More challenging parking puzzles with night missions and larger vehicles."
   },
   {
     "category": "driving",
     "name": "Parking Fury",
-    "slug": "parking-fury"
+    "slug": "parking-fury",
+    "description": "A top-down parking game where you steer cars into marked spaces with precision."
   },
   {
     "category": "sports",
     "name": "Penalty Shooters 2",
-    "slug": "penalty-shooters-2"
+    "slug": "penalty-shooters-2",
+    "description": "Take turns as shooter and goalkeeper in a penalty kick tournament."
   },
   {
     "category": "casual",
     "name": "Pixel Smash Duel",
-    "slug": "pixel-smash-duel"
+    "slug": "pixel-smash-duel",
+    "description": "A pixel-art fighting game where you battle opponents in one-on-one duels."
   },
   {
     "category": "strategy",
     "name": "Stickman War",
-    "slug": "stickman-war"
+    "slug": "stickman-war",
+    "description": "Command an army of stickmen in a strategic battle to destroy the enemy statue."
   },
   {
     "category": "driving",
     "name": "Stock Car Hero",
-    "slug": "stock-car-hero"
+    "slug": "stock-car-hero",
+    "description": "Race stock cars around oval tracks, drafting and overtaking competitors."
   },
   {
     "category": "casual",
     "name": "Storm City Mafia",
-    "slug": "storm-city-mafia"
+    "slug": "storm-city-mafia",
+    "description": "A casual crime game where you complete missions in a city ruled by the mafia."
   },
   {
     "category": "sports",
     "name": "Super Liquid Soccer",
-    "slug": "super-liquid-soccer"
+    "slug": "super-liquid-soccer",
+    "description": "A physics-based soccer game with wobbly, liquid-like players and unpredictable ball movement."
   },
   {
     "category": "puzzle",
     "name": "The Heist",
-    "slug": "the-heist"
+    "slug": "the-heist",
+    "description": "A point-and-click puzzle game where you try to break into a heavily secured museum."
   },
   {
     "category": "driving",
     "name": "Ultimate Offroad",
-    "slug": "ultimate-offroad"
+    "slug": "ultimate-offroad",
+    "description": "Drive a 4x4 truck over rugged mountain trails and steep cliffs in this offroad simulator."
   },
   {
     "category": "sports",
     "name": "Volley Random",
-    "slug": "volley-random"
+    "slug": "volley-random",
+    "description": "A wacky volleyball game with random power-ups and unpredictable physics."
   },
   {
     "category": "platformer",
     "name": "Wheelie Bike 2",
-    "slug": "wheelie-bike-2"
+    "slug": "wheelie-bike-2",
+    "description": "Perform wheelies and stunts on a bike across challenging platforming levels."
   },
   {
     "category": "platformer",
     "name": "Wheelie Bike",
-    "slug": "wheelie-bike"
+    "slug": "wheelie-bike",
+    "description": "A physics-based bike game where you balance on one wheel and navigate obstacle courses."
   },
   {
     "category": "platformer",
     "name": "X-Trial Racing",
-    "slug": "x-trial-racing"
+    "slug": "x-trial-racing",
+    "description": "A trials bike platformer where you overcome huge jumps and obstacles without crashing."
   },
   {
     "category": "reflexes",
     "name": "A Dance of Fire and Ice",
-    "slug": "a-dance-of-fire-and-ice"
+    "slug": "a-dance-of-fire-and-ice",
+    "description": "A one-button rhythm game where you tap to the beat to guide two orbiting planets along a winding path."
   },
   {
     "category": "horror",
     "name": "Backrooms",
-    "slug": "backrooms"
+    "slug": "backrooms",
+    "description": "Explore the eerie, endless yellow hallways of the Backrooms in this first-person horror experience."
   },
   {
     "category": "horror",
     "name": "Backrooms 2D",
-    "slug": "backrooms-2d"
+    "slug": "backrooms-2d",
+    "description": "A 2D top-down horror version of the Backrooms, where you try to escape the liminal space."
   },
   {
     "category": "survival",
     "name": "Bacon May Die (2022)",
-    "slug": "bacon-may-die-2022"
+    "slug": "bacon-may-die-2022",
+    "description": "An updated version of Bacon May Die with new weapons, enemies, and survival mechanics."
   },
   {
     "category": "puzzle",
     "name": "Basket & Ball",
-    "slug": "basket-and-ball"
+    "slug": "basket-and-ball",
+    "description": "A physics puzzle game where you bounce a basketball through hoop-filled levels."
   },
   {
     "category": "sports",
     "name": "Basket Champs",
-    "slug": "basket-champs"
+    "slug": "basket-champs",
+    "description": "A lively basketball shooting game with a championship mode and a variety of balls."
   },
   {
     "category": "sports",
     "name": "Basket Random",
-    "slug": "basket-random"
+    "slug": "basket-random",
+    "description": "A random physics basketball game where the court and rules change every point."
   },
   {
     "category": "sports",
     "name": "Basketball Stars",
-    "slug": "basketball-stars"
+    "slug": "basketball-stars",
+    "description": "A one-on-one basketball game with slick moves, dunks, and competitive play."
   },
   {
     "category": "platformer",
     "name": "Bicycle Stunt 3D",
-    "slug": "bicycle-stunt-3d"
+    "slug": "bicycle-stunt-3d",
+    "description": "Perform tricks and stunts on a bicycle across ramps and obstacles in 3D."
   },
   {
     "category": "sports",
     "name": "Big Shot Boxing",
-    "slug": "big-shot-boxing"
+    "slug": "big-shot-boxing",
+    "description": "Boxing game where you punch, dodge, and knockout opponents to become champion."
   },
   {
     "category": "casual",
     "name": "Biker Street",
-    "slug": "biker-street"
+    "slug": "biker-street",
+    "description": "Ride a bike through urban streets, weaving through traffic and collecting coins."
   },
   {
     "category": "sports",
     "name": "Boxing Random",
-    "slug": "boxing-random"
+    "slug": "boxing-random",
+    "description": "A hilarious two-player boxing game with unpredictable physics and one-punch KOs."
   },
   {
     "category": "shooter",
     "name": "Burnin' Rubber 5 XS",
-    "slug": "burnin-rubber-5-xs"
+    "slug": "burnin-rubber-5-xs",
+    "description": "A vehicular combat shooter where you race and fight enemy cars with mounted weapons."
   },
   {
     "category": "casual",
     "name": "Car Rush",
-    "slug": "car-rush"
+    "slug": "car-rush",
+    "description": "Race against traffic, dodging cars and collecting coins in this fast-paced driving game."
   },
   {
     "category": "driving",
     "name": "Cars Simulator",
-    "slug": "cars-simulator"
+    "slug": "cars-simulator",
+    "description": "Drive various cars in an open city, exploring and performing stunts."
   },
   {
     "category": "casual",
     "name": "Cartoon Mini Racing",
-    "slug": "cartoon-mini-racing"
+    "slug": "cartoon-mini-racing",
+    "description": "A colorful kart racing game with cartoon characters and power-ups."
   },
   {
     "category": "sports",
     "name": "Champion Island",
-    "slug": "champion-island"
+    "slug": "champion-island",
+    "description": "A Google Doodle sports RPG where you play various mini-games to become the island champion."
   },
   {
     "category": "reflexes",
     "name": "Cluster Rush",
-    "slug": "cluster-rush"
+    "slug": "cluster-rush",
+    "description": "Jump between moving trucks in a post-apocalyptic setting in this reflex platformer."
   },
   {
     "category": "casual",
     "name": "Dots.io",
-    "slug": "dots-io"
+    "slug": "dots-io",
+    "description": "An online .io game where you capture territory by drawing lines and returning to your base."
   },
   {
     "category": "reflexes",
     "name": "Down The Hill",
-    "slug": "down-the-hill"
+    "slug": "down-the-hill",
+    "description": "Ride a bike or snowboard down a steep hill, avoiding trees and rocks at high speed."
   },
   {
     "category": "puzzle",
     "name": "Dragon vs Bricks",
-    "slug": "dragon-vs-bricks"
+    "slug": "dragon-vs-bricks",
+    "description": "Break bricks by aiming a dragon's fireball in this puzzle game inspired by Breakout."
   },
   {
     "category": "casual",
     "name": "Eagle Ride",
-    "slug": "eagle-ride"
+    "slug": "eagle-ride",
+    "description": "Soar through the skies as an eagle, collecting items and avoiding obstacles."
   },
   {
     "category": "casual",
     "name": "Eat The Fish.io",
-    "slug": "eat-the-fish-io"
+    "slug": "eat-the-fish-io",
+    "description": "An underwater .io game where you eat smaller fish and grow to dominate the sea."
   },
   {
     "category": "reflexes",
     "name": "Electron Dash",
-    "slug": "electron-dash"
+    "slug": "electron-dash",
+    "description": "An endless runner where you control a spark running through a futuristic tunnel."
   },
   {
     "category": "reflexes",
     "name": "Endless Tunnel",
-    "slug": "endless-tunnel"
+    "slug": "endless-tunnel",
+    "description": "Fly through an endless tunnel, avoiding rotating obstacles in this reflex test."
   },
   {
     "category": "horror",
     "devices": "1,2",
     "name": "FNaF",
-    "slug": "fnaf"
+    "slug": "fnaf",
+    "description": "Survive five nights as a security guard at Freddy Fazbear's Pizza, where animatronics roam at night."
   },
   {
     "category": "horror",
     "devices": "1,2",
     "name": "FNaF 2",
-    "slug": "fnaf-2"
+    "slug": "fnaf-2",
+    "description": "The second nightmarish job at a new Freddy's location with no doors and more threats."
   },
   {
     "category": "horror",
     "devices": "1,2",
     "name": "FNaF 3",
-    "slug": "fnaf-3"
+    "slug": "fnaf-3",
+    "description": "Set in a horror attraction, you must fend off a rotten animatronic named Springtrap."
   },
   {
     "category": "horror",
     "devices": "1,2",
     "name": "FNaF 4",
-    "slug": "fnaf-4"
+    "slug": "fnaf-4",
+    "description": "Survive nightmares in your own bedroom as terrifying animatronic creatures stalk you."
   },
   {
     "category": "horror",
     "devices": "1,2",
     "name": "FNaF 6",
-    "slug": "fnaf-6"
+    "slug": "fnaf-6",
+    "description": "The final chapter of the original story, where you run your own pizzeria while hiding from danger."
   },
   {
     "category": "horror",
     "devices": "1,2",
     "name": "FNaF 7: UCN",
-    "slug": "fnaf-7"
+    "slug": "fnaf-7",
+    "description": "Ultimate Custom Night lets you mix and match over 50 animatronics for the ultimate challenge."
   },
   {
     "category": "horror",
     "devices": "1,2",
     "name": "FNaF: Sister Location",
-    "slug": "fnaf-sister-location"
+    "slug": "fnaf-sister-location",
+    "description": "A new horror chapter set in an underground facility with advanced, sinister animatronics."
   },
   {
     "category": "horror",
     "name": "Granny 2: Asylum Horror House",
-    "slug": "granny-2-asylum-horror-house"
+    "slug": "granny-2-asylum-horror-house",
+    "description": "Escape a horrific asylum while avoiding Granny and Grandpa in this stealth horror sequel."
   },
   {
     "category": "casual",
     "name": "Idle Ants",
-    "slug": "idle-ants"
+    "slug": "idle-ants",
+    "description": "Manage an ant colony and watch it thrive in this idle insect simulation game."
   },
   {
     "category": "casual",
     "name": "Minecraft 1.5",
-    "slug": "minecraft-1-5"
+    "slug": "minecraft-1-5",
+    "description": "A classic version of Minecraft playable in your browser, featuring limited but nostalgic gameplay."
   },
   {
     "category": "casual",
     "name": "Minecraft 1.8",
-    "slug": "minecraft-1-8"
+    "slug": "minecraft-1-8",
+    "description": "A newer browser version of Minecraft, with additional blocks and features."
   },
   {
     "category": "casual",
     "name": "Minecraft Classic",
-    "slug": "minecraft-classic"
+    "slug": "minecraft-classic",
+    "description": "The original Minecraft creative mode, build with unlimited blocks in a small world."
   },
   {
     "category": "reflexes",
     "name": "Missiles",
-    "slug": "missiles"
+    "slug": "missiles",
+    "description": "Dodge incoming missiles in an open field for as long as you can."
   },
   {
     "category": "casual",
     "name": "Monkey Mart",
-    "slug": "monkey-mart"
+    "slug": "monkey-mart",
+    "description": "Run a supermarket with a monkey, planting and harvesting crops to stock the shelves."
   },
   {
     "category": "platformer",
     "name": "Moto X3M",
-    "slug": "moto-x3m"
+    "slug": "moto-x3m",
+    "description": "A thrilling dirt bike platformer where you race against the clock through hazard-filled levels."
   },
   {
     "category": "platformer",
     "name": "Moto X3M 2",
-    "slug": "moto-x3m-2"
+    "slug": "moto-x3m-2",
+    "description": "More motocross madness with new winter-themed levels and deadly obstacles."
   },
   {
     "category": "platformer",
     "name": "Moto X3M: Pool Party",
-    "slug": "moto-x3m-pool-party"
+    "slug": "moto-x3m-pool-party",
+    "description": "Take your bike to a summer pool party, performing stunts over water slides and more."
   },
   {
     "category": "platformer",
     "name": "Moto X3M: Spooky Land",
-    "slug": "moto-x3m-spooky-land"
+    "slug": "moto-x3m-spooky-land",
+    "description": "Ride through a haunted landscape filled with ghosts and creepy Halloween obstacles."
   },
   {
     "category": "platformer",
     "name": "Moto X3M Winter",
-    "slug": "moto-x3m-winter"
+    "slug": "moto-x3m-winter",
+    "description": "A snowy, Christmas-themed Moto X3M adventure with icy ramps and snowmen."
   },
   {
     "category": "casual",
     "name": "Mutazone",
-    "slug": "mutazone"
+    "slug": "mutazone",
+    "description": "A post-apocalyptic casual game where you scavenge and fight to survive in a mutant-filled zone."
   },
   {
-    "category": "casual",
+    "category": "action",
     "name": "N-Gon",
-    "slug": "n-gon"
+    "slug": "n-gon",
+    "description": "A fast-paced 2D action roguelike where you fight endless waves of geometric enemies with physics-based weapons."
   },
   {
     "category": "platformer",
     "name": "Ninja vs Evil Corp",
-    "slug": "ninja-vs-evilcorp"
+    "slug": "ninja-vs-evilcorp",
+    "description": "A ninja platformer where you slice through an evil corporation's security forces."
   },
   {
     "category": "casual",
     "name": "NS Shaft",
-    "slug": "ns-shaft"
+    "slug": "ns-shaft",
+    "description": "An endless falling game where you avoid gears and obstacles while descending a vertical shaft."
   },
   {
     "category": "casual",
     "name": "Offline Paradise",
-    "slug": "offline-paradise"
+    "slug": "offline-paradise",
+    "description": "An idle game where you build and expand a paradise island while offline."
   },
   {
     "category": "puzzle",
     "name": "Om Nom: Bounce!",
-    "slug": "om-nom-bounce"
+    "slug": "om-nom-bounce",
+    "description": "Bounce Om Nom through levels, collecting candy and avoiding obstacles in this Cut the Rope spin-off."
   },
   {
     "category": "survival",
     "name": "Race Survival: Arena King",
-    "slug": "race-survival-arena-king"
+    "slug": "race-survival-arena-king",
+    "description": "Drive a car in a closed arena, surviving against other armed vehicles in a deathmatch."
   },
   {
     "category": "driving",
     "name": "Racing Monster Trucks",
-    "slug": "racing-monster-trucks"
+    "slug": "racing-monster-trucks",
+    "description": "Race monster trucks over rough terrain, crushing smaller vehicles under your massive wheels."
   },
   {
     "category": "driving",
     "name": "Real Flying Truck",
-    "slug": "real-flying-truck"
+    "slug": "real-flying-truck",
+    "description": "Pilot a flying truck through the skies, completing missions and stunts."
   },
   {
     "category": "driving",
     "name": "Real Garbage Truck",
-    "slug": "real-garbage-truck"
+    "slug": "real-garbage-truck",
+    "description": "Drive a garbage truck through the city, collecting trash bins and managing waste."
   },
   {
     "category": "sports",
     "name": "Retro Bowl",
-    "slug": "retro-bowl"
+    "slug": "retro-bowl",
+    "description": "A retro-style American football game where you manage a team and play out the offensive drives."
   },
   {
     "category": "sports",
     "name": "Retro Bowl College",
-    "slug": "retro-bowl-college"
+    "slug": "retro-bowl-college",
+    "description": "College football version of Retro Bowl, with recruiting and bowl games."
   },
   {
     "category": "sports",
     "name": "Rocket Soccer Derby",
-    "slug": "rocket-soccer-derby"
+    "slug": "rocket-soccer-derby",
+    "description": "A blend of car derby and soccer, where you smash into a giant ball to score goals."
   },
   {
     "category": "casual",
     "name": "Scrap Metal 3: Infernal Trap",
-    "slug": "scrap-metal-3-infernal-trap"
+    "slug": "scrap-metal-3-infernal-trap",
+    "description": "A vehicular combat game where you drive heavily armed scrap cars and destroy enemies."
   },
   {
     "category": "casual",
     "name": "Sky Car Stunt 3D",
-    "slug": "sky-car-stunt-3d"
+    "slug": "sky-car-stunt-3d",
+    "description": "Fly a futuristic car through sky-high ramps and loops, performing extreme stunts."
   },
   {
     "category": "reflexes",
     "name": "Snow Rider 3D",
-    "slug": "snow-rider-3d"
+    "slug": "snow-rider-3d",
+    "description": "Ride a sled down a snowy mountain, dodging trees and collecting gifts."
   },
   {
     "category": "sports",
     "name": "Soccer Heads",
-    "slug": "soccer-heads"
+    "slug": "soccer-heads",
+    "description": "A soccer game where you play as a big-headed character, kicking and heading the ball."
   },
   {
     "category": "sports",
     "name": "Soccer Random",
-    "slug": "soccer-random"
+    "slug": "soccer-random",
+    "description": "Funny physics-based soccer with random bounces and unexpected ball movements."
   },
   {
     "category": "sports",
     "name": "Soccer Skills",
-    "slug": "soccer-skills"
+    "slug": "soccer-skills",
+    "description": "Test your football skills in a series of mini-game challenges like shooting and dribbling."
   },
   {
     "category": "puzzle",
     "name": "Spiral Roll",
-    "slug": "spiral-roll"
+    "slug": "spiral-roll",
+    "description": "Shave wood into spirals to clear obstacles and reach the goal in this satisfying puzzle game."
   },
   {
     "category": "reflexes",
     "name": "Sprinter",
-    "slug": "sprinter"
+    "slug": "sprinter",
+    "description": "Run a 100-meter dash, hammering the keys as fast as you can to beat your opponents."
   },
   {
     "category": "strategy",
     "name": "Stick Archers Battle",
-    "slug": "stick-archers-battle"
+    "slug": "stick-archers-battle",
+    "description": "Command stickman archers in a strategic battle, aiming and shooting to defeat the enemy army."
   },
   {
     "category": "strategy",
     "name": "Stick Defenders",
-    "slug": "stick-defenders"
+    "slug": "stick-defenders",
+    "description": "Place stickman defenders to stop waves of enemies in this side-view strategy game."
   },
   {
     "category": "casual",
     "name": "Stick Duel Battle",
-    "slug": "stick-duel-battle"
+    "slug": "stick-duel-battle",
+    "description": "A two-player stickman fighting game where you battle with melee weapons and guns."
   },
   {
     "category": "puzzle",
     "name": "Stick Merge",
-    "slug": "stick-merge"
+    "slug": "stick-merge",
+    "description": "Merge identical weapons to create more powerful arms for your stickman in this puzzle game."
   },
   {
     "category": "platformer",
     "name": "Stickman Boost!",
-    "slug": "stickman-boost"
+    "slug": "stickman-boost",
+    "description": "A platformer where you launch a stickman through the air, bouncing off walls and spikes."
   },
   {
     "category": "casual",
     "name": "Stickman Go",
-    "slug": "stickman-go"
+    "slug": "stickman-go",
+    "description": "An online .io game where stickmen fight in an arena and grow in power."
   },
   {
     "category": "shooter",
     "name": "Stickman vs Zombies",
-    "slug": "stickman-vs-zombies"
+    "slug": "stickman-vs-zombies",
+    "description": "Shoot waves of zombies as a stickman, using various guns and explosives."
   },
   {
     "category": "reflexes",
     "name": "Subway Surfers",
-    "slug": "subway-surfers"
+    "slug": "subway-surfers",
+    "description": "Run endlessly along subway tracks, dodging trains and collecting coins in this iconic mobile game."
   },
   {
     "category": "reflexes",
     "name": "Subway Surfers NY",
-    "slug": "subway-surfers-ny"
+    "slug": "subway-surfers-ny",
+    "description": "A New York-themed version of Subway Surfers with new scenery and characters."
   },
   {
     "category": "reflexes",
     "name": "Super Falling Fred",
-    "slug": "super-falling-fred"
+    "slug": "super-falling-fred",
+    "description": "Fall endlessly through the sky, avoiding obstacles and collecting power-ups."
   },
   {
     "category": "casual",
     "name": "Super Heroes",
-    "slug": "super-heroes"
+    "slug": "super-heroes",
+    "description": "A ragdoll hero game where you fly around and beat up villains using superpowers."
   },
   {
     "category": "platformer",
     "name": "Super Mario 64",
-    "slug": "super-mario-64"
+    "slug": "super-mario-64",
+    "description": "The classic 3D Mario platformer where you explore the castle and collect Power Stars."
   },
   {
     "category": "platformer",
     "name": "Super Mario Bros. Wonder",
-    "slug": "super-mario-bros-wonder"
+    "slug": "super-mario-bros-wonder",
+    "description": "A fan-made browser tribute to the Wonder-themed Mario platformer with new power-ups."
   },
   {
     "category": "platformer",
     "name": "Super Mario Construct",
-    "slug": "super-mario-construct"
+    "slug": "super-mario-construct",
+    "description": "Create and play custom Super Mario levels in this fan-made level editor."
   },
   {
     "category": "casual",
     "name": "Super Tornado.io",
-    "slug": "super-tornado-io"
+    "slug": "super-tornado-io",
+    "description": "Control a tornado in an online .io game, sucking up objects and growing to massive size."
   },
   {
     "category": "shooter",
     "name": "Superhot",
-    "slug": "superhot"
+    "slug": "superhot",
+    "description": "Time moves only when you move in this stylish first-person shooter where every move is a strategic decision."
   },
   {
     "category": "horror",
     "name": "Survivor in Rainbow Monster",
-    "slug": "survivor-in-rainbow-monster"
+    "slug": "survivor-in-rainbow-monster",
+    "description": "Survive against a colorful but terrifying monster in this horror stealth game."
   },
   {
     "category": "reflexes",
     "name": "Synesthesia",
-    "slug": "synesthesia"
+    "slug": "synesthesia",
+    "description": "A rhythm-based reflex game where you dodge geometric shapes synced to the music."
   },
   {
     "category": "shooter",
     "name": "Temple of Boom!",
-    "slug": "temple-of-boom"
+    "slug": "temple-of-boom",
+    "description": "A pixel-art shooter where you blast through an ancient temple filled with enemies."
   },
   {
     "category": "casual",
     "name": "We Become What We Behold",
-    "slug": "we-become-what-we-behold"
+    "slug": "we-become-what-we-behold",
+    "description": "A short narrative game about media influence, where you capture moments that shape society."
   },
   {
     "category": "casual",
     "name": "Xmas Cookie Clicker",
-    "slug": "xmas-cookie-clicker"
+    "slug": "xmas-cookie-clicker",
+    "description": "A Christmas-themed idle clicker where you bake festive cookies by clicking and upgrading."
   },
   {
     "category": "survival",
     "name": "Zombie Derby Pixel Survival",
-    "slug": "zombie-derby-pixel-survival"
+    "slug": "zombie-derby-pixel-survival",
+    "description": "Drive through a pixelated wasteland, running over zombies and upgrading your car to survive."
   },
   {
     "category": "horror",
     "name": "FNaE: Five Nights at Epstein's",
-    "slug": "five-nights-at-epsteins"
+    "slug": "five-nights-at-epsteins",
+    "description": "A Five Nights at Freddy's parody game set in a humorous but spooky scenario."
   },
   {
     "category": "platformer",
     "name": "Hollow Knight",
-    "slug": "hollow-knight"
+    "slug": "hollow-knight",
+    "description": "A critically acclaimed action-adventure platformer set in the haunting, insect-filled kingdom of Hallownest."
   },
   {
     "category": "driving",
     "name": "Slow Roads",
-    "slug": "slowroads-io"
+    "slug": "slowroads-io",
+    "description": "A relaxing, procedurally generated driving experience through scenic countryside."
   }
 ]
